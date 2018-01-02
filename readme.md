@@ -1,4 +1,4 @@
-[![Build Status](https://www.travis-ci.org/ccnuyan/starcedu_auth.svg?branch=develop)](https://www.travis-ci.org/ccnuyan/starcedu_auth)
+[![Build Status](https://www.travis-ci.org/ccnuyan/starcedu_auth.svg?branch=master)](https://www.travis-ci.org/ccnuyan/starcedu_auth)
 
 # Goto:
 
