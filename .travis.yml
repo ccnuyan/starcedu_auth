@@ -1,0 +1,10 @@
+install:
+  - npm install -g mocha babel-cli webpack
+  - npm install
+  - webpack
+script: npm test
+language: node_js
+env:
+  - PORT:8888
+node_js:
+  - "8"

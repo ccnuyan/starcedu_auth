@@ -1,0 +1,1 @@
+set node_env = development && npm run wp-build && set port=1000 && set dbport=6543 && npm start
