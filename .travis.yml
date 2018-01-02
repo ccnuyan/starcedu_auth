@@ -20,7 +20,7 @@ script:
 
 after_success:
 - docker pull node:8
-- docker build -f ./dockerfiles/prod.Dockerfile -t startcedu_image_auth:build .
+- docker build -f ./dockerfiles/travis.Build.Dockerfile -t startcedu_image_auth:build .
 - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" registry.cn-hangzhou.aliyuncs.com
 - docker tag startcedu_image_auth:build registry.cn-hangzhou.aliyuncs.com/ccnuyan/starcedu:latest
 - docker push registry.cn-hangzhou.aliyuncs.com/ccnuyan/starcedu:latest

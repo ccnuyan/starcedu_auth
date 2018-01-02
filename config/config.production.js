@@ -31,7 +31,7 @@ export default {
   pg: {
     user: 'postgres',
     database: 'postgres',
-    host: process.env.DBHOST ? process.env.DBHOST : 'localhost',
+    host: process.env.DBHOST ? process.env.DBHOST : 'database', // docker container name
     port: process.env.DBPORT ? process.env.DBPORT : 5432,
     max: 10,
     idleTimeoutMillis: 30000,
