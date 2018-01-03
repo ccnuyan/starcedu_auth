@@ -18,7 +18,7 @@
     "db-test": "mocha --opts ./mocha.opts ./database/test/**/*.spec.js",
     "api-test": "mocha --opts ./mocha.opts ./src/api/test/**/*.spec.js",
     "test": "mocha --opts ./mocha.opts ./src/api/test/**/*.spec.js ./database/test/**/*.spec.js",
-    "build-install-test": "npm run db-build && npm run db-install && npm run test",
+    "build-install-test": "npm run db-build && npm run db-install && npm test",
     "precommit": "lint-staged"
   },
   "lint-staged": {
