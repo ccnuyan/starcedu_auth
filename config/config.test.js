@@ -34,7 +34,7 @@ export default {
     database: process.env.DBDATABASE ? process.env.DBDATABASE : 'postgres',
     password: process.env.DBPASSWORD ? process.env.DBPASSWORD : '',
     host: process.env.DBHOST ? process.env.DBHOST : 'database-test',
-    port: process.env.DBPORT ? process.env.DBPORT : 7654,
+    port: process.env.DBPORT ? process.env.DBPORT : 5432,
     max: 2,
     idleTimeoutMillis: 30000,
   },
