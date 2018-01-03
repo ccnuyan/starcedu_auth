@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production && babel-node ./server/index",
     "start-dev": "cross-env NODE_ENV=development && babel-node ./server/index",
-    "eslint": "eslint --ignore-path .eslintignore ./**/*.js",
+    "eslint": "node_modules/.bin/eslint --ignore-path .eslintignore ./**/*.js",
     "db-build": "babel-node ./database/index build",
     "db-functions-build": "babel-node ./database/index functions-build",
     "db-dev": "nodemon --config nodemon/nodemon.database-dev.json --delay 1000ms",
@@ -23,7 +23,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "eslint --fix",
+      "node_modules/.bin/eslint --fix",
       "git add"
     ]
   },
@@ -88,7 +88,6 @@
     "postcss-selector-matches": "^2.0.5",
     "postcss-selector-not": "^2.0.0",
     "postcss-url": "^6.0.4",
-    "pre-commit": "^1.2.2",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -102,7 +101,6 @@
     "redux-thunk": "^2.2.0",
     "rimraf": "^2.6.1",
     "style-loader": "^0.16.1",
-    "supertest": "^3.0.0",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "url-loader": "^0.5.9",
     "webpack": "^3.10.0",

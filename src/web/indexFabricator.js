@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import assets from '../../build/assets.json';
+import assets from '../../build/assets.json'; // eslint-disable-line
 import config from '../../config';
 
 // const assets = {};
