@@ -9,7 +9,7 @@ const params = {
   password: 'password',
 };
 
-describe('registration', () => {
+describe('REGISTRATION', () => {
   describe('with valid creds', () => {
     let regResult = null;
     before(async () => {

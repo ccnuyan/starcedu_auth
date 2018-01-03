@@ -11,7 +11,7 @@ const params = {
   password: 'password',
 };
 
-describe('authentication', () => {
+describe('AUTHENTICATION', () => {
   before(async function init() {
     this.timeout(10000);
     await pgPool.query(`select * from ${config.dbname}.register($1, $2)`, [
