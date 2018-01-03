@@ -17,7 +17,8 @@
     "server-dev": "nodemon --config nodemon/nodemon.server.json --delay 1000ms",
     "db-test": "mocha --opts ./mocha.opts ./database/test/**/*.spec.js",
     "api-test": "mocha --opts ./mocha.opts ./src/api/test/**/*.spec.js",
-    "test": "mocha --opts ./mocha.opts ./src/api/test/**/*.spec.js ./database/test/**/*.spec.js"
+    "test": "mocha --opts ./mocha.opts ./src/api/test/**/*.spec.js ./database/test/**/*.spec.js",
+    "build-install-test": "npm run db-build && npm run db-install && npm run test"
   },
   "pre-commit": [
     "eslint"
