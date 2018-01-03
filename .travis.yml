@@ -11,9 +11,9 @@ node_js:
 
 install:
 - npm install -g mocha babel-cli webpack
+- npm install
 - npm run db-build
 - npm run db-install
-- npm install
 before_script:
 - webpack
 script: 
