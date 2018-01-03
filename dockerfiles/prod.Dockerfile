@@ -10,6 +10,8 @@ RUN npm install --only=production --registry=https://registry.npm.taobao.org
 RUN npm install --only=dev --registry=https://registry.npm.taobao.org
 COPY . /usr/src/app
 
+RUN npm install -g cross-env --registry=https://registry.npm.taobao.org
+
 ENV NODE_ENV production
 RUN npm run wp-build
 
