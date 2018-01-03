@@ -2,8 +2,18 @@ pipeline {
   agent any
   stages {
     stage('pull image') {
-      steps {
-        sh 'docker pull node:8'
+      parallel {
+        stage('pull image') {
+          steps {
+            sh 'docker pull node:8'
+          }
+        }
+        stage('run test db') {
+          steps {
+            sh 'docker rm -f database-test'
+            sh 'docker run -d --name database-test -p 7654:5432 postgres:latest'
+          }
+        }
       }
     }
     stage('build test') {
