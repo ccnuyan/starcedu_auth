@@ -37,14 +37,14 @@ pipeline {
     stage('push prod') {
       steps {
         sh 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" registry.cn-hangzhou.aliyuncs.com'
-        sh '''docker tag startcedu/auth:latest registry.cn-hangzhou.aliyuncs.com/ccnuyan/startcedu/auth:latest
+        sh '''docker tag startcedu/auth:latest registry.cn-hangzhou.aliyuncs.com/ccnuyan/startcedu_auth:latest
 '''
-        sh 'docker push registry.cn-hangzhou.aliyuncs.com/ccnuyan/startcedu/auth:latest'
+        sh 'docker push registry.cn-hangzhou.aliyuncs.com/ccnuyan/startcedu_auth:latest'
       }
     }
   }
   environment {
     DOCKER_USERNAME = 'ccnuyan@live.com'
-    DOCKER_PASSWORD = 'yanbx6ht'
+    DOCKER_PASSWORD = '12345abcde'
   }
 }
