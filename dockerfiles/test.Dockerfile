@@ -11,4 +11,4 @@ RUN npm install --registry=https://registry.npm.taobao.org
 COPY . /usr/src/app
 RUN webpack
 
-CMD [ "npm", 'run', "build-install-test" ]
+CMD ["npm", "run", "build-install-test"]
