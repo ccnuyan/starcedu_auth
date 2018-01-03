@@ -1,8 +1,8 @@
 {
-  "name": "syncollege_back",
+  "name": "starcedu_auth",
   "author": "ccnuyan",
   "version": "1.0.0",
-  "description": "syncollege_back",
+  "description": "starcedu_auth",
   "scripts": {
     "start": "cross-env NODE_ENV=production && babel-node ./server/index",
     "start-dev": "cross-env NODE_ENV=development && babel-node ./server/index",

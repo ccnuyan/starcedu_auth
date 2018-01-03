@@ -10,9 +10,9 @@ node_js:
 - "8"
 
 install:
+- npm install -g mocha babel-cli webpack
 - npm run db-build
 - npm run db-install
-- npm install -g mocha babel-cli webpack
 - npm install
 before_script:
 - webpack
