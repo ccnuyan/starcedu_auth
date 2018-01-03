@@ -275,7 +275,7 @@ as $$
   set search_path=starcedu_auth;
   select user_id from logins where
   provider_key = username and
-  provider_token = public.crypt(pass, provider_token);
+  provider_token = crypt(pass::text, provider_token::text);
 $$
 language sql;
 
@@ -344,7 +344,7 @@ BEGIN
     -- add login for local
     -- username as provider_key
     INSERT INTO logins(user_id, provider_key, provider_token)
-    VALUES(new_user.id, new_user.username, public.crypt(password, public.gen_salt('bf', 10)));
+    VALUES(new_user.id, new_user.username, crypt(password::text, gen_salt('bf', 10)::text));
 
     -- binding check
     IF oauth_user_id IS NOT NULL THEN
@@ -397,7 +397,7 @@ BEGIN
   select locate_user_by_password(input_username, old_pass) into found_id;
   IF (found_id IS not NULL) THEN
     --update the password if all is OK
-    update logins set provider_token = public.crypt(new_pass, public.gen_salt('bf',10))
+    update logins set provider_token = crypt(new_pass::text, gen_salt('bf',10)::text)
     where user_id=found_id and provider='local';
   ELSE
     success := FALSE;
