@@ -31,7 +31,7 @@ pipeline {
     }
     stage('build prod') {
       steps {
-        sh 'docker build -f ./dockerfiles/build.Dockerfile -t startcedu/auth:latest .'
+        sh 'docker build -f ./dockerfiles/prod.Dockerfile -t startcedu/auth:latest .'
       }
     }
     stage('push prod') {
