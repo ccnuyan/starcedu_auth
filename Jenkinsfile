@@ -11,7 +11,7 @@ pipeline {
         stage('run test db') {
           steps {
             sh 'docker rm -f database-test'
-            sh 'docker run -d --name database-test -p 7654:5432 postgres:latest'
+            sh 'docker run -d --name database-test postgres:latest'
           }
         }
       }
