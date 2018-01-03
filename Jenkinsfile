@@ -32,4 +32,8 @@ pipeline {
       }
     }
   }
+  environment {
+    DOCKER_USERNAME = 'ccnuyan@live.com'
+    DOCKER_PASSWORD = 'yanbx6ht'
+  }
 }
