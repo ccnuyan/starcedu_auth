@@ -10,7 +10,7 @@ pipeline {
         }
         stage('run test db') {
           steps {
-            sh 'docker rm -f database-test'
+            sh 'docker rm -f $(docker ps -a | grep -o "database_test")'
             sh 'docker run -d --name database-test postgres:latest'
             sh 'docker ps'
           }
