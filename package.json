@@ -28,6 +28,7 @@
     ]
   },
   "license": "MIT",
+  "#comment# - browserslist": "for postcss autoprefix, which is in ./webpack/postcss.config.js",
   "dependencies": {
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -52,7 +53,7 @@
     "babel-loader": "^7.1.2",
     "babel-polyfill": "^6.26.0",
     "bluebird": "^3.5.0",
-    "chai": "^3.5.0",
+    "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "css-loader": "^0.28.7",
     "env-test": "^1.0.0",
