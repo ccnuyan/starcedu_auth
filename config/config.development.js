@@ -3,6 +3,8 @@ export default {
   title: 'starC教育-dev',
   port: 8000,
   domain: 'www.syncollege.com',
+  log: 'tiny',
+  maxDelay: 1000,
   auth: {
     session: {
       secret: '12345678',

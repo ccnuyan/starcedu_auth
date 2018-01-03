@@ -39,9 +39,12 @@ app.get('/favicon.ico', (req, res) => {
 app.use('/static/', express.static(path.join(__dirname, '../build/')));
 app.use('/static/', express.static(path.join(__dirname, '../public/')));
 
-// view and view engine
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, '../src/web/views/'));
+if (config.log) {
+  app.use(morgan(config.log));
+}
+if (config.delay) {
+  app.use(delay(0, config.delay));
+}
 
 // custom middlewares
 app.use(utilities.ajaxDetector);
@@ -54,12 +57,6 @@ app.use(session({
   saveUninitialized: true,
   cookie: { httpOnly: true },
 }));
-
-// development settings
-if (config.mode === 'development') {
-  app.use(delay(100, 300));
-  app.use(morgan('tiny'));
-}
 
 // ajaxDetector
 app.use(utilities.ajaxDetector);

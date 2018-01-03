@@ -4,6 +4,8 @@ export default {
   title: 'starC教育-test',
   port: 8001,
   domain: 'www.syncollege.com',
+  log: false,
+  maxDelay: 0,
   auth: {
     session: {
       secret: '12345678',
