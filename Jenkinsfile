@@ -15,7 +15,7 @@ pipeline {
     stage('run test') {
       steps {
         sh 'docker rm -f authtest '
-        sh 'docker run --name authtest -i starcedu/auth:test'
+        sh 'docker run --name authtest -i --link database-test:database-test starcedu/auth:test'
       }
     }
     stage('build prod') {
