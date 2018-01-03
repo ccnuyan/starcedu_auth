@@ -1,6 +1,6 @@
 branches:
   only:
-  - feature/travis_ci_test
+  - master
 
 sudo: required
 services:
