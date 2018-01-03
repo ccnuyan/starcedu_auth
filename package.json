@@ -65,7 +65,6 @@
     "immutable": "^3.8.1",
     "lint-staged": "^3.4.0",
     "markdown-loader": "^2.0.0",
-    "node-sass": "^4.7.2",
     "pixrem": "^4.0.1",
     "pleeease-filters": "^4.0.0",
     "postcss-calc": "^5.3.1",
