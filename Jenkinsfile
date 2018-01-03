@@ -37,9 +37,9 @@ pipeline {
     stage('push prod') {
       steps {
         sh 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" registry.cn-hangzhou.aliyuncs.com'
-        sh '''docker tag startcedu/auth:latest registry.cn-hangzhou.aliyuncs.com/ccnuyan/startcedu_auth:latest
+        sh '''docker tag startcedu/auth:latest registry.cn-hangzhou.aliyuncs.com/ccnuyan/starcedu_auth:latest
 '''
-        sh 'docker push registry.cn-hangzhou.aliyuncs.com/ccnuyan/startcedu_auth:latest'
+        sh 'docker push registry.cn-hangzhou.aliyuncs.com/ccnuyan/starcedu_auth:latest'
       }
     }
   }
