@@ -1,4 +1,5 @@
 build/*
+database/build/*.sql
 !database/build/readme.md
 
 # Created by https://www.gitignore.io/api/node,windows,visualstudiocode
