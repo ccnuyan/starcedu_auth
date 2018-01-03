@@ -13,6 +13,7 @@ pipeline {
     }
     stage('run test') {
       steps {
+        sh 'docker rm -f authtest '
         sh 'docker run --name authtest -i starcedu/auth:test'
       }
     }
