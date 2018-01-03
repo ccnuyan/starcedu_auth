@@ -1,4 +1,7 @@
-build/
+./build/
+./database/build/
+!/database/build/readme.md
+
 # Created by https://www.gitignore.io/api/node,windows,visualstudiocode
 
 ### Node ###
