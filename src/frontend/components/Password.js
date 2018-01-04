@@ -14,7 +14,6 @@ class Signup extends Component {
     user: PropTypes.object.isRequired,
     submitInfo: PropTypes.object.isRequired,
     update_password: PropTypes.func.isRequired,
-    setSubmitMode: PropTypes.func.isRequired,
     busy: PropTypes.bool.isRequired,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
@@ -22,7 +21,6 @@ class Signup extends Component {
 
   componentDidMount() {
     init();
-    this.props.setSubmitMode();
     if (!this.props.user.success) {
       setTimeout(() => this.props.history.push('/'), 2000);
     }
@@ -111,9 +109,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     update_password: (info) => {
       dispatch(userActions.update_password(info));
-    },
-    setSubmitMode: () => {
-      userActions.setSubmitMode(dispatch, 'update_password');
     },
   };
 };

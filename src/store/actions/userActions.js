@@ -151,11 +151,11 @@ const oauth_unlink = () => {
   };
 };
 
-const setSubmitMode = (dispatch, mode) => {
+const setAutoSignin = (dispatch, value) => {
   dispatch({
     type: actionTypes.USER_SET_SUBMIT_INFO,
     payload: {
-      mode,
+      autoSignin: value,
     },
   });
 };
@@ -174,6 +174,6 @@ export default {
   update_password,
   oauth_unlink,
   oauth_signout,
-  setSubmitMode,
+  setAutoSignin,
   setSubmitInfo,
 };

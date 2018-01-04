@@ -6,7 +6,6 @@ import {
   Link,
 } from 'react-router-dom';
 
-
 import EmailField from './common/user/EmailField';
 import PasswordField from './common/user/PasswordField';
 import OAuthProviders from './common/user/OAuthProviders';
@@ -21,14 +20,13 @@ class Signin extends Component {
     oauthUser: PropTypes.object.isRequired,
     submitInfo: PropTypes.object.isRequired,
     busy: PropTypes.bool.isRequired,
-    setSubmitMode: PropTypes.func.isRequired,
     signin: PropTypes.func.isRequired,
+    setAutoSignin: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
     init();
-    this.props.setSubmitMode();
   }
 
   onFormSubmit = (event) => {
@@ -38,34 +36,45 @@ class Signin extends Component {
     }
   }
 
+  onAutoSiginChange = (event) => {
+    this.props.setAutoSignin(event.target.checked);
+  }
+
   render() {
-    const { user } = this.props;
+    const { user, submitInfo } = this.props;
     if (user.success) {
       if (!user.callback || user.callback === '/') {
-        return (<Redirect to={ { pathname: '/' } }/>);
+        return (<Redirect to={ { pathname: '/' } } />);
       }
       return window.location.replace(user.callback);
     }
     return (
       <div className="user-form-content">
         <h2 className="ui teal image header">
-          <img src="/static/images/logo.png" className="image" alt="" style={ { borderRadius: '4px' } }/>
+          <img src="/static/images/logo.png" className="image" alt="" style={ { borderRadius: '4px' } } />
           <div className="content">
             {'登入'}
           </div>
         </h2>
-        {this.props.oauthUser.id ? <QQInfo/> : ''}
+        {this.props.oauthUser.id ? <QQInfo /> : ''}
         <div className="ui divider"></div>
         <form ref={ e => this.form = e } className={ `ui form ${this.props.busy ? 'loading' : ''}` } onSubmit={ this.onFormSubmit }>
           <div className="ui segment">
-            <EmailField/>
-            <PasswordField name='password' placeholder="密码"/>
-            <button className="ui fluid teal submit button" type="submit">登入</button>
+            <EmailField />
+            <PasswordField name='password' placeholder="密码" />
+            <div className="field">
+              <div className="ui checkbox">
+                <input type="checkbox" id="auto_signin_checkbox" checked={ submitInfo.autoSignin } onChange={ this.onAutoSiginChange }/>
+                <label id="auto_signin_checkbox_label" htmlFor="auto_signin_checkbox">两周内自动登入</label>
+              </div>
+            </div>
+            <button className="ui fluid teal submit button" type="submit" >登入</button>
           </div>
           <div className="ui error message">
           </div>
         </form>
-        <OAuthProviders/>
+        <div className="ui divider"></div>
+        <OAuthProviders />
         <div className="ui divider"></div>
         <div>
           <i className="pointing right grey icon"></i>
@@ -97,8 +106,8 @@ const mapDispatchToProps = (dispatch) => {
     signin: (info) => {
       dispatch(userActions.signin(info));
     },
-    setSubmitMode: () => {
-      userActions.setSubmitMode(dispatch, 'signin');
+    setAutoSignin: (value) => {
+      userActions.setAutoSignin(dispatch, value);
     },
   };
 };

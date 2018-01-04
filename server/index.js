@@ -6,6 +6,7 @@ import session from 'express-session';
 import delay from 'express-delay';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
+import connectRedis from 'connect-redis';
 
 
 import config from '../config';
@@ -18,6 +19,7 @@ import routes from '../src';
 import '../globals';
 
 const app = express();
+const RedisStore = connectRedis(session);
 
 // serve the app
 const PORT = process.env.PORT || config.port;
@@ -52,9 +54,8 @@ app.use(crossDomain);
 
 // enable session
 app.use(session({
+  store: new RedisStore(config.redisSessionServer),
   secret: config.auth.session.secret,
-  resave: true,
-  saveUninitialized: true,
   cookie: { httpOnly: true },
 }));
 

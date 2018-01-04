@@ -20,14 +20,12 @@ class Signup extends Component {
     oauthUser: PropTypes.object.isRequired,
     submitInfo: PropTypes.object.isRequired,
     signup: PropTypes.func.isRequired,
-    setSubmitMode: PropTypes.func.isRequired,
     busy: PropTypes.bool.isRequired,
     location: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
     init();
-    this.props.setSubmitMode();
   }
 
   onFormSubmit = (event) => {
@@ -92,9 +90,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     signup: (info) => {
       dispatch(userActions.signup(info));
-    },
-    setSubmitMode: () => {
-      userActions.setSubmitMode(dispatch, 'signup');
     },
   };
 };
