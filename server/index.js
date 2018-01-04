@@ -55,7 +55,7 @@ app.use(crossDomain);
 const sessionConfig = {
   secret: config.auth.session.secret,
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { httpOnly: true },
 };
 
@@ -67,7 +67,6 @@ if (config.mode === 'production') {
 } else {
   app.use(session(sessionConfig));
 }
-
 
 // ajaxDetector
 app.use(utilities.ajaxDetector);
