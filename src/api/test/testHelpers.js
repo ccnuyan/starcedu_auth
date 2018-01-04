@@ -8,7 +8,7 @@ global.chai = chai;
 global.expect = chai.expect;
 chai.use(chaiHttp);
 
-after((done) => {
-  pgPool.end();
-  app.close(done);
+after(async () => {
+  await pgPool.end();
+  return app.close();
 });

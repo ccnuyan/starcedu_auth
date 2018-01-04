@@ -52,12 +52,22 @@ if (config.delay) {
 app.use(utilities.ajaxDetector);
 app.use(crossDomain);
 
-// enable session
-app.use(session({
-  store: new RedisStore(config.redisSessionServer),
+const sessionConfig = {
   secret: config.auth.session.secret,
+  resave: true,
+  saveUninitialized: true,
   cookie: { httpOnly: true },
-}));
+};
+
+if (config.mode === 'production') {
+  app.use(session({
+    store: new RedisStore(config.redisSessionServer),
+    ...sessionConfig,
+  }));
+} else {
+  app.use(session(sessionConfig));
+}
+
 
 // ajaxDetector
 app.use(utilities.ajaxDetector);
