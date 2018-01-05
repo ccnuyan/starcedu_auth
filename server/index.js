@@ -48,7 +48,6 @@ if (config.delay) {
   app.use(delay(0, config.delay));
 }
 
-// custom middlewares
 app.use(utilities.ajaxDetector);
 app.use(crossDomain);
 
@@ -59,6 +58,8 @@ const sessionConfig = {
   cookie: { httpOnly: true },
 };
 
+app.use(utilities.ajaxDetector);
+
 if (config.mode === 'test') {
   app.use(session(sessionConfig));
 } else {
@@ -68,11 +69,7 @@ if (config.mode === 'test') {
   }));
 }
 
-// ajaxDetector
-app.use(utilities.ajaxDetector);
-
 // auth
-app.use(byPassCookieAuth);
 app.use(byPassTokenAuth);
 
 // routes

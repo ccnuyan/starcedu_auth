@@ -7,6 +7,11 @@ import config from '../../config';
 import pgPool from '../../database/connector';
 
 export default async (req, res, next) => {
+  if (req.session.user) {
+    req.user = req.session.user;
+    return next();
+  }
+
   // no authorization token: bypass
   if (!req.headers.authorization) {
     return next();

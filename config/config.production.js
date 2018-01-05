@@ -39,6 +39,10 @@ export default {
     max: 10,
     idleTimeoutMillis: 30000,
   },
+  redisSessionServer: {
+    host: 'localhost',
+    port: 6379,
+  },
   resources: {
     stylesheets: {
       normalize: '//cdn.bootcss.com/normalize/6.0.0/normalize.min.css',
