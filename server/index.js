@@ -59,13 +59,13 @@ const sessionConfig = {
   cookie: { httpOnly: true },
 };
 
-if (config.mode === 'production') {
+if (config.mode === 'test') {
+  app.use(session(sessionConfig));
+} else {
   app.use(session({
     store: new RedisStore(config.redisSessionServer),
     ...sessionConfig,
   }));
-} else {
-  app.use(session(sessionConfig));
 }
 
 // ajaxDetector
