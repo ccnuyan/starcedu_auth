@@ -3,18 +3,15 @@ import paramsValidator from '../paramsValidator';
 
 const update_password = async (req, res) => {
   const payload = {
-    username: req.user.username,
     old_password: req.body.old_password,
     new_password: req.body.new_password,
   };
 
+  payload.username = req.user.username;
+
   const valRet = paramsValidator.validate(payload, ['old_password', 'new_password']);
   if (valRet.code !== 0) {
     return res.json(valRet);
-  }
-
-  if (req.session.oauthUser && req.session.oauthUser.id) {
-    payload.oauth_user_id = req.session.oauthUser.id;
   }
 
   const ret = await userServices.update_password(payload);

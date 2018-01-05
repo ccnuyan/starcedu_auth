@@ -7,7 +7,7 @@ import config from '../../config';
 import pgPool from '../../database/connector';
 
 export default async (req, res, next) => {
-  if (req.session.user) {
+  if (req.session && req.session.user) {
     req.user = req.session.user;
     return next();
   }
