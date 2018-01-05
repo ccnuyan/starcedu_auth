@@ -1,4 +1,9 @@
 /* react */
+
+.ui.segment {
+    border:none !important;
+}
+
 .main-route-content{
     position: fixed;
     left:0;
@@ -22,6 +27,9 @@
     left:0;
     top:0;
     z-index: 0;
+}
+.ui.text.container{
+    transition: bottom 300ms ease-out;
 }
 .home.menu{
     position: fixed;

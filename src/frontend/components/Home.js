@@ -38,6 +38,10 @@ class Home extends Component {
       once: false,
       onUpdate(calculations) {
         $('.front_panel_overlay').css({ opacity: 0.6 + (calculations.percentagePassed * 0.4) });
+        $('.front_panel_back>.ui.text.container').css({
+          bottom: `${(-calculations.percentagePassed * 400)}px`,
+          opacity: 1 - (calculations.percentagePassed * 2),
+        });
       },
     })
   ;
