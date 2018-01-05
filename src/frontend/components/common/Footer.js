@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import config from '../../config';
+
 class Footer extends Component {
   static propTypes = {
     // prop: PropTypes,
@@ -7,7 +9,7 @@ class Footer extends Component {
 
   render() {
     return (
-      <div className="ui inverted vertical footer teal segment">
+      <div className={ `ui ${config.theme} inverted vertical footer segment ` }>
         <div className="ui container">
           <div className="ui stackable inverted divided equal height stackable grid">
             <div className="three wide column">

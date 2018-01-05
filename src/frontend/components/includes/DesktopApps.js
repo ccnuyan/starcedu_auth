@@ -1,29 +1,11 @@
 import React, { Component } from 'react';
 
+import config from '../../config';
+
 class DesktopApps extends Component {
-
-  // componentDidMount = () => {
-  //   $('.desktopapp')
-  //   .visibility({
-  //     once: true,
-  //     // update size when new content loads
-  //     observeChanges: true,
-  //     // load content on bottom edge visible
-  //     onTopVisible() {
-  //       // loads a max of 5 times
-  //       $('.desktopapp .card')
-  //       .transition({
-  //         animation: 'pulse',
-  //         interval: 300,
-  //       });
-  //     },
-  //   });
-  // }
-
-
   render() {
     return (
-      <div className="ui stripe vertical desktopapp segment">
+      <div className="ui desktopapp segment">
         <div className="ui container">
           <h1 className="header">
             桌面 Apps
@@ -63,7 +45,7 @@ class DesktopApps extends Component {
                 <button className="ui button">Download</button>
               </div>
             </div>
-            <div className="ui teal card">
+            <div className={ `ui ${config.theme} card` }>
               <div className="content">
                 <div className="header">学生端</div>
               </div>

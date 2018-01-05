@@ -22,7 +22,7 @@ class Others extends Component {
 
   render() {
     return (
-      <div className="ui stripe vertical otherapp segment">
+      <div className="ui otherapp segment">
         <div className="ui container">
           <h1 className="header">
             其他 Apps

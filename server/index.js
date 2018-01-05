@@ -11,7 +11,6 @@ import connectRedis from 'connect-redis';
 
 import config from '../config';
 import byPassTokenAuth from './middleware/byPassTokenAuth';
-import byPassCookieAuth from './middleware/byPassCookieAuth';
 import crossDomain from './middleware/crossDomain';
 import utilities from './middleware/utilities';
 import routes from '../src';

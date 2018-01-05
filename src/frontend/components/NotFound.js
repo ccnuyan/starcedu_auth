@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import {
   Link,
 } from 'react-router-dom';
+import config from '../config';
 
 class NotFound extends Component {
   static propTypes = {
@@ -22,7 +23,7 @@ class NotFound extends Component {
     return (
       <div className="main-route-content">
         <div className="not-found-content">
-          <h2 className="ui teal image header">
+          <h2 className={ `ui ${config.theme} image header` }>
             <img src="/static/images/logo.png" className="image" alt="" />
             <div className="content">
               404 , 即将返回主页

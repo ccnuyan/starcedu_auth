@@ -22,7 +22,7 @@ class WebApps extends Component {
 
   render() {
     return (
-      <div className="ui stripe vertical webapp segment">
+      <div className="ui webapp segment">
         <div className="ui container">
           <h1 className="ui header">
             Web Apps

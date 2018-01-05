@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
+
 class FixedMenu extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
@@ -11,10 +12,14 @@ class FixedMenu extends Component {
     user: PropTypes.object.isRequired,
   }
 
+  componentDidMount = () => {
+    $(this.header).css({ right: `${window.getScrollbarWidth()}px` });
+  }
+
   render() {
     const { user } = this.props;
     return (
-      <div className={ 'ui huge inverted secondary home  menu' } style={ { margin: 0, borderBottom: '1px solid white' } }>
+      <div ref={ e => this.header = e } className={ 'ui huge inverted secondary home menu' } style={ { margin: 0, borderBottom: '1px solid white' } }>
         <div className="ui container">
           <Link className="active icon item" to='/'>
             <div className="ui content">

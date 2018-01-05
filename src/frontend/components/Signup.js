@@ -12,6 +12,7 @@ import userActions from '../../store/actions/userActions';
 import QQInfo from './common/user/oauth/QQInfo';
 
 import init from '../initFormValidation';
+import config from '../config';
 
 class Signup extends Component {
   static propTypes = {
@@ -45,7 +46,7 @@ class Signup extends Component {
     }
     return (
       <div className="user-form-content">
-        <h2 className="ui teal image header">
+        <h2 className={ `ui ${config.theme} image header` }>
           <img src="/static/images/logo.png" className="image" alt="" style={ { borderRadius: '4px' } } />
           <div className="content">
             {oauthUser.id ? '注册' : '注册'}
@@ -58,7 +59,7 @@ class Signup extends Component {
             <EmailField />
             <PasswordField name='password' placeholder="密码" />
             <PasswordField name='confirm_password' placeholder="确认密码" />
-            <button className="ui fluid teal submit button" type="submit">注册</button>
+            <button className={ `ui ${config.theme} fluid submit button` } type="submit">注册</button>
           </div>
           <div className="ui error message">
           </div>

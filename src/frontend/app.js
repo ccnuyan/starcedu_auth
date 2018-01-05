@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { AnimatedSwitch } from 'react-router-transition';
 
 import './style.css';
 import './includes';
@@ -15,5 +16,5 @@ Provider.propTypes.children = PropTypes.object;
 ReactDOM.render(
   <Provider store={ store }>
     <Routes/>
-  </Provider>, rootNode);
-
+  </Provider>
+, rootNode);

@@ -11,6 +11,7 @@ import Slogan1 from './includes/Slogan1';
 import Slogan2 from './includes/Slogan2';
 import DesktopApps from './includes/DesktopApps';
 import Others from './includes/Others';
+import config from '../config';
 
 
 class Home extends Component {
@@ -21,17 +22,19 @@ class Home extends Component {
   componentDidMount = () => {
     $('#main')
     .visibility({
+      context: $('.home-route'),
       once: false,
       onTopVisible() {
         $('.home.menu').css({ background: 'transparent', height: '150px', borderBottom: '0px' });
       },
       onTopPassed() {
-        $('.home.menu').css({ background: '', height: '64px', borderBottom: '1px solid white' }).addClass('teal');
+        $('.home.menu').css({ background: '', height: '64px', borderBottom: '1px solid white' }).addClass(config.theme);
       },
     });
 
     $('.masthead')
     .visibility({
+      context: $('.home-route'),
       once: false,
       onUpdate(calculations) {
         $('.front_panel_overlay').css({ opacity: 0.6 + (calculations.percentagePassed * 0.4) });

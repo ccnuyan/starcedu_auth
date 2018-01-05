@@ -12,7 +12,7 @@ class Slogan1 extends Component {
 
   render() {
     return (
-      <div className="ui vertical stripe segment">
+      <div className="ui  segment">
         <div className="ui text container">
           <h1 className="ui header">
             <i className="huge icon bell"></i>

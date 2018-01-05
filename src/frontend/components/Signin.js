@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import config from '../config';
 import {
   Redirect,
   Link,
@@ -50,7 +51,7 @@ class Signin extends Component {
     }
     return (
       <div className="user-form-content">
-        <h2 className="ui teal image header">
+        <h2 className={ `ui ${config.theme} image header` }>
           <img src="/static/images/logo.png" className="image" alt="" style={ { borderRadius: '4px' } } />
           <div className="content">
             {'登入'}
@@ -68,7 +69,7 @@ class Signin extends Component {
                 <label id="auto_signin_checkbox_label" htmlFor="auto_signin_checkbox">两周内自动登入</label>
               </div>
             </div>
-            <button className="ui fluid teal submit button" type="submit" >登入</button>
+            <button className={ `ui ${config.theme} fluid submit button` } type="submit" >登入</button>
           </div>
           <div className="ui error message">
           </div>
