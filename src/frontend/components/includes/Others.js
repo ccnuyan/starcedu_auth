@@ -1,28 +1,9 @@
 import React, { Component } from 'react';
 
 class Others extends Component {
-
-  // componentDidMount = () => {
-  //   $('.otherapp')
-  //     .visibility({
-  //       once: true,
-  //       // update size when new content loads
-  //       observeChanges: true,
-  //       // load content on bottom edge visible
-  //       onTopVisible() {
-  //         // loads a max of 5 times
-  //         $('.otherapp .card')
-  //         .transition({
-  //           animation: 'pulse',
-  //           interval: 300,
-  //         });
-  //       },
-  //     });
-  // }
-
   render() {
     return (
-      <div className="ui otherapp segment">
+      <div className="ui info-panel basic segment">
         <div className="ui container">
           <h1 className="header">
             其他 Apps
@@ -64,7 +45,6 @@ class Others extends Component {
             </div>
           </div>
         </div>
-        <div className="placeholder" style={ { margin: '250px' } }></div>
       </div>);
   }
 }

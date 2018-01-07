@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
+import config from '../../config';
 
 
 class FixedMenu extends Component {
@@ -19,9 +20,9 @@ class FixedMenu extends Component {
   render() {
     const { user } = this.props;
     return (
-      <div ref={ e => this.header = e } className={ 'ui huge inverted secondary home menu' } style={ { margin: 0, borderBottom: '1px solid white' } }>
+      <div ref={ e => this.header = e } className={ `ui huge inverted ${config.theme} home menu` }>
         <div className="ui container">
-          <Link className="active icon item" to='/'>
+          <Link className="icon item" to='/'>
             <div className="ui content">
               <i className="icon home"></i>
               主页

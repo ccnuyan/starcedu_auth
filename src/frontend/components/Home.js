@@ -25,26 +25,26 @@ class Home extends Component {
       context: $('.home-route'),
       once: false,
       onTopVisible() {
-        $('.home.menu').css({ background: 'transparent', height: '150px', borderBottom: '0px' });
+        $('.home.menu').css({ background: 'transparent', paddingTop: '80px' });
       },
       onTopPassed() {
-        $('.home.menu').css({ background: '', height: '64px', borderBottom: '1px solid white' }).addClass(config.theme);
+        $('.home.menu').css({ background: '', paddingTop: '0' }).addClass(config.theme);
       },
     });
 
     $('.masthead')
-    .visibility({
-      context: $('.home-route'),
-      once: false,
-      onUpdate(calculations) {
-        $('.front_panel_overlay').css({ opacity: 0.6 + (calculations.percentagePassed * 0.4) });
-        $('.front_panel_back>.ui.text.container').css({
-          bottom: `${(-calculations.percentagePassed * 400)}px`,
-          opacity: 1 - (calculations.percentagePassed * 2),
-        });
-      },
-    })
-  ;
+      .visibility({
+        context: $('.home-route'),
+        once: false,
+        onUpdate(calculations) {
+          $('.masthead .dark_segment_content_overlay').css({ opacity: 0.6 + (calculations.percentagePassed * 0.4) });
+          $('.masthead .ui.text.container').css({
+            bottom: `${(-calculations.percentagePassed * 100)}px`,
+            opacity: 1 - (calculations.percentagePassed * 5),
+          });
+        },
+      });
+    $('.ui.rating').rating();
   }
 
   render = () => {
@@ -53,11 +53,13 @@ class Home extends Component {
         <div className="home-content">
           <FrontPanel />
           <div ref={ e => this.main = e } id="main" style={ { margin: '-300px 0 0 0', width: '100%', position: 'absolute' } }></div>
-          <WebApps/>
-          <Slogan1/>
-          <DesktopApps />
-          <Slogan2/>
-          <Others />
+          <div className="home-panels">
+            <WebApps/>
+            {/* <Slogan1/> */}
+            <DesktopApps />
+            {/* <Slogan2/> */}
+            <Others />
+          </div>
           <Footer />
         </div>
         <HomeMenu />

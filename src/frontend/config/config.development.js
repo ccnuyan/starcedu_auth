@@ -1,5 +1,5 @@
 export default {
-  theme: 'teal',
+  theme: 'black',
   serviceBase: 'http://www.syncollege.com/',
 };
 

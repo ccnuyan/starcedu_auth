@@ -13,15 +13,14 @@ class FrontPanel extends Component {
   render() {
     return (
       <div className="ui inverted vertical masthead center aligned transparent segment">
-        <div className="front_panel_back">
-          <div className="front_panel_overlay"></div>
-          <div className="ui text container">
-            <h1 className="ui inverted header">
-              {config.title}
-            </h1>
-            <h2>Do whatever you want when you want to.</h2>
-            {/* <a className="ui huge primary button" href="/apps/notebook">Get Started <i className="right arrow icon"></i></a> */}
-          </div>
+        <div className="dark_segment_content">
+          <div className="dark_segment_content_overlay"></div>
+        </div>
+        <div className="ui text container">
+          <h1 className="ui inverted header">
+            {config.title}
+          </h1>
+          <h2>Do whatever you want when you want to.</h2>
         </div>
       </div>
     );
