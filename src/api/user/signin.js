@@ -14,7 +14,7 @@ const signin = async (req, res) => {
     return res.json(valRet);
   }
 
-  if (req.session && req.session.oauthUser && req.session.oauthUser.id) {
+  if (req.session.oauthUser && req.session.oauthUser.id) {
     payload.oauth_user_id = req.session.oauthUser.id;
   }
 

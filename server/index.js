@@ -49,6 +49,7 @@ if (config.delay) {
 
 app.use(utilities.ajaxDetector);
 app.use(crossDomain);
+app.use(utilities.ajaxDetector);
 
 const sessionConfig = {
   secret: config.auth.session.secret,
@@ -56,8 +57,6 @@ const sessionConfig = {
   saveUninitialized: true,
   cookie: { httpOnly: true },
 };
-
-app.use(utilities.ajaxDetector);
 
 if (config.mode === 'test') {
   app.use(session(sessionConfig));

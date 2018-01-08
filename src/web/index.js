@@ -34,10 +34,11 @@ export default (app) => {
   });
 
   app.get('/*', async (req, res) => {
+    console.log(req.session);
     const preloadedState = {
       user: {
         user: req.user || {},
-        oauthUser: (req.session && req.session.oauthUser) ? req.session.oauthUser : {},
+        oauthUser: req.session.oauthUser || {},
       },
     };
     res.send(indexHtml.replace('_starc_server_state_', JSON.stringify(preloadedState, null, 2)));
