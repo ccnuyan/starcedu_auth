@@ -34,7 +34,6 @@ export default (app) => {
   });
 
   app.get('/*', async (req, res) => {
-    console.log(req.session);
     const preloadedState = {
       user: {
         user: req.user || {},
