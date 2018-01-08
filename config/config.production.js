@@ -40,7 +40,7 @@ export default {
     idleTimeoutMillis: 30000,
   },
   redisSessionServer: {
-    host: 'localhost',
+    host: 'redis-server',
     port: 6379,
   },
   resources: {
