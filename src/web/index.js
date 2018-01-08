@@ -22,9 +22,13 @@ export default (app) => {
 
   app.get('/user/signin', (req, res, next) => {
     if (req.query.cb) {
-      req.session.callback = req.query.cb;
+      if (req.session) {
+        req.session.callback = req.query.cb;
+      }
     } else {
-      req.session.callback = '';
+      if (req.session) { // eslint-disable-line
+        req.session.callback = '';
+      }
     }
     next();
   });
