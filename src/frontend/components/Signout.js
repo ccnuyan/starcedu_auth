@@ -6,6 +6,7 @@ import {
   Link,
 } from 'react-router-dom';
 import userActions from '../../store/actions/userActions';
+import config from '../config';
 
 class Signout extends Component {
   static propTypes = {
@@ -31,7 +32,7 @@ class Signout extends Component {
   render = () => {
     return (
       <div className="user-form-content">
-        <h2 className="ui teal image header">
+        <h2 className={ `ui ${config.theme} image header` }>
           <img src="/static/images/logo.png" className="image" alt="" />
           <div className="content">
           登出

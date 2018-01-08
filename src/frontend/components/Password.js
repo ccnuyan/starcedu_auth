@@ -14,7 +14,6 @@ class Signup extends Component {
     user: PropTypes.object.isRequired,
     submitInfo: PropTypes.object.isRequired,
     update_password: PropTypes.func.isRequired,
-    setSubmitMode: PropTypes.func.isRequired,
     busy: PropTypes.bool.isRequired,
     location: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
@@ -22,7 +21,6 @@ class Signup extends Component {
 
   componentDidMount() {
     init();
-    this.props.setSubmitMode();
     if (!this.props.user.success) {
       setTimeout(() => this.props.history.push('/'), 2000);
     }
@@ -46,7 +44,7 @@ class Signup extends Component {
     if (!user.success) {
       return (
         <div className="user-form-content">
-          <h2 className="ui teal image header">
+          <h2 className={ `ui ${config.theme} image header` }>
             <img src="/static/images/logo.png" className="image" alt="" />
             <div className="content">
               更新密码
@@ -74,7 +72,7 @@ class Signup extends Component {
     }
     return (
       <div className="user-form-content">
-        <h2 className="ui teal image header">
+        <h2 className={ `ui ${config.theme} image header` }>
           <img src="/static/images/logo.png" className="image" alt="" style={ { borderRadius: '4px' } }/>
           <div className="content">
             更新密码
@@ -86,7 +84,7 @@ class Signup extends Component {
             <div className="ui divider"></div>
             <PasswordField name='new_password' placeholder="新密码"/>
             <PasswordField name='confirm_new_password' placeholder="确认新密码"/>
-            <button className="ui fluid teal submit button" type="submit">更新密码</button>
+            <button className={ `ui ${config.theme} fluid submit button` } type="submit">更新密码</button>
           </div>
           <div className="ui error message">
           </div>
@@ -111,9 +109,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     update_password: (info) => {
       dispatch(userActions.update_password(info));
-    },
-    setSubmitMode: () => {
-      userActions.setSubmitMode(dispatch, 'update_password');
     },
   };
 };

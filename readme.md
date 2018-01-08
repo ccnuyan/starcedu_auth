@@ -4,7 +4,7 @@
 
 1. [应用程序开发配置](/docs/app-dev-config.md)
 
-1. [Cookie 认证](/docs/cookie-authentication.md)
+1. [Session Server](/docs/session-authentication.md)
 
 1. [Web API](/docs/web-api.md)
 

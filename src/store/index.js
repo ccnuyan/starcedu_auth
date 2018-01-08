@@ -18,7 +18,9 @@ const store = createStore(
   {
     user: fromJS({
       ...preloadedState.user,
-      submitInfo: fromJS({}),
+      submitInfo: fromJS({
+        autoSignin: true,
+      }),
     }),
   },
   composeEnhancers(applyMiddleware(

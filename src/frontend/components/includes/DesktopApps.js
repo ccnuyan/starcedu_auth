@@ -1,37 +1,35 @@
 import React, { Component } from 'react';
 
+import config from '../../config';
+
 class DesktopApps extends Component {
-
-  // componentDidMount = () => {
-  //   $('.desktopapp')
-  //   .visibility({
-  //     once: true,
-  //     // update size when new content loads
-  //     observeChanges: true,
-  //     // load content on bottom edge visible
-  //     onTopVisible() {
-  //       // loads a max of 5 times
-  //       $('.desktopapp .card')
-  //       .transition({
-  //         animation: 'pulse',
-  //         interval: 300,
-  //       });
-  //     },
-  //   });
-  // }
-
-
   render() {
     return (
-      <div className="ui stripe vertical desktopapp segment">
+      <div className="ui info-panel basic segment">
+        <div className="dark_segment_content">
+          <div className="dark_segment_content_overlay"></div>
+        </div>
         <div className="ui container">
-          <h1 className="header">
+          <h1 className="ui inverted header">
             桌面 Apps
           </h1>
-          <div className="ui two cards">
+          <div className="ui two compact cards">
             <div className="ui pink card">
               <div className="content">
+                <div className="ui star rating" data-rating="3"></div>
+              </div>
+              <div className="content">
                 <div className="header">教师端</div>
+              </div>
+              <div className="content">
+                <div className="ui mini statistic">
+                  <div className="value">
+                    <i className="download icon"></i> 5,550
+                  </div>
+                  <div className="label">
+                    Downloads
+                  </div>
+                </div>
               </div>
               <div className="content">
                 <h4 className="ui sub header">Activity</h4>
@@ -63,7 +61,7 @@ class DesktopApps extends Component {
                 <button className="ui button">Download</button>
               </div>
             </div>
-            <div className="ui teal card">
+            <div className={ `ui ${config.theme} card` }>
               <div className="content">
                 <div className="header">学生端</div>
               </div>

@@ -74,13 +74,9 @@ export default (state = userinit, action) => {
       return state;
     }
     case actionTypes.USER_SET_SUBMIT_INFO: {
-      if (action.payload.mode) {
-        state = state.set('submitInfo', fromJS({ mode: action.payload.mode }));
-      } else {
-        Object.keys(action.payload).forEach((k) => {
-          state = state.setIn(['submitInfo', k], action.payload[k]);
-        });
-      }
+      Object.keys(action.payload).forEach((k) => {
+        state = state.setIn(['submitInfo', k], action.payload[k]);
+      });
       return state;
     }
     default: {

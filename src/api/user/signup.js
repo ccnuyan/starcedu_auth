@@ -1,5 +1,4 @@
 import userServices from '../../services/userServices';
-import config from '../../../config';
 import paramsValidator from '../paramsValidator';
 
 const signup = async (req, res) => {
@@ -21,10 +20,7 @@ const signup = async (req, res) => {
 
   if (ret.success) {
     req.session.oauthUser = {};
-    res.cookie(config.auth.cookie.name, ret.token, {
-      expires: new Date(Date.now() + config.auth.cookie.maxage),
-      httpOnly: true,
-    });
+    req.session.user = ret;
     res.json({
       data: {
         ...ret,
@@ -36,7 +32,7 @@ const signup = async (req, res) => {
     req.session.callback = '/';
   } else {
     req.session.oauthUser = {};
-    res.cookie(config.auth.cookie.name, '');
+    req.session.user = {};
     res.json({
       code: 400,
       message: ret.message,

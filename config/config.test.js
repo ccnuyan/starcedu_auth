@@ -15,8 +15,8 @@ export default {
       expiresIn: '14d',
     },
     cookie: {
-      name: 'authorization',
-      maxage: 7 * 24 * 3600 * 1000,
+      maxage: 14 * 24 * 3600 * 1000,
+      minage: 1 * 12 * 3600 * 1000,
     },
   },
   oauth: {

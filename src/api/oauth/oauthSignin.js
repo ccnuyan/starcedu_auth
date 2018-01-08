@@ -1,5 +1,4 @@
 import oauthServices from '../../services/oauthServices';
-import config from '../../../config';
 import paramsValidator from '../paramsValidator';
 
 // directly sign in if provider and unique_provider_id are provided by native app
@@ -30,10 +29,7 @@ const signin = async (req, res) => {
   }
 
   const loginInfo = await oauthServices.authenticate(payload);
-  res.cookie(config.auth.cookie.name, loginInfo.token, {
-    expires: new Date(Date.now() + config.auth.cookie.maxage),
-    httpOnly: true,
-  });
+  req.session.user = loginInfo;
 
   res.json({
     code: 0,

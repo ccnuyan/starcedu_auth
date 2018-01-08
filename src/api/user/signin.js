@@ -4,6 +4,7 @@ import paramsValidator from '../paramsValidator';
 
 const signin = async (req, res) => {
   const payload = {
+    autoSignin: req.body.autoSignin,
     username: req.body.username,
     password: req.body.password,
   };
@@ -21,10 +22,12 @@ const signin = async (req, res) => {
 
   if (ret.success) {
     req.session.oauthUser = {};
-    res.cookie(config.auth.cookie.name, ret.token, {
-      expires: new Date(Date.now() + config.auth.cookie.maxage),
-      httpOnly: true,
-    });
+    req.session.user = ret;
+    if (payload.autoSignin === true) {
+      req.session.cookie.maxAge = config.auth.cookie.maxage;
+    } else {
+      req.session.cookie.expires = false;
+    }
     res.json({
       data: {
         ...ret,
@@ -36,7 +39,7 @@ const signin = async (req, res) => {
     req.session.callback = '/';
   } else {
     req.session.oauthUser = {};
-    res.cookie(config.auth.cookie.name, '');
+    req.session.user = {};
     res.json({
       code: 400,
       message: ret.message,

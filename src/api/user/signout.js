@@ -1,8 +1,6 @@
-import config from '../../../config';
-
 const signout = (req, res) => {
-  res.cookie(config.auth.cookie.name, '');
   req.session.oauthUser = {};
+  req.session.user = {};
   res.json({
     code: 0,
     message: 'user cookie cleared',

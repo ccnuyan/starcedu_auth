@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import config from '../../config';
+
 class Slogan1 extends Component {
   componentDidMount = () => {
     $('.ui.accordion').accordion();
@@ -7,7 +9,7 @@ class Slogan1 extends Component {
 
   render() {
     return (
-      <div className="ui inverted vertical stripe teal segment">
+      <div className={ `ui ${config.theme} inverted segment` }>
         <div className="ui text container">
           <h1 className="ui inverted header">
             FAQ

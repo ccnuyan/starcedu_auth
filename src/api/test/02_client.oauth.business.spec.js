@@ -133,12 +133,46 @@ describe('CLIENT OAUTH BUSINESS', function () { // eslint-disable-line
       return Promise.resolve();
     });
 
+    it('can bind if provided token', async () => {
+      await chai.request(app)
+        .post('/api/user/signin')
+        .send({
+          username: 'user@test.com',
+          password: 'testpass',
+        })
+        .then((res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.code.should.equal(0);
+          res.body.message.should.equal('authenticate successfully');
+          res.body.data.should.have.property('token');
+          this.userToken = res.body.data.token;
+          return res;
+        });
+      return chai.request(app)
+        .post('/api/oauth/bind_signin')
+        .set({
+          authorization: `bearer ${this.userToken}`,
+        })
+        .send({
+          password: 'testpass',
+          oauth_user_id: this.oauthUser.id,
+        })
+        .then((res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.code.should.equal(0);
+          res.body.message.should.equal('authenticate and bind successfully');
+          res.body.data.should.have.property('token');
+          return res;
+        });
+    });
+
     it('returns correct message when bind signin', () => {
       return chai.request(app)
         .post('/api/oauth/bind_signin')
         .send({
-          username: 'user@test.com',
-          password: 'testpass',
+          ...user,
           oauth_user_id: this.oauthUser.id,
         })
         .then((res) => {
@@ -190,19 +224,19 @@ describe('CLIENT OAUTH BUSINESS', function () { // eslint-disable-line
       this.user = await userServices.register(user);
       this.oauthUser = await oauthServices.add_oauth_user({ ...oauthUser, ...profile1 });
       return chai.request(app)
-      .post('/api/oauth/bind_signin')
-      .send({
-        ...user,
-        oauth_user_id: this.oauthUser.id,
-      })
-      .then((res) => {
-        res.should.have.status(200);
-        res.body.should.be.a('object');
-        res.body.code.should.equal(0);
-        res.body.message.should.equal('authenticate and bind successfully');
-        res.body.data.should.have.property('token');
-        return res;
-      });
+        .post('/api/oauth/bind_signin')
+        .send({
+          ...user,
+          oauth_user_id: this.oauthUser.id,
+        })
+        .then((res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.code.should.equal(0);
+          res.body.message.should.equal('authenticate and bind successfully');
+          res.body.data.should.have.property('token');
+          return res;
+        });
     });
 
     it('can signin', () => {

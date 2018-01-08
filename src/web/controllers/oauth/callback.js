@@ -1,7 +1,6 @@
 import { Router } from 'express';
 
 import qqMiddleware from './qqMiddleware';
-import config from '../../../../config';
 import oauthServices from '../../../services/oauthServices';
 
 const router = Router();
@@ -42,10 +41,7 @@ router.get('/:vender', async (req, res) => {
       provider: req.oauth.provider,
     });
     const loginInfo = await oauthServices.authenticate(payload);
-    res.cookie(config.auth.cookie.name, loginInfo.token, {
-      expires: new Date(Date.now() + config.auth.cookie.maxage),
-      httpOnly: true,
-    });
+    req.session.user = loginInfo;
     res.redirect(301, req.session.callback || '/');
   }
 });

@@ -6,11 +6,11 @@ import session from 'express-session';
 import delay from 'express-delay';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
+import connectRedis from 'connect-redis';
 
 
 import config from '../config';
 import byPassTokenAuth from './middleware/byPassTokenAuth';
-import byPassCookieAuth from './middleware/byPassCookieAuth';
 import crossDomain from './middleware/crossDomain';
 import utilities from './middleware/utilities';
 import routes from '../src';
@@ -18,6 +18,7 @@ import routes from '../src';
 import '../globals';
 
 const app = express();
+const RedisStore = connectRedis(session);
 
 // serve the app
 const PORT = process.env.PORT || config.port;
@@ -46,23 +47,28 @@ if (config.delay) {
   app.use(delay(0, config.delay));
 }
 
-// custom middlewares
 app.use(utilities.ajaxDetector);
 app.use(crossDomain);
 
-// enable session
-app.use(session({
+const sessionConfig = {
   secret: config.auth.session.secret,
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { httpOnly: true },
-}));
+};
 
-// ajaxDetector
 app.use(utilities.ajaxDetector);
 
+if (config.mode === 'test') {
+  app.use(session(sessionConfig));
+} else {
+  app.use(session({
+    store: new RedisStore(config.redisSessionServer),
+    ...sessionConfig,
+  }));
+}
+
 // auth
-app.use(byPassCookieAuth);
 app.use(byPassTokenAuth);
 
 // routes

@@ -14,8 +14,8 @@ export default {
       expiresIn: '14d',
     },
     cookie: {
-      name: 'authorization',
-      maxage: 7 * 24 * 3600 * 1000,
+      maxage: 14 * 24 * 3600 * 1000,
+      minage: 1 * 12 * 3600 * 1000,
     },
   },
   oauth: {
@@ -38,6 +38,10 @@ export default {
     port: process.env.DBPORT ? process.env.DBPORT : 5432,
     max: 10,
     idleTimeoutMillis: 30000,
+  },
+  redisSessionServer: {
+    host: 'localhost',
+    port: 6379,
   },
   resources: {
     stylesheets: {

@@ -15,5 +15,5 @@ Provider.propTypes.children = PropTypes.object;
 ReactDOM.render(
   <Provider store={ store }>
     <Routes/>
-  </Provider>, rootNode);
-
+  </Provider>
+, rootNode);
