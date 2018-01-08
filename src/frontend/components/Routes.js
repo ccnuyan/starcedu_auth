@@ -20,10 +20,10 @@ class Routes extends Component {
       <Router>
         <div>
           <AnimatedSwitch
-        atEnter={ { opacity: 0 } }
-        atLeave={ { opacity: 0 } }
-        atActive={ { opacity: 1 } }
-        runOnMount={ true }
+            atEnter={ { opacity: 0 } }
+            atLeave={ { opacity: 0 } }
+            atActive={ { opacity: 1 } }
+            runOnMount={ true }
           >
             <Route component={ Home } path='/' exact={ true }></Route>
             <Route component={ User } path='/user'></Route>
