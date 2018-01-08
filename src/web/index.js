@@ -33,7 +33,7 @@ export default (app) => {
     const preloadedState = {
       user: {
         user: req.user || {},
-        oauthUser: req.session.oauthUser || {},
+        oauthUser: (req.session && req.session.oauthUser) ? req.session.oauthUser : {},
       },
     };
     res.send(indexHtml.replace('_starc_server_state_', JSON.stringify(preloadedState, null, 2)));
