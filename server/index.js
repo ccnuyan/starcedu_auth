@@ -53,7 +53,7 @@ app.use(crossDomain);
 const sessionConfig = {
   secret: config.auth.session.secret,
   resave: true,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: { httpOnly: true },
 };
 
