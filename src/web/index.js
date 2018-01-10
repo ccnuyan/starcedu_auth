@@ -1,8 +1,7 @@
 import indexHtml from './indexFabricator';
-
 import callback from './controllers/oauth/callback';
-
 import qq from './controllers/oauth/qq';
+import authorize from './controllers/authorize';
 
 const oauthControllers = { callback };
 const oauthProviders = { qq };
@@ -33,11 +32,26 @@ export default (app) => {
     next();
   });
 
+  app.get('/user/authorize', authorize.authorize);
+  app.post('/user/decide', authorize.decide);
+
+  // app.use('/*', (req, res, next) => {
+  //   console.log('req.path:', req.path);
+  //   if (['/user/signin', '/user/signup', '/user/decide', '/user/authorize'].indexOf(req.path) < 0) {
+  //     req.session.tenant = {};
+  //   }
+  //   if (['/user/signin', '/user/signup'].indexOf(req.path) < 0) {
+  //     req.session.oauthUser = {};
+  //   }
+  //   next();
+  // });
+
   app.get('/*', async (req, res) => {
     const preloadedState = {
       user: {
         user: req.user || {},
         oauthUser: req.session.oauthUser || {},
+        tenant: req.session.tenant || {},
       },
     };
     res.send(indexHtml.replace('_starc_server_state_', JSON.stringify(preloadedState, null, 2)));

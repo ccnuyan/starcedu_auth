@@ -1,5 +1,7 @@
-import 'whatwg-fetch';
+import 'cross-fetch/polyfill';
 import 'babel-polyfill';
+
+// import fetch from 'cross-fetch';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 

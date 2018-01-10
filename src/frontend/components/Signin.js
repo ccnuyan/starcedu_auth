@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import config from '../config';
 import {
   Redirect,
   Link,
 } from 'react-router-dom';
 
 import EmailField from './common/user/EmailField';
+import config from '../config';
 import PasswordField from './common/user/PasswordField';
 import OAuthProviders from './common/user/OAuthProviders';
 import userActions from '../../store/actions/userActions';
@@ -24,6 +24,7 @@ class Signin extends Component {
     signin: PropTypes.func.isRequired,
     setAutoSignin: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
+    tenant: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -42,12 +43,15 @@ class Signin extends Component {
   }
 
   render() {
-    const { user, submitInfo } = this.props;
+    const { user, submitInfo, oauthUser, tenant } = this.props;
     if (user.success) {
       if (!user.callback || user.callback === '/') {
+        if (tenant) {
+          return (<Redirect to={ { pathname: '/user/decide' } } />);
+        }
+
         return (<Redirect to={ { pathname: '/' } } />);
       }
-      return window.location.replace(user.callback);
     }
     return (
       <div className="user-form-content">
@@ -57,7 +61,15 @@ class Signin extends Component {
             {'登入'}
           </div>
         </h2>
-        {this.props.oauthUser.id ? <QQInfo /> : ''}
+        <div className="ui message">
+          <div className="ui header">
+            { tenant.title }
+          </div>
+          <div className="ui content">
+            { tenant.description }
+          </div>
+        </div>
+        {oauthUser.id ? <QQInfo /> : ''}
         <div className="ui divider"></div>
         <form ref={ e => this.form = e } className={ `ui form ${this.props.busy ? 'loading' : ''}` } onSubmit={ this.onFormSubmit }>
           <div className="ui segment">
@@ -97,6 +109,7 @@ class Signin extends Component {
 
 const mapStateToProps = state => ({
   user: state.user.toJSON().user,
+  tenant: state.user.toJSON().tenant,
   oauthUser: state.user.toJSON().oauthUser,
   submitInfo: state.user.toJSON().submitInfo,
   busy: state.asyncStatus.toJSON().USER_SIGNIN_BUSY,

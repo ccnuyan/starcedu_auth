@@ -47,7 +47,6 @@ if (config.delay) {
   app.use(delay(0, config.delay));
 }
 
-app.use(utilities.ajaxDetector);
 app.use(crossDomain);
 app.use(utilities.ajaxDetector);
 

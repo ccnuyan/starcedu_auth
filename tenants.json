@@ -1,0 +1,17 @@
+{
+    "notebook": {
+        "title":"笔记APP",
+        "description":"笔记APP 的描述",
+        "auth": ["local"],
+        "password":"87654321",
+        "key": "12345678"
+    },
+    "test_tenant": {
+        "title":"测试APP",
+        "description":"测试APP 的描述",
+        "auth": ["oauth"],
+        "key": "23456789",
+        "password":"87654321",
+        "redirect_url": "http://localhost:28000/oauth/callback"
+    }
+}

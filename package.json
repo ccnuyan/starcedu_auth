@@ -39,6 +39,7 @@
     "connect-redis": "^3.3.3",
     "cookie-parser": "^1.4.3",
     "cross-env": "^5.0.1",
+    "cross-fetch": "^1.1.1",
     "express": "^4.15.2",
     "express-delay": "^0.2.0",
     "express-session": "^1.15.6",
@@ -103,8 +104,7 @@
     "style-loader": "^0.16.1",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "url-loader": "^0.5.9",
-    "webpack": "^3.10.0",
-    "whatwg-fetch": "^2.0.3"
+    "webpack": "^3.10.0"
   },
   "#comment# - eslintConfig": "http://eslint.org/docs/user-guide/configuring",
   "#comment# - eslint-plugin-react": "https://github.com/yannickcr/eslint-plugin-react",

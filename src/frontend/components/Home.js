@@ -7,8 +7,8 @@ import FrontPanel from './common/FrontPanel';
 import HomeMenu from './common/HomeMenu';
 
 import WebApps from './includes/WebApps';
-import Slogan1 from './includes/Slogan1';
-import Slogan2 from './includes/Slogan2';
+// import Slogan1 from './includes/Slogan1';
+// import Slogan2 from './includes/Slogan2';
 import DesktopApps from './includes/DesktopApps';
 import Others from './includes/Others';
 import config from '../config';
