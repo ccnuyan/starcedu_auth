@@ -1,3 +1,5 @@
+set search_path = starcedu_auth;
+
 create table logins(
   id bigint primary key default id_generator(),
 

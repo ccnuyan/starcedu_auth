@@ -5,7 +5,7 @@ import tenants from '../../../../tenants.json';
 import { sign } from '../../../services/tokenServices';
 
 const authorize = (req, res, next) => {
-  if (req.query.client && req.query.redirect && req.query.state) {
+  if (req.query.client && req.query.state) {
     const cl = req.query.client;
     if (tenants[cl]) {
       const tenant = _.pick(tenants[cl], ['title', 'description', 'redirect_url']);
