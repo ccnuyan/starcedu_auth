@@ -7,7 +7,7 @@ import oauthSignup from './oauthSignup';
 import bindSignin from './bindSignin';
 import bindSignup from './bindSignup';
 import auth from '../authMiddleware';
-import client from './clientAuthMiddleware';
+import tenant from '../tenantAuthMiddleware';
 
 const router = Router();
 
@@ -15,12 +15,12 @@ const router = Router();
 router.get('/signout', signout);
 router.put('/unlink', auth, unlink);
 
-// these are for client business
-router.post('/oauth_signin', client, oauthSignin);
-router.post('/oauth_signup', client, oauthSignup);
+// these are for tenant business
+router.post('/oauth_signin', tenant, oauthSignin);
+router.post('/oauth_signup', tenant, oauthSignup);
 
-// these are for client business
-router.post('/bind_signin', client, bindSignin);
-router.post('/bind_signup', client, bindSignup);
+// these are for tenant business
+router.post('/bind_signin', tenant, bindSignin);
+router.post('/bind_signup', tenant, bindSignup);
 
 export default router;

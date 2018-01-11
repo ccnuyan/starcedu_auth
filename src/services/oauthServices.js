@@ -2,7 +2,7 @@ import config from '../../config';
 import { sign } from './tokenServices';
 import pgPool from '../../database/connector';
 
-const authenticate = async ({ unique_provider_id, provider }) => {
+const authenticate = async ({ unique_provider_id, provider, client }) => {
   let user = {};
   user = await pgPool.query(`select * from ${config.dbname}.oauth_authenticate($1, $2)`, [unique_provider_id, provider]) // eslint-disable-line max-len
     .then((res) => {
@@ -12,10 +12,12 @@ const authenticate = async ({ unique_provider_id, provider }) => {
       return { success: false };
     });
 
-  const token = sign(provider, user);
-
   if (user.success) {
-    user.token = sign(provider, user);// 添加login
+    const token = sign('local', {
+      to: client || 'local',
+      user,
+    });
+    user.token = token;// 添加login
     await pgPool.query(`select * from ${config.dbname}.add_login($1, $2, $3, $4)`, [user.id, unique_provider_id, token, provider]); // eslint-disable-line max-len
     return user;
   }

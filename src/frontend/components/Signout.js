@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import userActions from '../../store/actions/userActions';
 import config from '../config';
+import Busy from './Busy';
 
 class Signout extends Component {
   static propTypes = {
@@ -35,6 +36,7 @@ class Signout extends Component {
   }
 
   render = () => {
+    const { busy } = this.props;
     return (
       <div className="user-form-content">
         <h2 className={ `ui ${config.theme} image header` }>
@@ -43,25 +45,12 @@ class Signout extends Component {
           登出
         </div>
         </h2>
-        <div className={ 'ui left aligned icon message' }>
-          {this.props.busy ? <i className="notched circle loading icon"></i> : <i className="green check icon"></i>}
-          {this.props.busy ? <div className="content" style={ { textAlign: 'left' } }>
-            <div className="header">
-            正在登出...
-          </div>
-            <p>登出后会跳转至主页</p>
-          </div> : <div className="content" style={ { textAlign: 'left' } }>
-            <div className="header">
-            已登出
-          </div>
-            <p>正在跳转至主页</p>
-          </div>}
-        </div>
-        <div className="ui divider"></div>
-        <div>
+        <Busy isBusy={ busy } header={ busy ? '正在登出...' : '已登出' } content={ busy ? '登出后会跳转至主页' : '正在跳转至主页' }/>
+        {/* <div className="ui divider"></div> */}
+        {/* <div>
           <i className="pointing right grey icon"></i>
           <Link className='ui right floated' to='/'>立刻返回主页</Link>
-        </div>
+        </div> */}
       </div>);
   };
 }

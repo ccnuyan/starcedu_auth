@@ -40,7 +40,7 @@ const messageDict = {
       return {
         status: 'success',
         header: '登入成功',
-        details: '还等什么，可以开始尽情玩耍了',
+        details: `欢迎，${payload.data.username}`,
       };
     }
     if (payload.code === 400) {

@@ -2,36 +2,25 @@ import './testHelpers';
 import pgPool from '../../../database/connector';
 import app from '../../../server';
 
-const validCredentials = { username: 'ccnuyan@gmail.com', password: '123456' };
+const validCredentials = {
+  username: 'user@test.com',
+  password: '123456',
+};
 
-describe('USER BUSINESS', function () { // eslint-disable-line
+describe('user business', function () { // eslint-disable-line
   this.timeout(10000);
   beforeEach(async () => {
+    await pgPool.query('delete from starcedu_auth.logins'); // eslint-disable-line
     await pgPool.query('delete from starcedu_auth.users'); // eslint-disable-line
     return pgPool.query('delete from starcedu_auth.oauth2users'); // eslint-disable-line
   });
 
-  describe('when signup with correct credentials', () => {
-    it('returns correct signup message', () => {
-      return chai.request(app)
-        .post('/api/user/signup')
-        .send(validCredentials)
-        .then((res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.code.should.equal(0);
-          res.body.data.should.have.property('token');
-          return res;
-        });
-    });
-  });
-
-  describe('with incorrect credentials', () => {
-    it('returns correct error message when password not provided', () => {
+  describe('signup', () => {
+    it('should be ok when signup with incorrect credentials', () => {
       return chai.request(app)
         .post('/api/user/signup')
         .send({
-          username: 'testpass',
+          username: 'justusername',
         })
         .then((res) => {
           res.should.have.status(200);
@@ -42,11 +31,11 @@ describe('USER BUSINESS', function () { // eslint-disable-line
         });
     });
 
-    it('returns correct error message when username not provided', () => {
+    it('should return error message when username not provided', () => {
       return chai.request(app)
         .post('/api/user/signup')
         .send({
-          password: 'testpass',
+          password: 'justpassword',
         })
         .then((res) => {
           res.should.have.status(200);
@@ -57,7 +46,7 @@ describe('USER BUSINESS', function () { // eslint-disable-line
         });
     });
 
-    it('returns correct error message when username illigal', () => {
+    it('should return error message when username illigal', () => {
       return chai.request(app)
         .post('/api/user/signup')
         .send({
@@ -73,8 +62,22 @@ describe('USER BUSINESS', function () { // eslint-disable-line
         });
     });
 
-    it('returns correct error message when password illigal', () => {
+    it('should be ok when signup with correct credentials', () => {
       return chai.request(app)
+        .post('/api/user/signup')
+        .send(validCredentials)
+        .then((res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.code.should.equal(0);
+          res.body.data.should.have.property('token');
+          return res;
+        });
+    });
+  });
+
+  it('should return error message when password illigal', () => {
+    return chai.request(app)
         .post('/api/user/signup')
         .send({
           username: 'naerns@nae.nbc',
@@ -87,7 +90,6 @@ describe('USER BUSINESS', function () { // eslint-disable-line
           res.body.message.should.equal('provided password illigal');
           return res;
         });
-    });
   });
 
   describe('after signup', function () { // eslint-disable-line
@@ -107,7 +109,18 @@ describe('USER BUSINESS', function () { // eslint-disable-line
         });
     });
 
-    it('could signin with correct credentials', () => {
+    it('should not be able to signup with same credentials', () => {
+      return chai.request(app)
+        .post('/api/user/signup')
+        .send(this.user)
+        .then((res) => {
+          res.should.have.status(200);
+          res.body.code.should.equal(400);
+          return res;
+        });
+    });
+
+    it('should be ok when signin with correct credentials', () => {
       return chai.request(app)
         .post('/api/user/signin')
         .send(this.user)
@@ -120,7 +133,7 @@ describe('USER BUSINESS', function () { // eslint-disable-line
         });
     });
 
-    it('could signin with capitalized username', () => {
+    it('should be ok when signin with capitalized username', () => {
       return chai.request(app)
         .post('/api/user/signin')
         .send({
@@ -136,7 +149,7 @@ describe('USER BUSINESS', function () { // eslint-disable-line
         });
     });
 
-    it('could update password', () => {
+    it('should be ok when update password', () => {
       return chai.request(app)
         .put('/api/user/update_password')
         .set('authorization', `bearer ${this.signuptoken}`)
@@ -151,14 +164,5 @@ describe('USER BUSINESS', function () { // eslint-disable-line
           return res;
         });
     });
-
-    afterEach(() => {
-      return pgPool.query('delete from starcedu_auth.users'); // eslint-disable-line
-    });
-  });
-
-  afterEach(async () => {
-    await pgPool.query('delete from starcedu_auth.users'); // eslint-disable-line
-    return pgPool.query('delete from starcedu_auth.oauth2users'); // eslint-disable-line
   });
 });

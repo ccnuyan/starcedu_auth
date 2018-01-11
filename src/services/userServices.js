@@ -2,7 +2,7 @@ import config from '../../config';
 import { sign } from './tokenServices';
 import pgPool from '../../database/connector';
 
-const authenticate = async ({ username, password, oauth_user_id }) => {
+const authenticate = async ({ username, password, oauth_user_id, client }) => {
   let user = {};
   if (oauth_user_id) {
     // 对应绑定业务
@@ -19,14 +19,18 @@ const authenticate = async ({ username, password, oauth_user_id }) => {
   }
 
   if (user.success) {
-    user.token = sign('token', user);// 添加login
+    user.token = sign('local', {
+      to: client || 'local',
+      ...user,
+    });
+    // 添加login
     await pgPool.query(`select * from ${config.dbname}.add_login($1, $2, $3, $4)`, [user.id, 'token', user.token, 'token']);
     return user;
   }
   return user;
 };
 
-const register = async ({ username, password, oauth_user_id }) => {
+const register = async ({ username, password, oauth_user_id, client }) => {
   let user = {};
   if (oauth_user_id) {
     // 对应基于第三方账户注册新用户的业务
@@ -49,7 +53,10 @@ const register = async ({ username, password, oauth_user_id }) => {
       });
   }
   if (user.success) {
-    user.token = sign('token', user);
+    user.token = sign('local', {
+      to: client || 'local',
+      ...user,
+    });
     await pgPool.query(`select * from ${config.dbname}.add_login($1, $2, $3, $4)`, [user.id, 'token', user.token, 'token']);
     return user;
   }

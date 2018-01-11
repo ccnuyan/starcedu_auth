@@ -122,7 +122,7 @@ Params: `old_password, new_password`
 {"code":131,"message":"new_password empty"}
 {"code":122,"message":"provided old_password illigal"}
 {"code":132,"message":"provided new_password illigal"}
-{"code":400,"message":"username/password invalid"}
+{"code":400,"message":"credentials invalid"}
 ```
 
 4. 登出

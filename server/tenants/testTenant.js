@@ -9,8 +9,8 @@ import uuid from 'uuid';
 import fetch from 'cross-fetch';
 import jsonwebtoken from 'jsonwebtoken';
 
-import config from '../config';
-import '../globals';
+import config from '../../config';
+import '../../globals';
 
 const rawIndexHTML = fs.readFileSync(path.join(__dirname, './testTenant.html'), 'utf-8');
 
@@ -61,7 +61,7 @@ app.get('/oauth/callback', async (req, res) => {
     },
     body: JSON.stringify({
       code: req.query.code,
-      token: jsonwebtoken.sign(req.query.code, 'test_tenant_key'),
+      token: jsonwebtoken.sign(req.query.code, 'test_3rdparty_tenant1_key'),
     }),
   }).then(ret => ret.json());
   const files = await fetch(`http://${config.domain}/apps/disk/api/files/uploaded`, {

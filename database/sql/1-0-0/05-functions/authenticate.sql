@@ -29,7 +29,7 @@ BEGIN
   IF(found_id IS NOT NULL) THEN
     SELECT * FROM users WHERE users.id = found_id INTO found_user;
     --set a last_login
-    UPDATE users SET last_login = now(), login_count=login_count+1
+    UPDATE users SET last_login = now(), login_count=login_count + 1
     WHERE users.id = found_id;
 
     -- binding check
@@ -51,7 +51,7 @@ BEGIN
     END IF;
   ELSE
     success := FALSE;
-    return_message := 'username/password invalid';
+    return_message := 'credentials invalid';
   end IF;
   
   return (found_user.id, 

@@ -27,7 +27,9 @@ const profile2 = {
   },
 };
 
-describe('CLIENT OAUTH BUSINESS', function () { // eslint-disable-line
+const basicAuth = new Buffer(`${tenants.local_test_tanant.id}:${tenants.local_test_tanant.pass}`).toString('base64');
+
+describe.only('client oauth business', function () { // eslint-disable-line
   this.timeout(10000);
   beforeEach(async () => {
     await pgPool.query('delete from starcedu_auth.users'); // eslint-disable-line
@@ -38,6 +40,7 @@ describe('CLIENT OAUTH BUSINESS', function () { // eslint-disable-line
     it('can not signin', () => {
       return chai.request(app)
         .post('/api/oauth/oauth_signin')
+        .set('authorization', `basic ${basicAuth}`)
         .send({
           ...oauthUser,
         })
@@ -55,6 +58,7 @@ describe('CLIENT OAUTH BUSINESS', function () { // eslint-disable-line
     it('returns correct error message when oauth signup', () => {
       return chai.request(app)
         .post('/api/oauth/oauth_signup')
+        .set('authorization', `basic ${basicAuth}`)
         .send({
           ...oauthUser,
         })
@@ -72,6 +76,7 @@ describe('CLIENT OAUTH BUSINESS', function () { // eslint-disable-line
     it('returns correct signup message when oauth signup', () => {
       return chai.request(app)
         .post('/api/oauth/oauth_signup')
+        .set('authorization', `basic ${basicAuth}`)
         .send({
           ...oauthUser,
           ...profile1,
@@ -96,6 +101,7 @@ describe('CLIENT OAUTH BUSINESS', function () { // eslint-disable-line
     it('returns correct update message when oauth signup', () => {
       return chai.request(app)
         .post('/api/oauth/oauth_signup')
+        .set('authorization', `basic ${basicAuth}`)
         .send({
           ...oauthUser,
           ...profile2,
@@ -113,6 +119,7 @@ describe('CLIENT OAUTH BUSINESS', function () { // eslint-disable-line
     it('can not signin', () => {
       return chai.request(app)
         .post('/api/oauth/oauth_signin')
+        .set('authorization', `basic ${basicAuth}`)
         .send({
           ...oauthUser,
         })
@@ -136,6 +143,7 @@ describe('CLIENT OAUTH BUSINESS', function () { // eslint-disable-line
     it('can bind if provided token', async () => {
       await chai.request(app)
         .post('/api/user/signin')
+        .set('authorization', `basic ${basicAuth}`)
         .send({
           username: 'user@test.com',
           password: 'testpass',

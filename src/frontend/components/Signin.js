@@ -11,6 +11,7 @@ import PasswordField from './common/user/PasswordField';
 import OAuthProviders from './common/user/OAuthProviders';
 import userActions from '../../store/actions/userActions';
 import QQInfo from './common/user/oauth/QQInfo';
+import Tenant from './Tenant';
 
 import init from '../initFormValidation';
 
@@ -29,6 +30,16 @@ class Signin extends Component {
 
   componentDidMount() {
     init();
+    const { user, location } = this.props;
+    if (user.success) {
+      setTimeout(() => {
+        if (location.state && location.state.cb) {
+          this.props.history.push(location.state.cb);
+        } else {
+          this.props.history.push('/');
+        }
+      }, 2000);
+    }
   }
 
   onFormSubmit = (event) => {
@@ -56,7 +67,7 @@ class Signin extends Component {
   }
 
   render() {
-    const { submitInfo, oauthUser, tenant } = this.props;
+    const { user, submitInfo, oauthUser, tenant } = this.props;
 
     return (
       <div className="user-form-content">
@@ -66,17 +77,10 @@ class Signin extends Component {
             {'登入'}
           </div>
         </h2>
-        <div className="ui message">
-          <div className="ui header">
-            { tenant.title }
-          </div>
-          <div className="ui content">
-            { tenant.description }
-          </div>
-        </div>
-        {oauthUser.id ? <QQInfo /> : ''}
+        <Tenant/>
         <div className="ui divider"></div>
-        <form ref={ e => this.form = e } className={ `ui form ${this.props.busy ? 'loading' : ''}` } onSubmit={ this.onFormSubmit }>
+        {oauthUser.id ? <QQInfo /> : ''}
+        {!user.success ? <form ref={ e => this.form = e } className={ `ui form ${this.props.busy ? 'loading' : ''}` } onSubmit={ this.onFormSubmit }>
           <div className="ui segment">
             <EmailField />
             <PasswordField name='password' placeholder="密码" />
@@ -90,20 +94,21 @@ class Signin extends Component {
           </div>
           <div className="ui error message">
           </div>
-        </form>
+        </form> :
+        <div>用户{user.username}已经成功登入</div>}
         <div className="ui divider"></div>
-        <OAuthProviders />
+        {!user.success ? <OAuthProviders /> : ''}
         <div className="ui divider"></div>
-        <div>
+        {!user.success ? <div>
           <i className="pointing right grey icon"></i>
           尚未注册？
           <Link to='/user/signup' >去注册!</Link>
-        </div>
-        <div>
+        </div> : ''}
+        {!user.success ? <div>
           <i className="pointing right grey icon"></i>
           忘记密码？
           <span to='/user/signup' >去找回!(未实现)</span>
-        </div>
+        </div> : ''}
         <div>
           <i className="pointing right grey icon"></i>
           <Link className='ui right floated' to='/'>返回主页</Link>

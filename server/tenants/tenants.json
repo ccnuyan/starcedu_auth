@@ -1,17 +1,42 @@
 {
-    "notebook": {
+    "notebook_web": {
         "title":"笔记APP",
-        "description":"笔记APP 的描述",
-        "auth": ["local"],
-        "password":"23456789",
-        "key": "12345678"
+        "description":"笔记APP的描述",
+        "local":true,
+        "pass": "notebook_web_pass"
     },
-    "test_tenant": {
+    "notebook_mobile_android": {
+        "title":"笔记APP安卓版",
+        "description":"笔记APP安卓版的描述",
+        "local":true,
+        "pass": "notebook_mobile_android_pass"
+    },
+    "local_test_tanant": {
+        "title":"local_test_tanant的标题",
+        "description":"local_test_tanant的描述",
+        "local":true,
+        "pass": "local_test_tanant_pass"
+    },
+    "test_3rdparty_tenant1": {
         "title":"测试APP",
-        "description":"测试APP 的描述",
+        "description":"测试APP的描述： 只用于测试，在生产环境不可用, 应部署在本机的28000端口",
+        "local":false,
         "auth": ["oauth"],
-        "key": "test_tenant_key",
-        "password":"test_tenant_pass",
-        "redirect_url": "http://localhost:28000/oauth/callback"
+        "fields": ["disk"],
+        "pass": "test_3rdparty_tenant1_pass",
+        "key": "test_3rdparty_tenant1_key",
+        "redirect_url": "http://localhost:28000/oauth/callback",
+        "home_url": "http://localhost:28000"
+    },
+    "test_3rdparty_tenant2": {
+        "title":"测试APP",
+        "description":"测试APP的描述： 只用于测试，在生产环境不可用, 应部署在本机的28000端口",
+        "local":false,
+        "auth": ["oauth"],
+        "fields": [],
+        "pass": "test_3rdparty_tenant2_pass",
+        "key": "test_3rdparty_tenant2_key",
+        "redirect_url": "http://localhost:28000/oauth/callback",
+        "home_url": "http://localhost:28000"
     }
 }

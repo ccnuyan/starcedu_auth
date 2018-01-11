@@ -18,7 +18,7 @@ BEGIN
     where user_id=found_id and provider='local';
   ELSE
     success := FALSE;
-    return_message := 'username/password invalid';
+    return_message := 'credentials invalid';
     return (null, null, null, null, null, success, return_message)::starcedu_auth.login_info;
   END IF;
 

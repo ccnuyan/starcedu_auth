@@ -2,26 +2,34 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  Redirect,
   Link,
 } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
+import Tenant from './Tenant';
 import config from '../config';
 
 class Decide extends Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
     tenant: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+  }
+
+  componentDidMount() {
+    const { user } = this.props;
+    if (!user.success) {
+      this.props.history.push({
+        pathname: '/user/signin',
+        state: { cb: '/user/decide' },
+      });
+    }
   }
 
   render() {
-    const { user, tenant } = this.props;
+    const { user } = this.props;
     if (!user.success) {
-      return (<Redirect to={ {
-        pathname: '/user/signin',
-        state: { cb: '/user/decide' },
-      } }
-              />);
+      return <div/>;
     }
     return (
       <div className="user-form-content">
@@ -31,13 +39,7 @@ class Decide extends Component {
             {'授权'}
           </div>
         </h2>
-        <div className="ui message">
-          <div className="ui content">
-            <strong>{user.username}</strong>
-            <div>您好，您将使用的此账户登陆应用</div>
-            <strong>{tenant.title}</strong>
-          </div>
-        </div>
+        <Tenant/>
         <form className="ui form buttons" method="post" action="/user/decide">
           <Link className={ 'ui gray fluid button' } to={ {
             pathname: '/user/signout',
@@ -58,15 +60,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    // signin: (info) => {
-    //   dispatch(userActions.signin(info));
-    // },
-    // setAutoSignin: (value) => {
-    //   userActions.setAutoSignin(dispatch, value);
-    // },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Decide);
+export default withRouter(connect(mapStateToProps)(Decide));

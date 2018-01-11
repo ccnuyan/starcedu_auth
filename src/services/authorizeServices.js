@@ -24,8 +24,6 @@ const exchange_code_for_token = async ({ code, token }) => {
   });
   if (!codeStruct.success) { return { success: false }; }
 
-  console.log(tenants[codeStruct.client].key);
-
   const decodedcode = jsonwebtoken.verify(token, tenants[codeStruct.client].key);
   if (decodedcode !== code) { return { success: false }; }
 
