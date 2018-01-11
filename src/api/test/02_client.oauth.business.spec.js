@@ -32,12 +32,13 @@ const basicAuth = new Buffer(`${tenants.local_test_tanant.id}:${tenants.local_te
 describe.only('client oauth business', function () { // eslint-disable-line
   this.timeout(10000);
   beforeEach(async () => {
+    await pgPool.query('delete from starcedu_auth.logins'); // eslint-disable-line
     await pgPool.query('delete from starcedu_auth.users'); // eslint-disable-line
     return pgPool.query('delete from starcedu_auth.oauth2users'); // eslint-disable-line
   });
 
-  describe('when no oauth user record', () => {
-    it('can not signin', () => {
+  describe('oauth signup', () => {
+    it('should not login when no oauth user record', () => {
       return chai.request(app)
         .post('/api/oauth/oauth_signin')
         .set('authorization', `basic ${basicAuth}`)
@@ -52,10 +53,8 @@ describe.only('client oauth business', function () { // eslint-disable-line
           return res;
         });
     });
-  });
 
-  describe('when no profile is provided', () => {
-    it('returns correct error message when oauth signup', () => {
+    it('should not signup when no profile is provided', () => {
       return chai.request(app)
         .post('/api/oauth/oauth_signup')
         .set('authorization', `basic ${basicAuth}`)
@@ -70,10 +69,8 @@ describe.only('client oauth business', function () { // eslint-disable-line
           return res;
         });
     });
-  });
 
-  describe('when everything is correct', () => {
-    it('returns correct signup message when oauth signup', () => {
+    it('should return correct signup message when oauth signup', () => {
       return chai.request(app)
         .post('/api/oauth/oauth_signup')
         .set('authorization', `basic ${basicAuth}`)
@@ -92,13 +89,13 @@ describe.only('client oauth business', function () { // eslint-disable-line
     });
   });
 
-  describe('after oauth signup', function () { // eslint-disable-line
+  describe('after oauth signup but not bound', function () { // eslint-disable-line
     beforeEach(async () => {
       this.oauthUser = await oauthServices.add_oauth_user({ ...oauthUser, ...profile1 });
-      return Promise.resolve(); // eslint-disable-line
+      return Promise.resolve();
     });
 
-    it('returns correct update message when oauth signup', () => {
+    it('should return correct update message when oauth signup', () => {
       return chai.request(app)
         .post('/api/oauth/oauth_signup')
         .set('authorization', `basic ${basicAuth}`)
@@ -133,30 +130,30 @@ describe.only('client oauth business', function () { // eslint-disable-line
     });
   });
 
-  describe('after oauth signup but not bound', function () { // eslint-disable-line
-    beforeEach(async () => {
+  describe('after oauth signup', function () { // eslint-disable-line
+    before(async () => {
       this.user = await userServices.register(user);
       this.oauthUser = await oauthServices.add_oauth_user({ ...oauthUser, ...profile1 });
       return Promise.resolve();
     });
 
-    it('can bind if provided token', async () => {
-      await chai.request(app)
-        .post('/api/user/signin')
-        .set('authorization', `basic ${basicAuth}`)
-        .send({
-          username: 'user@test.com',
-          password: 'testpass',
-        })
-        .then((res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.code.should.equal(0);
-          res.body.message.should.equal('authenticate successfully');
-          res.body.data.should.have.property('token');
-          this.userToken = res.body.data.token;
-          return res;
-        });
+    it.only('should be able to get token', () => {
+      return chai.request(app)
+      .post('/api/user/signin')
+      .send(user)
+      .then((res) => {
+        console.log(res.body);
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.code.should.equal(0);
+        res.body.message.should.equal('authenticate successfully');
+        res.body.data.should.have.property('token');
+        this.userToken = res.body.data.token;
+        return res;
+      });
+    });
+
+    it('should bind if provided token', () => {
       return chai.request(app)
         .post('/api/oauth/bind_signin')
         .set({
@@ -176,7 +173,7 @@ describe.only('client oauth business', function () { // eslint-disable-line
         });
     });
 
-    it('returns correct message when bind signin', () => {
+    it('should return correct message when bind signin', () => {
       return chai.request(app)
         .post('/api/oauth/bind_signin')
         .send({
@@ -193,7 +190,7 @@ describe.only('client oauth business', function () { // eslint-disable-line
         });
     });
 
-    it('returns correct message when bind signup', () => {
+    it('should return correct message when bind signup', () => {
       return chai.request(app)
         .post('/api/oauth/bind_signup')
         .send({
@@ -211,7 +208,7 @@ describe.only('client oauth business', function () { // eslint-disable-line
         });
     });
 
-    it('can not signin', () => {
+    it('should not signin again', () => {
       return chai.request(app)
         .post('/api/oauth/oauth_signin')
         .send({
@@ -233,6 +230,7 @@ describe.only('client oauth business', function () { // eslint-disable-line
       this.oauthUser = await oauthServices.add_oauth_user({ ...oauthUser, ...profile1 });
       return chai.request(app)
         .post('/api/oauth/bind_signin')
+        .set('authorization', `basic ${basicAuth}`)
         .send({
           ...user,
           oauth_user_id: this.oauthUser.id,
@@ -247,9 +245,10 @@ describe.only('client oauth business', function () { // eslint-disable-line
         });
     });
 
-    it('can signin', () => {
+    it('should be able to signin', () => {
       return chai.request(app)
         .post('/api/oauth/oauth_signin')
+        .set('authorization', `basic ${basicAuth}`)
         .send({
           ...oauthUser,
         })
