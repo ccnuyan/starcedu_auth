@@ -22,10 +22,11 @@ class Signout extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (!this.props.busy && prevProps.busy) {
+    const { busy, location } = this.props;
+    if (!busy && prevProps.busy) {
       setTimeout(() => {
-        if (this.location.state.cb) {
-          this.props.history.push(this.location.state.cb);
+        if (location.state && location.state.cb) {
+          this.props.history.push(location.state.cb);
         } else {
           this.props.history.push('/');
         }

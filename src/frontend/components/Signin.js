@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  Redirect,
   Link,
 } from 'react-router-dom';
 
@@ -24,6 +23,7 @@ class Signin extends Component {
     signin: PropTypes.func.isRequired,
     setAutoSignin: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
     tenant: PropTypes.object.isRequired,
   }
 
@@ -42,17 +42,22 @@ class Signin extends Component {
     this.props.setAutoSignin(event.target.checked);
   }
 
-  render() {
-    const { user, submitInfo, oauthUser, tenant } = this.props;
-    if (user.success) {
-      if (!user.callback || user.callback === '/') {
-        if (tenant) {
-          return (<Redirect to={ { pathname: '/user/decide' } } />);
+  componentDidUpdate(prevProps) {
+    const { user, location } = this.props;
+    if (user.success && !prevProps.user.success) {
+      setTimeout(() => {
+        if (location.state && location.state.cb) {
+          this.props.history.push(location.state.cb);
+        } else {
+          this.props.history.push('/');
         }
-
-        return (<Redirect to={ { pathname: '/' } } />);
-      }
+      }, 2000);
     }
+  }
+
+  render() {
+    const { submitInfo, oauthUser, tenant } = this.props;
+
     return (
       <div className="user-form-content">
         <h2 className={ `ui ${config.theme} image header` }>

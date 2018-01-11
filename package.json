@@ -145,7 +145,8 @@
       "printMessage": true,
       "chai": true,
       "expect": true,
-      "should": true
+      "should": true,
+      "tenants": true
     },
     "rules": {
       "class-methods-use-this": 0,

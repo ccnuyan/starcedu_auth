@@ -16,6 +16,7 @@ import utilities from './middleware/utilities';
 import routes from '../src';
 
 import '../globals';
+import './tenants';
 
 const app = express();
 const RedisStore = connectRedis(session);

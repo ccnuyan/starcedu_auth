@@ -17,7 +17,11 @@ class Decide extends Component {
   render() {
     const { user, tenant } = this.props;
     if (!user.success) {
-      return (<Redirect to={ { pathname: '/user/signin' } } />);
+      return (<Redirect to={ {
+        pathname: '/user/signin',
+        state: { cb: '/user/decide' },
+      } }
+              />);
     }
     return (
       <div className="user-form-content">

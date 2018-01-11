@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import querystring from 'querystring';
 
-import tenants from '../../../../tenants.json';
 import authorizeServices from '../../../services/authorizeServices';
 
 const authorize = async (req, res, next) => {
