@@ -40,7 +40,8 @@ const decide = async (req, res) => {
 };
 
 const get_token = async (req, res) => {
-  let tokenStruct = await authorizeServices.exchange_code_for_token({ code: req.query.code });
+  console.log(req.body);
+  let tokenStruct = await authorizeServices.exchange_code_for_token({ code: req.body.code, token: req.body.token });
   if (tokenStruct.success) {
     tokenStruct = _.pick(tokenStruct, ['id', 'username', 'token']);
     return res.send({

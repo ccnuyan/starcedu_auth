@@ -34,7 +34,7 @@ export default (app) => {
 
   app.get('/user/authorize', authorize.authorize);
   app.post('/user/decide', authorize.decide);
-  app.get('/user/token_by_code', authorize.get_token);
+  app.post('/user/token_by_code', authorize.get_token);
 
   app.get('/*', async (req, res) => {
     const preloadedState = {

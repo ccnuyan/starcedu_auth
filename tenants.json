@@ -12,8 +12,8 @@
         "title":"测试APP",
         "description":"测试APP 的描述",
         "auth": ["oauth"],
-        "key": "23456789",
-        "password":"87654321",
+        "key": "test_tenant_key",
+        "password":"test_tenant_pass",
         "redirect_url": "http://localhost:28000/oauth/callback"
     }
 }

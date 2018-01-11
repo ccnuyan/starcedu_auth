@@ -35,7 +35,7 @@ class Decide extends Component {
           </div>
         </div>
         <form className="ui form buttons" method="post" action="/user/decide">
-          <Link className={ 'ui gray fluid submit button' } to={ {
+          <Link className={ 'ui gray fluid button' } to={ {
             pathname: '/user/signout',
             state: { cb: '/user/decide' },
           } }
