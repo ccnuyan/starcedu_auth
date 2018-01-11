@@ -31,6 +31,7 @@ DECLARE
   message varchar(255) := 'user with this username not found';
   data_result json;
 BEGIN
+  SET search_path=starcedu_auth;
   if input_user_id is not null then
   
     -- replace the provider for this user completely
@@ -47,7 +48,7 @@ BEGIN
     -- values('Authentication','Added ' || new_provider || ' login',userid,now());
 
     success := true;
-    message :=  'added login successfully';
+    message :=  'add login successfully';
   end if;
 
   return query

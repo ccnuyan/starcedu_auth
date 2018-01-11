@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   Redirect,
+  Link,
 } from 'react-router-dom';
 
 import config from '../config';
@@ -28,18 +29,24 @@ class Decide extends Component {
         </h2>
         <div className="ui message">
           <div className="ui content">
-            {user.username}, 您好，您将使用的此账户登陆应用：{tenant.title}
+            <strong>{user.username}</strong>
+            <div>您好，您将使用的此账户登陆应用</div>
+            <strong>{tenant.title}</strong>
           </div>
         </div>
-        <form className="ui form" method="post" action="/user/decide">
-          <input className={ `ui ${config.theme} fluid submit button` } type="submit" value="确定" />
+        <form className="ui form buttons" method="post" action="/user/decide">
+          <Link className={ 'ui gray fluid submit button' } to={ {
+            pathname: '/user/signout',
+            state: { cb: '/user/decide' },
+          } }
+          >切换用户</Link>
+          <input className={ 'ui blue fluid submit button' } type="submit" value="确定" />
         </form>
       </div>);
   }
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.user.toJSON());
   return {
     user: state.user.toJSON().user,
     tenant: state.user.toJSON().tenant,

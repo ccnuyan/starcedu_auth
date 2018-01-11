@@ -1,34 +1,46 @@
+import _ from 'lodash';
 import config from '../../config';
 import pgPool from '../../database/connector';
+import { sign } from './tokenServices';
 
 const generateCode = async ({ client, state, user_id }) => {
   return pgPool.query(`insert into ${config.dbname}.authorization_codes (client, state,  user_id) values ($1, $2, $3) returning *`, [client, state, user_id]) // eslint-disable-line max-len
     .then((res) => {
       if (res.rowCount === 1) {
-        return {
-          success: true,
-          ...res.rows[0],
-        };
+        return { success: true, ...res.rows[0] };
       }
       return { success: false };
     });
 };
 
-const getCode = ({ code }) => {
-  return pgPool.query(`select * from ${config.dbname}.authorization_codes where code=`, [code]) // eslint-disable-line
-    .then((res) => {
-      if (res.rowCount === 1) {
-        return {
-          success: true,
-          ...res.rows[0],
-        };
-      }
-      return { success: false };
-    });
+const exchange_code_for_token = async ({ code }) => {
+  const codeStruct = await pgPool.query(`select * from ${config.dbname}.authorization_codes where code=$1`, [code]).then((res) => {
+    if (res.rowCount === 1) {
+      return { success: true, ...res.rows[0] };
+    }
+    return { success: false };
+  });
+
+  if (!codeStruct.success) { return { success: false }; }
+
+  const user = await pgPool.query(`select * from ${config.dbname}.users where id=$1`, [codeStruct.user_id]).then(res => res.rows[0]);
+
+
+  user.token = sign('local', { to: codeStruct.client, ...user });
+
+  console.log(user);
+
+  await pgPool.query(`select * from ${config.dbname}.add_login($1, $2, $3, $4)`, [user.id, 'token', user.token, 'token']);
+  await pgPool.query(`delete from ${config.dbname}.authorization_codes where code=$1`, [code]);
+
+  return {
+    success: true,
+    ...user,
+  };
 };
 
 
 export default {
   generateCode,
-  getCode,
+  exchange_code_for_token,
 };

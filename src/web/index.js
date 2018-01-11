@@ -34,18 +34,7 @@ export default (app) => {
 
   app.get('/user/authorize', authorize.authorize);
   app.post('/user/decide', authorize.decide);
-  app.post('/user/get_token', authorize.get_token);
-
-  // app.use('/*', (req, res, next) => {
-  //   console.log('req.path:', req.path);
-  //   if (['/user/signin', '/user/signup', '/user/decide', '/user/authorize'].indexOf(req.path) < 0) {
-  //     req.session.tenant = {};
-  //   }
-  //   if (['/user/signin', '/user/signup'].indexOf(req.path) < 0) {
-  //     req.session.oauthUser = {};
-  //   }
-  //   next();
-  // });
+  app.get('/user/token_by_code', authorize.get_token);
 
   app.get('/*', async (req, res) => {
     const preloadedState = {

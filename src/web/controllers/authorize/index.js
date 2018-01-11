@@ -40,17 +40,17 @@ const decide = async (req, res) => {
 };
 
 const get_token = async (req, res) => {
-  const codeStruct = await authorizeServices.getCode(req.query.code);
-  if (codeStruct.success) {
-    const client = tenants[codeStruct.client];
-    const query = querystring.stringify({
-      code: codeStruct.code,
-      state: codeStruct.state,
+  let tokenStruct = await authorizeServices.exchange_code_for_token({ code: req.query.code });
+  if (tokenStruct.success) {
+    tokenStruct = _.pick(tokenStruct, ['id', 'username', 'token']);
+    return res.send({
+      ...tokenStruct,
     });
-    req.session.tenant = {};
-    return res.redirect(`${client.redirect_url}?${query}`);
   }
-  return res.redirect('/error');
+  return res.send({
+    ...tokenStruct,
+    message: 'get token error',
+  });
 };
 
 export default {

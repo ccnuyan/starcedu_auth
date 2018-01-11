@@ -3,7 +3,7 @@ import _ from 'lodash';
 import config from '../../config';
 
 export const sign = (issuer, payload) => {
-  const user = _.pick(payload, ['id', 'username', 'gender', 'nickname']);
+  const user = _.pick(payload, ['id', 'username', 'to']);
   return jwt.sign(
     user,
     config.auth.jwt.secret,

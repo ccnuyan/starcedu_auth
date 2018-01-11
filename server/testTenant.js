@@ -6,6 +6,7 @@ import session from 'express-session';
 import fs from 'fs';
 import path from 'path';
 import uuid from 'uuid';
+import fetch from 'cross-fetch';
 
 import config from '../config';
 import '../globals';
@@ -49,16 +50,16 @@ app.get('/', (req, res) => {
     .replace('__AUTHORIZED_USER__', ''));
 });
 
-app.get('/oauth/callback', (req, res) => {
+app.get('/oauth/callback', async (req, res) => {
   const state = req.query.state;
-  // verify state with req.session.state
+  const tokenStruct = await fetch(`http://${config.domain}/user/token_by_code?code=${req.query.code}`).then(ret => ret.json());
   res.send(rawIndexHTML
     .replace('__HOST__', config.domain)
     .replace('__HOST__', config.domain)
     .replace('__STATE_CODE__', state)
     .replace('__STATE_CODE__', state)
     .replace('__AUTHORIZATION_CODE__', req.query.code)
-    .replace('__AUTHORIZED_USER__', ''));
+    .replace('__AUTHORIZED_USER__', JSON.stringify(tokenStruct, null, 2)));
 });
 
 // run server
