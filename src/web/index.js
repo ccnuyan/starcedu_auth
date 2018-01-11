@@ -34,6 +34,7 @@ export default (app) => {
 
   app.get('/user/authorize', authorize.authorize);
   app.post('/user/decide', authorize.decide);
+  app.post('/user/get_token', authorize.get_token);
 
   // app.use('/*', (req, res, next) => {
   //   console.log('req.path:', req.path);

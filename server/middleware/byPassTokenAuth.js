@@ -30,7 +30,7 @@ export default async (req, res, next) => {
 
     const decoded = verify(breaks[1]);
     const pres = await pgPool
-      .query(`select * from ${config.dbname}.authenticate($1,$2,$3)`, ['token', breaks[1], decoded.iss])
+      .query(`select * from ${config.dbname}.authenticate($1, $2, $3)`, ['token', breaks[1], decoded.iss])
       .then(ret => ret.rows[0]);
 
     if (pres.success) {

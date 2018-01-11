@@ -2,13 +2,13 @@ import _ from 'lodash';
 import querystring from 'querystring';
 
 import tenants from '../../../../tenants.json';
-import { sign } from '../../../services/tokenServices';
+import authorizeServices from '../../../services/authorizeServices';
 
-const authorize = (req, res, next) => {
+const authorize = async (req, res, next) => {
   if (req.query.client && req.query.state) {
     const cl = req.query.client;
     if (tenants[cl]) {
-      const tenant = _.pick(tenants[cl], ['title', 'description', 'redirect_url']);
+      const tenant = _.pick(tenants[cl], ['id', 'title', 'description', 'redirect_url']);
       req.session.tenant = {
         state: req.query.state,
         ...tenant,
@@ -19,26 +19,42 @@ const authorize = (req, res, next) => {
   next();
 };
 
-const decide = (req, res) => {
-  if (!req.session.tenant) {
-    return res.redirect('/');
-  }
-
-  req.session.tenant.code = 'code';
-
+const decide = async (req, res) => {
+  if (!req.session.tenant) { return res.redirect('/'); }
   const payload = {
+    client: req.session.tenant.id,
     state: req.session.tenant.state,
-    code: 'authorize_code',
+    user_id: req.user.id,
   };
+  const codeStruct = await authorizeServices.generateCode(payload);
+  if (codeStruct.success) {
+    const client = tenants[codeStruct.client];
+    const query = querystring.stringify({
+      code: codeStruct.code,
+      state: codeStruct.state,
+    });
+    req.session.tenant = {};
+    return res.redirect(`${client.redirect_url}?${query}`);
+  }
+  return res.redirect('/error');
+};
 
-  const token = sign('local', req.user);
-
-  const query = querystring.stringify(payload);
-
-  res.redirect(`${req.session.tenant.redirect_url}?${query}`);
+const get_token = async (req, res) => {
+  const codeStruct = await authorizeServices.getCode(req.query.code);
+  if (codeStruct.success) {
+    const client = tenants[codeStruct.client];
+    const query = querystring.stringify({
+      code: codeStruct.code,
+      state: codeStruct.state,
+    });
+    req.session.tenant = {};
+    return res.redirect(`${client.redirect_url}?${query}`);
+  }
+  return res.redirect('/error');
 };
 
 export default {
   authorize,
   decide,
+  get_token,
 };

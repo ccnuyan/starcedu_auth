@@ -1,5 +1,6 @@
 {
     "notebook": {
+        "id":"notebook",
         "title":"笔记APP",
         "description":"笔记APP 的描述",
         "auth": ["local"],
@@ -7,6 +8,7 @@
         "key": "12345678"
     },
     "test_tenant": {
+        "id":"test_tenant",
         "title":"测试APP",
         "description":"测试APP 的描述",
         "auth": ["oauth"],

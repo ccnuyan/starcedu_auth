@@ -1,0 +1,57 @@
+-- logins intruduction
+
+-- for local user
+  -- provider is 'local'
+  -- provider_key is username
+  -- provider_token is password
+
+-- for token user
+  -- provider is 'token'
+  -- provider_key is 'token'
+  -- provider_token is jwttoken
+  
+-- for oauth2 user
+  -- provider is 'qq'
+  -- provider_key is 'token'
+  -- provider_token is jwttoken
+set search_path = starcedu_auth;
+
+create or replace function request_token_by_code(
+  input_code varchar(50) not null)
+returns TABLE(
+  message varchar(255),
+  access_token varchar,
+  success boolean
+) as
+$$
+DECLARE
+  success boolean :=false;
+  message varchar(255) := 'user with this username not found';
+  data_result json;
+BEGIN
+  if input_user_id is not null then
+  
+    -- replace the provider for this user completely
+    delete from logins where 
+      logins.user_id = input_user_id AND 
+      logins.provider = input_new_provider;
+
+    -- add the login
+    insert into logins(user_id, provider_key, provider_token, provider)
+    values (input_user_id, input_key, input_token, input_new_provider);
+
+    -- add log entry
+    -- insert into logs(subject, entry, user_id, created_at)
+    -- values('Authentication','Added ' || new_provider || ' login',userid,now());
+
+    success := true;
+    message :=  'added login successfully';
+  end if;
+
+  return query
+  select message, success;
+
+END;
+$$
+language plpgsql;
+
