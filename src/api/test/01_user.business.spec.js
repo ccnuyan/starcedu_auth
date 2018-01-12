@@ -18,7 +18,7 @@ describe('user business', function () { // eslint-disable-line
   describe('signup', () => {
     it('should be ok when signup with incorrect credentials', () => {
       return chai.request(app)
-        .post('/api/user/signup')
+        .post('/api/local/user/signup')
         .send({
           username: 'justusername',
         })
@@ -33,7 +33,7 @@ describe('user business', function () { // eslint-disable-line
 
     it('should return error message when username not provided', () => {
       return chai.request(app)
-        .post('/api/user/signup')
+        .post('/api/local/user/signup')
         .send({
           password: 'justpassword',
         })
@@ -48,7 +48,7 @@ describe('user business', function () { // eslint-disable-line
 
     it('should return error message when username illigal', () => {
       return chai.request(app)
-        .post('/api/user/signup')
+        .post('/api/local/user/signup')
         .send({
           username: 'testpass',
           password: 'testpass',
@@ -64,7 +64,7 @@ describe('user business', function () { // eslint-disable-line
 
     it('should be ok when signup with correct credentials', () => {
       return chai.request(app)
-        .post('/api/user/signup')
+        .post('/api/local/user/signup')
         .send(validCredentials)
         .then((res) => {
           res.should.have.status(200);
@@ -78,7 +78,7 @@ describe('user business', function () { // eslint-disable-line
 
   it('should return error message when password illigal', () => {
     return chai.request(app)
-        .post('/api/user/signup')
+        .post('/api/local/user/signup')
         .send({
           username: 'naerns@nae.nbc',
           password: '?*na_',
@@ -100,7 +100,7 @@ describe('user business', function () { // eslint-disable-line
       };
       this.new_pass = 'newpass';
       return chai.request(app)
-        .post('/api/user/signup')
+        .post('/api/local/user/signup')
         .send(this.user)
         .then((res) => {
           res.should.have.status(200);
@@ -111,7 +111,7 @@ describe('user business', function () { // eslint-disable-line
 
     it('should not be able to signup with same credentials', () => {
       return chai.request(app)
-        .post('/api/user/signup')
+        .post('/api/local/user/signup')
         .send(this.user)
         .then((res) => {
           res.should.have.status(200);
@@ -122,7 +122,7 @@ describe('user business', function () { // eslint-disable-line
 
     it('should be ok when signin with correct credentials', () => {
       return chai.request(app)
-        .post('/api/user/signin')
+        .post('/api/local/user/signin')
         .send(this.user)
         .then((res) => {
           res.should.have.status(200);
@@ -135,7 +135,7 @@ describe('user business', function () { // eslint-disable-line
 
     it('should be ok when signin with capitalized username', () => {
       return chai.request(app)
-        .post('/api/user/signin')
+        .post('/api/local/user/signin')
         .send({
           ...this.user,
           username: this.user.username.toUpperCase(),
@@ -151,7 +151,7 @@ describe('user business', function () { // eslint-disable-line
 
     it('should be ok when update password', () => {
       return chai.request(app)
-        .put('/api/user/update_password')
+        .put('/api/local/user/update_password')
         .set('authorization', `bearer ${this.signuptoken}`)
         .send({
           old_password: this.user.password,

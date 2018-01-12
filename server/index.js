@@ -59,17 +59,21 @@ const sessionConfig = {
 };
 
 if (config.mode === 'test') {
-  app.use(session(sessionConfig));
+  app.use('/api/local/*', session(sessionConfig));
 } else {
-  app.use(session({ store: new RedisStore(config.redisSessionServer), ...sessionConfig }));
+  app.use('/api/local/*', session({ store: new RedisStore(config.redisSessionServer), ...sessionConfig }));
 }
 
 // auth
-app.use(byPassUserAuth);
-app.use(byPassTenantAuth);
+app.use('/api/tenant/*', byPassUserAuth);
+app.use('/api/tenant/*', byPassTenantAuth);
 
 // routes
-routes(app);
+routes.api(app);
+if (config.mode !== 'test') {
+  app.use(session({ store: new RedisStore(config.redisSessionServer), ...sessionConfig }));
+  routes.web(app);
+}
 
 // run server
 const server = app.listen(PORT, (err) => {
