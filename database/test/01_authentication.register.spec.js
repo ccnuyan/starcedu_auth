@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import './testHelpers';
-import config from '../../config';
 import pgPool from '../connector';
 
 const params = {
@@ -13,8 +12,8 @@ describe('registration', () => {
   describe('with valid creds', () => {
     let regResult = null;
     before(async () => {
-      await pgPool.query(`delete from ${config.dbname}.users where username=$1`, [params.username]);
-      return pgPool.query(`select * from ${config.dbname}.register($1, $2)`, [
+      await pgPool.query(`delete from ${serverConfig.dbname}.users where username=$1`, [params.username]);
+      return pgPool.query(`select * from ${serverConfig.dbname}.register($1, $2)`, [
         params.username,
         params.password,
       ]).then((res) => {
@@ -38,7 +37,7 @@ describe('registration', () => {
   describe('trying an existing user', () => {
     let regResult = null;
     before(async () => {
-      return pgPool.query(`select * from ${config.dbname}.register($1, $2)`, [
+      return pgPool.query(`select * from ${serverConfig.dbname}.register($1, $2)`, [
         params.username,
         params.password,
       ]).then((res) => {

@@ -4,10 +4,9 @@ import glob from 'glob';
 import Promise from 'bluebird';
 import _ from 'lodash';
 
-import config from '../../package.json';
 import { pg } from '../connector';
 
-const versionRoot = config.version.replace(/\./g, '-');
+const versionRoot = serverConfig.version.replace(/\./g, '-');
 const sourceDir = path.join(__dirname, '../sql/', versionRoot);
 
 const install = async (folder) => {

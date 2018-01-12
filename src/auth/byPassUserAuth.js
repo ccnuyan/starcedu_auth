@@ -2,7 +2,6 @@
   this middleware won't interupt the anonymous accessing
 */
 import { verify } from '../../src/services/tokenServices';
-import config from '../../config';
 import pgPool from '../../database/connector';
 
 export default async (req, res, next) => {
@@ -11,11 +10,11 @@ export default async (req, res, next) => {
     return next();
   }
   // no authorization token: bypass
-  if (!req.headers[config.auth.userHeader]) {
+  if (!req.headers[serverConfig.auth.userHeader]) {
     return next();
   }
   // authorization not in right format: bypass
-  const breaks = req.headers[config.auth.userHeader].split(' ');
+  const breaks = req.headers[serverConfig.auth.userHeader].split(' ');
   if (breaks.length !== 2) {
     return next();
   }
@@ -28,7 +27,7 @@ export default async (req, res, next) => {
     if (breaks[0] === 'bearer') {
       const decoded = verify(breaks[1]);
       const pres = await pgPool
-        .query(`select * from ${config.dbname}.authenticate($1, $2, $3)`, ['token', breaks[1], 'token'])
+        .query(`select * from ${serverConfig.dbname}.authenticate($1, $2, $3)`, ['token', breaks[1], 'token'])
         .then(ret => ret.rows[0]);
 
       if (pres.success) {

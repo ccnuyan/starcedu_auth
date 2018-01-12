@@ -1,5 +1,4 @@
 import userServices from '../../services/userServices';
-import config from '../../../config';
 import paramsValidator from '../paramsValidator';
 
 const signin = async (req, res) => {
@@ -24,7 +23,7 @@ const signin = async (req, res) => {
     req.session.oauthUser = {};
     req.session.user = ret;
     if (payload.autoSignin === true) {
-      req.session.cookie.maxAge = config.auth.cookie.maxage;
+      req.session.cookie.maxAge = serverConfig.auth.cookie.maxage;
     } else {
       req.session.cookie.expires = false;
     }

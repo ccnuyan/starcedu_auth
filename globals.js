@@ -1,5 +1,4 @@
 import chalk from 'chalk';
-import config from './config';
 
 /* eslint-disable no-console */
 global.printError = (error, filename, exit) => {
@@ -23,7 +22,7 @@ global.printMessage = (message, filename) => {
 
 global.report = () => {
   let chalkcontent = chalk.grey('running in ');
-  chalkcontent += config.mode === 'production' ? chalk.red(config.mode) : chalk.blue(config.mode);
+  chalkcontent += serverConfig.mode === 'production' ? chalk.red(serverConfig.mode) : chalk.blue(serverConfig.mode);
   chalkcontent += chalk.grey(' mode');
 
   console.log(chalkcontent);

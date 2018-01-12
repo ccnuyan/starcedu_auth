@@ -149,10 +149,10 @@ describe('user business', function () { // eslint-disable-line
         });
     });
 
-    it('should be ok when update password', () => {
+    it.only('should be able to update password', () => {
       return chai.request(app)
         .put('/api/local/user/update_password')
-        .set('authorization', `bearer ${this.signuptoken}`)
+        .set(serverConfig.auth.userHeader, `bearer ${this.signuptoken}`)
         .send({
           old_password: this.user.password,
           new_password: this.new_pass,

@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
 import glob from 'glob';
-import config from '../../config';
 import pacakgeJson from '../../package.json';
 import { pg } from '../connector';
 
@@ -17,7 +16,7 @@ const loadFiles = (dir) => {
     nosort: true,
   });
   // set search_path at first
-  const result = [`set search_path = ${config.dbname};`];
+  const result = [`set search_path = ${serverConfig.dbname};`];
   files.forEach((file) => {
     if (!_.endsWith(path.parse(file).name, '.dev')) {
       const sql = fs.readFileSync(file, {

@@ -9,7 +9,6 @@ import uuid from 'uuid';
 import fetch from 'cross-fetch';
 import jsonwebtoken from 'jsonwebtoken';
 
-import config from '../../config';
 import '../../globals';
 
 const rawIndexHTML = fs.readFileSync(path.join(__dirname, './testTenant.html'), 'utf-8');
@@ -26,8 +25,8 @@ app.use(bodyParser.urlencoded({
   extended: true,
 }));
 
-if (config.log) {
-  app.use(morgan(config.log));
+if (serverConfig.log) {
+  app.use(morgan(serverConfig.log));
 }
 
 const sessionConfig = {
@@ -43,8 +42,8 @@ app.use(session(sessionConfig));
 app.get('/', (req, res) => {
   req.session.state = uuid.v4();
   res.send(rawIndexHTML
-    .replace('__HOST__', config.domain)
-    .replace('__HOST__', config.domain)
+    .replace('__HOST__', serverConfig.domain)
+    .replace('__HOST__', serverConfig.domain)
     .replace('__STATE_CODE__', req.session.state)
     .replace('__STATE_CODE__', req.session.state)
     .replace('__AUTHORIZATION_CODE__', '')
@@ -54,7 +53,7 @@ app.get('/', (req, res) => {
 
 app.get('/oauth/callback', async (req, res) => {
   const state = req.query.state;
-  const tokenStruct = await fetch(`http://${config.domain}/user/token_by_code`, {
+  const tokenStruct = await fetch(`http://${serverConfig.domain}/user/token_by_code`, {
     method: 'post',
     headers: {
       'content-type': 'application/json',
@@ -64,14 +63,14 @@ app.get('/oauth/callback', async (req, res) => {
       token: jsonwebtoken.sign(req.query.code, 'test_3rdparty_tenant1_key'),
     }),
   }).then(ret => ret.json());
-  const files = await fetch(`http://${config.domain}/apps/disk/api/files/uploaded`, {
+  const files = await fetch(`http://${serverConfig.domain}/apps/disk/api/files/uploaded`, {
     headers: {
       authorization: `bearer ${tokenStruct.token}`,
     },
   }).then(ret => ret.json());
   res.send(rawIndexHTML
-    .replace('__HOST__', config.domain)
-    .replace('__HOST__', config.domain)
+    .replace('__HOST__', serverConfig.domain)
+    .replace('__HOST__', serverConfig.domain)
     .replace('__STATE_CODE__', state)
     .replace('__STATE_CODE__', state)
     .replace('__AUTHORIZATION_CODE__', req.query.code)
@@ -84,7 +83,7 @@ const server = app.listen(28000, (err) => {
   if (err) {
     printError(err, __filename);
   } else {
-    printMessage(`${config.title} is listening on port ${28000}`, __filename);
+    printMessage(`${serverConfig.title} is listening on port ${28000}`, __filename);
   }
 });
 

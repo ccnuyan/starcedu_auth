@@ -2,7 +2,6 @@ import './testHelpers';
 import pgPool from '../../../database/connector';
 import oauthServices from '../../services/oauthServices';
 import userServices from '../../services/userServices';
-import config from '../../../config';
 import app from '../../../server';
 
 const user = {
@@ -41,7 +40,7 @@ describe('tenant oauth business', function () { // eslint-disable-line
     it('should not login when no oauth user record', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signin')
-        .set(config.auth.tenantHeader, `basic ${basicAuth}`)
+        .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
         .send({
           ...oauthUser,
         })
@@ -57,7 +56,7 @@ describe('tenant oauth business', function () { // eslint-disable-line
     it('should not signup when no profile is provided', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signup')
-        .set(config.auth.tenantHeader, `basic ${basicAuth}`)
+        .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
         .send({
           ...oauthUser,
         })
@@ -73,7 +72,7 @@ describe('tenant oauth business', function () { // eslint-disable-line
     it('should return correct signup message when oauth signup', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signup')
-        .set(config.auth.tenantHeader, `basic ${basicAuth}`)
+        .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
         .send({
           ...oauthUser,
           ...profile1,
@@ -98,7 +97,7 @@ describe('tenant oauth business', function () { // eslint-disable-line
     it('should return correct update message when oauth signup', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signup')
-        .set(config.auth.tenantHeader, `basic ${basicAuth}`)
+        .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
         .send({
           ...oauthUser,
           ...profile2,
@@ -116,7 +115,7 @@ describe('tenant oauth business', function () { // eslint-disable-line
     it('should not be able to signin', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signin')
-        .set(config.auth.tenantHeader, `basic ${basicAuth}`)
+        .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
         .send({
           ...oauthUser,
         })
@@ -136,7 +135,7 @@ describe('tenant oauth business', function () { // eslint-disable-line
       this.oauthUser = await oauthServices.add_oauth_user({ ...oauthUser, ...profile1 });
       return chai.request(app)
         .post('/api/tenant/oauth/bind_signin')
-        .set(config.auth.tenantHeader, `basic ${basicAuth}`)
+        .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
         .send({
           ...user,
           oauth_user_id: this.oauthUser.id,
@@ -154,7 +153,7 @@ describe('tenant oauth business', function () { // eslint-disable-line
     it('should be able to signin', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signin')
-        .set(config.auth.tenantHeader, `basic ${basicAuth}`)
+        .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
         .send({
           ...oauthUser,
         })
@@ -199,8 +198,8 @@ describe('tenant oauth business', function () { // eslint-disable-line
 
     it('should bind if provided token', () => {
       const headers = {};
-      headers[config.auth.userHeader] = `bearer ${this.userToken}`;
-      headers[config.auth.tenantHeader] = `basic ${basicAuth}`;
+      headers[serverConfig.auth.userHeader] = `bearer ${this.userToken}`;
+      headers[serverConfig.auth.tenantHeader] = `basic ${basicAuth}`;
       return chai.request(app)
         .post('/api/tenant/oauth/bind_signin')
         .set(headers)
@@ -221,7 +220,7 @@ describe('tenant oauth business', function () { // eslint-disable-line
     it('should return correct message when bind signin', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/bind_signin')
-        .set(config.auth.tenantHeader, `basic ${basicAuth}`)
+        .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
         .send({
           ...user,
           oauth_user_id: this.oauthUser.id,
@@ -239,7 +238,7 @@ describe('tenant oauth business', function () { // eslint-disable-line
     it('should return correct message when bind signup', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/bind_signup')
-        .set(config.auth.tenantHeader, `basic ${basicAuth}`)
+        .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
         .send({
           username: 'newuser@test.com',
           password: 'testpass',
@@ -258,7 +257,7 @@ describe('tenant oauth business', function () { // eslint-disable-line
     it('should not signin again', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signin')
-        .set(config.auth.tenantHeader, `basic ${basicAuth}`)
+        .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
         .send({
           ...oauthUser,
         })

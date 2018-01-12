@@ -1,9 +1,7 @@
 import { expect } from 'chai';
 
 import './testHelpers';
-import config from '../../config';
 import pgPool from '../connector';
-
 
 let regResult = null;
 const params = {
@@ -14,7 +12,7 @@ const params = {
 describe('authentication', () => {
   before(async function init() {
     this.timeout(10000);
-    await pgPool.query(`select * from ${config.dbname}.register($1, $2)`, [
+    await pgPool.query(`select * from ${serverConfig.dbname}.register($1, $2)`, [
       params.username,
       params.password,
     ]).then((res) => {
@@ -27,7 +25,7 @@ describe('authentication', () => {
   describe('with a valid login', () => {
     let authResult = null;
     before(() => {
-      return pgPool.query(`select * from ${config.dbname}.authenticate($1, $2)`, [params.username, params.password])
+      return pgPool.query(`select * from ${serverConfig.dbname}.authenticate($1, $2)`, [params.username, params.password])
       .then((res) => {
         authResult = res.rows[0];
         return authResult;
@@ -41,7 +39,7 @@ describe('authentication', () => {
   describe('invalid login', () => {
     let authResult = null;
     before(() => {
-      return pgPool.query(`select * from ${config.dbname}.authenticate($1, $2)`, [params.username, 'password1'])
+      return pgPool.query(`select * from ${serverConfig.dbname}.authenticate($1, $2)`, [params.username, 'password1'])
       .then((res) => {
         authResult = res.rows[0];
         return authResult;

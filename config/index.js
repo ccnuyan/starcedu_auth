@@ -16,5 +16,6 @@ if (process.env.NODE_ENV === 'production') {
   configVar.env = 'development';
 }
 const config = configVar;
-global.config = config;
+global.serverConfig = config;
+
 export default config;

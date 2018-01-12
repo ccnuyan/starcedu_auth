@@ -1,5 +1,3 @@
-import config from '../../config';
-
 /*
   this middleware won't interupt the anonymous accessing
 */
@@ -8,7 +6,7 @@ export default async (req, res, next) => {
   if (!req.headers['starcedu-tenant-authorization']) { return next(); }
 
   // authorization not in right format: bypass
-  const breaks = req.headers[config.auth.tenantHeader].split(' ');
+  const breaks = req.headers[serverConfig.auth.tenantHeader].split(' ');
 
   if (breaks.length !== 2) { return next(); }
   if (breaks[1] === 'null' || breaks[1] === 'undefined') { return next(); }
