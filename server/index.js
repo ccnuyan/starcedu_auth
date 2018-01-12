@@ -8,9 +8,9 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import connectRedis from 'connect-redis';
 
-
 import config from '../config';
-import byPassTokenAuth from './middleware/byPassTokenAuth';
+import byPassUserAuth from './middleware/byPassUserAuth';
+import byPassTenantAuth from './middleware/byPassTenantAuth';
 import crossDomain from './middleware/crossDomain';
 import utilities from './middleware/utilities';
 import routes from '../src';
@@ -27,16 +27,10 @@ global.report();
 
 // express middleware
 app.use(compression());
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true,
-}));
 
 app.get('/favicon.ico', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/favicon.ico'));
 });
-
 // static resources
 app.use('/static/', express.static(path.join(__dirname, '../build/')));
 app.use('/static/', express.static(path.join(__dirname, '../public/')));
@@ -48,9 +42,15 @@ if (config.delay) {
   app.use(delay(0, config.delay));
 }
 
-app.use(crossDomain);
-app.use(utilities.ajaxDetector);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true,
+}));
 
+app.use(utilities.ajaxDetector);
+app.use(crossDomain);
+
+app.use(cookieParser());
 const sessionConfig = {
   secret: config.auth.session.secret,
   resave: true,
@@ -61,14 +61,12 @@ const sessionConfig = {
 if (config.mode === 'test') {
   app.use(session(sessionConfig));
 } else {
-  app.use(session({
-    store: new RedisStore(config.redisSessionServer),
-    ...sessionConfig,
-  }));
+  app.use(session({ store: new RedisStore(config.redisSessionServer), ...sessionConfig }));
 }
 
 // auth
-app.use(byPassTokenAuth);
+app.use(byPassUserAuth);
+app.use(byPassTenantAuth);
 
 // routes
 routes(app);

@@ -18,7 +18,8 @@
     "db-test": "mocha --opts ./mocha.opts ./database/test/**/*.spec.js",
     "api-test": "mocha --opts ./mocha.opts ./src/api/test/**/*.spec.js",
     "test": "mocha --opts ./mocha.opts ./src/api/test/**/*.spec.js ./database/test/**/*.spec.js",
-    "build-install-test": "npm run db-build && npm run db-install && npm test",
+    "db-build-install-test": "npm run db-build && npm run db-install && npm test",
+    "start-tenant": "babel-node ./server/tenants/testTenant.js",
     "precommit": "lint-staged"
   },
   "lint-staged": {

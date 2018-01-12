@@ -7,7 +7,6 @@ const bind_signin = async (req, res) => {
     password: req.body.password,
     oauth_user_id: req.body.oauth_user_id,
   };
-
   if (req.user && req.user.id) {
     payload.username = req.user.username;
     const valRet = paramsValidator.validate(payload, ['password', 'oauth_user_id']);

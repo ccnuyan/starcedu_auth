@@ -1,7 +1,10 @@
 import oauthServices from '../../services/oauthServices';
 import paramsValidator from '../paramsValidator';
 
-// directly sign in if provider and unique_provider_id are provided by native app
+// should requested by local tenant
+// directly sign up if provider and unique_provider_id are given by native app
+// need tenant authentication
+
 const signup = async (req, res) => {
   const payload = {
     provider: req.body.provider,

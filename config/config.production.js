@@ -17,6 +17,8 @@ export default {
       maxage: 14 * 24 * 3600 * 1000,
       minage: 1 * 12 * 3600 * 1000,
     },
+    userHeader: 'authorization',
+    tenantHeader: 'starcedu-tenant-authorization',
   },
   oauth: {
     qq: {

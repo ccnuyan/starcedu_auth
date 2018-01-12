@@ -18,6 +18,8 @@ export default {
       maxage: 14 * 24 * 3600 * 1000,
       minage: 1 * 12 * 3600 * 1000,
     },
+    userHeader: 'authorization',
+    tenantHeader: 'starcedu-tenant-authorization',
   },
   oauth: {
     qq: {
@@ -33,11 +35,11 @@ export default {
   dbname: 'starcedu_auth',
   pg: {
     user: process.env.DBUSER ? process.env.DBUSER : 'postgres',
-    database: process.env.DBDATABASE ? process.env.DBDATABASE : 'postgres',
+    database: process.env.DBDATABASE ? process.env.DBDATABASE : 'postgres-test',
     password: process.env.DBPASSWORD ? process.env.DBPASSWORD : '',
-    host: process.env.DBHOST ? process.env.DBHOST : 'database-test',
+    host: process.env.DBHOST ? process.env.DBHOST : 'localhost',
     port: process.env.DBPORT ? process.env.DBPORT : 5432,
-    max: 2,
+    max: 10,
     idleTimeoutMillis: 30000,
   },
   resources: {
