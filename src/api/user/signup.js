@@ -9,7 +9,7 @@ const signup = async (req, res) => {
 
   const valRet = paramsValidator.validate(payload, ['username', 'password']);
   if (valRet.code !== 0) {
-    return res.json(valRet);
+    return res.status(400).json(valRet);
   }
 
   if (req.oauthUser && req.oauthUser.id) {

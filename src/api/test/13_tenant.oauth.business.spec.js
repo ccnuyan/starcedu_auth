@@ -37,14 +37,14 @@ describe('tenant oauth business', function () { // eslint-disable-line
   });
 
   describe('oauth signup', () => {
-    it('should not login when no oauth user record', () => {
+    it('can not login if oauth user not signup', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signin')
         .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
         .send({
           ...oauthUser,
         })
-        .catch((err) => {
+        .then(null, (err) => {
           err.response.should.have.status(400);
           err.response.body.should.be.a('object');
           err.response.body.message.should.equal('oauth user not exist');
@@ -52,7 +52,7 @@ describe('tenant oauth business', function () { // eslint-disable-line
         });
     });
 
-    it('should not signup when no profile is provided', () => {
+    it('can not signup without profile', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signup')
         .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
@@ -63,11 +63,10 @@ describe('tenant oauth business', function () { // eslint-disable-line
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.message.should.equal('profile empty');
-          return res;
         });
     });
 
-    it('should return correct signup message when oauth signup', () => {
+    it('can signup oauth user', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signup')
         .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
@@ -80,7 +79,18 @@ describe('tenant oauth business', function () { // eslint-disable-line
           res.body.should.be.a('object');
           res.body.message.should.equal('oauth user created');
           res.body.data.profile.nickname.should.equal('lala');
-          return res;
+        });
+    });
+
+    it('can not signup without client credentials', () => {
+      return chai.request(app)
+        .post('/api/tenant/oauth/oauth_signup')
+        .send({
+          ...oauthUser,
+          ...profile1,
+        })
+        .then(null, (err) => {
+          err.response.should.have.status(401);
         });
     });
   });
@@ -91,7 +101,7 @@ describe('tenant oauth business', function () { // eslint-disable-line
       return Promise.resolve();
     });
 
-    it('should return correct update message when oauth signup', () => {
+    it('can update oauth user', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signup')
         .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
@@ -104,22 +114,20 @@ describe('tenant oauth business', function () { // eslint-disable-line
           res.body.should.be.a('object');
           res.body.message.should.equal('oauth user updated');
           res.body.data.profile.nickname.should.equal('bobo');
-          return res;
         });
     });
 
-    it('should not be able to signin', () => {
+    it('can not signin', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signin')
         .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
         .send({
           ...oauthUser,
         })
-        .catch((err) => {
+        .then(null, (err) => {
           err.response.should.have.status(400);
           err.response.body.should.be.a('object');
           err.response.body.message.should.equal('oauth user not bound');
-          return err;
         });
     });
   });
@@ -142,11 +150,10 @@ describe('tenant oauth business', function () { // eslint-disable-line
           res.body.should.be.a('object');
           res.body.message.should.equal('authenticate and bind successfully');
           res.body.data.should.have.property('token');
-          return res;
         });
     });
 
-    it('should be able to signin', () => {
+    it('can signin', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signin')
         .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
@@ -157,19 +164,17 @@ describe('tenant oauth business', function () { // eslint-disable-line
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.message.should.equal('oauth signin successfully');
-          return res;
         });
     });
 
-    it('should not be able to signin without client credentials', () => {
+    it('can not signin without client credentials', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signin')
         .send({
           ...oauthUser,
         })
-        .catch((err) => {
+        .then(null, (err) => {
           err.response.should.have.status(401);
-          return err;
         });
     });
   });
@@ -188,11 +193,24 @@ describe('tenant oauth business', function () { // eslint-disable-line
         res.body.message.should.equal('authenticate successfully');
         res.body.data.should.have.property('token');
         this.userToken = res.body.data.token;
-        return res;
       });
     });
 
-    it('should bind if provided token', () => {
+    it('can not signin if not bounded', () => {
+      return chai.request(app)
+        .post('/api/tenant/oauth/oauth_signin')
+        .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
+        .send({
+          ...oauthUser,
+        })
+        .then(null, (err) => {
+          err.response.should.have.status(400);
+          err.response.body.should.be.a('object');
+          err.response.body.message.should.equal('oauth user not bound');
+        });
+    });
+
+    it('can bind if provided token', () => {
       const headers = {};
       headers[serverConfig.auth.userHeader] = `bearer ${this.userToken}`;
       headers[serverConfig.auth.tenantHeader] = `basic ${basicAuth}`;
@@ -208,11 +226,10 @@ describe('tenant oauth business', function () { // eslint-disable-line
           res.body.should.be.a('object');
           res.body.message.should.equal('authenticate and bind successfully');
           res.body.data.should.have.property('token');
-          return res;
         });
     });
 
-    it('should return correct message when bind signin', () => {
+    it('can bind signin if provided username and password', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/bind_signin')
         .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
@@ -225,11 +242,10 @@ describe('tenant oauth business', function () { // eslint-disable-line
           res.body.should.be.a('object');
           res.body.message.should.equal('authenticate and bind successfully');
           res.body.data.should.have.property('token');
-          return res;
         });
     });
 
-    it('should return correct message when bind signup', () => {
+    it('can bind signup', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/bind_signup')
         .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
@@ -243,22 +259,6 @@ describe('tenant oauth business', function () { // eslint-disable-line
           res.body.should.be.a('object');
           res.body.message.should.equal('register successfully');
           res.body.data.should.have.property('token');
-          return res;
-        });
-    });
-
-    it('should not be able to signin again', () => {
-      return chai.request(app)
-        .post('/api/tenant/oauth/oauth_signin')
-        .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
-        .send({
-          ...oauthUser,
-        })
-        .catch((err) => {
-          err.response.should.have.status(400);
-          err.response.body.should.be.a('object');
-          err.response.body.message.should.equal('oauth user not bound');
-          return err;
         });
     });
   });
