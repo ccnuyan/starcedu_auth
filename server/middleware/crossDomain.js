@@ -1,11 +1,9 @@
-
 const allowCrossDomain = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', `http://${serverConfig.domain}`);
-  // res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', `http://${serverConfig.mode === 'test' ? '*' : serverConfig.domain}`);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Cache-Control', 'no-cache');
-  res.header('Expires', '1');
+  res.header('Expires', '-1');
   res.header('Pragma', 'no-cache');
   next();
 };

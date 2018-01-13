@@ -19,7 +19,7 @@ const signin = (info) => {
 
     dispatch(fill({ type: actionTypes.USER_SIGNIN_START }));
 
-    fetch(`${base}api/user/signin`, payload)
+    fetch(`${base}api/local/user/signin`, payload)
       .then(res => res.json())
       .then((ret) => {
         dispatch(fill({ type: actionTypes.USER_SIGNIN_END, payload: ret }));
@@ -42,7 +42,7 @@ const signup = (info) => {
 
     dispatch(fill({ type: actionTypes.USER_SIGNUP_START }));
 
-    fetch(`${base}api/user/signup`, payload)
+    fetch(`${base}api/local/user/signup`, payload)
       .then(res => res.json())
       .then((ret) => {
         dispatch(fill({ type: actionTypes.USER_SIGNUP_END, payload: ret }));
@@ -64,7 +64,7 @@ const signout = () => {
 
     dispatch(fill({ type: actionTypes.USER_SIGNOUT_START }));
 
-    fetch(`${base}api/user/signout`, payload)
+    fetch(`${base}api/local/user/signout`, payload)
       .then(res => res.json())
       .then((ret) => {
         dispatch(fill({ type: actionTypes.USER_SIGNOUT_END, payload: ret }));
@@ -87,7 +87,7 @@ const update_password = (info) => {
 
     dispatch(fill({ type: actionTypes.USER_UPDATE_PASSWORD_START }));
 
-    fetch(`${base}api/user/update_password`, payload)
+    fetch(`${base}api/local/user/update_password`, payload)
       .then(res => res.json())
       .then((ret) => {
         dispatch(fill({ type: actionTypes.USER_UPDATE_PASSWORD_END, payload: ret }));
@@ -109,7 +109,7 @@ const oauth_signout = () => {
 
     dispatch(fill({ type: actionTypes.USER_OAUTH_SIGNOUT_START }));
 
-    fetch(`${base}api/oauth/signout`, payload)
+    fetch(`${base}api/local/oauth/signout`, payload)
       .then(res => res.json())
       .then((ret) => {
         if (ret.success) {
@@ -135,7 +135,7 @@ const oauth_unlink = () => {
 
     dispatch(fill({ type: actionTypes.USER_OAUTH_UNLINK_START }));
 
-    fetch(`${base}api/oauth/unlink`, payload)
+    fetch(`${base}api/local/oauth/unlink`, payload)
       .then(res => res.json())
       .then((ret) => {
         if (ret.success) {

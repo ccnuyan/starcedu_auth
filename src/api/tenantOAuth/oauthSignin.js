@@ -32,7 +32,6 @@ const signin = async (req, res) => {
   }
 
   const loginInfo = await oauthServices.authenticate(payload);
-  req.session.user = loginInfo;
 
   res.json({
     code: 0,

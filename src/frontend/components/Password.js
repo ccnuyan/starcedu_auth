@@ -7,6 +7,7 @@ import {
 import PasswordField from './common/user/PasswordField';
 import userActions from '../../store/actions/userActions';
 
+import config from '../config';
 import init from '../initFormValidation';
 
 class Signup extends Component {

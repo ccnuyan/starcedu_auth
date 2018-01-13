@@ -13,37 +13,38 @@ const signin = async (req, res) => {
     return res.json(valRet);
   }
 
-  if (req.session.oauthUser && req.session.oauthUser.id) {
+  if (req.oauthUser && req.oauthUser.id) {
     payload.oauth_user_id = req.session.oauthUser.id;
   }
 
-  const ret = await userServices.authenticate(payload);
+  const ret = await userServices.authenticate(payload, req.authConfig);
 
   if (ret.success) {
-    req.session.oauthUser = {};
-    req.session.user = ret;
-    if (payload.autoSignin === true) {
-      req.session.cookie.maxAge = serverConfig.auth.cookie.maxage;
-    } else {
-      req.session.cookie.expires = false;
+    if (req.session) {
+      req.session.oauthUser = {};
+      req.session.user = ret;
+      if (payload.autoSignin === true) {
+        req.session.cookie.maxAge = serverConfig.auth.cookie.maxage;
+      } else {
+        req.session.cookie.expires = false;
+      }
     }
     res.json({
       data: {
         ...ret,
-        callback: req.session.callback || '/',
       },
       code: 0,
       message: ret.message,
     });
-    req.session.callback = '/';
   } else {
-    req.session.oauthUser = {};
-    req.session.user = {};
+    if (req.session) {
+      req.session.oauthUser = {};
+      req.session.user = {};
+    }
     res.json({
       code: 400,
       message: ret.message,
     });
-    req.session.callback = '/';
   }
 };
 

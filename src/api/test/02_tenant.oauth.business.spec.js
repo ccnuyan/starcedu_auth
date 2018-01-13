@@ -131,8 +131,10 @@ describe('tenant oauth business', function () { // eslint-disable-line
 
   describe('after oauth signup and bound', function () { // eslint-disable-line
     beforeEach(async () => {
-      this.user = await userServices.register(user);
+      await pgPool.query('delete from starcedu_auth.oauth2users');
+      this.user = await userServices.register(user, { gen_token: false });
       this.oauthUser = await oauthServices.add_oauth_user({ ...oauthUser, ...profile1 });
+
       return chai.request(app)
         .post('/api/tenant/oauth/bind_signin')
         .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
@@ -173,17 +175,19 @@ describe('tenant oauth business', function () { // eslint-disable-line
           ...oauthUser,
         })
         .catch((err) => {
-          err.response.status.should.equal(401);
+          err.response.should.have.status(401);
+          return err;
         });
     });
   });
 
   describe('after oauth signup', function () { // eslint-disable-line
     beforeEach(async () => {
-      this.user = await userServices.register(user);
+      this.user = await userServices.register(user, { gen_token: false });
       this.oauthUser = await oauthServices.add_oauth_user({ ...oauthUser, ...profile1 });
       return chai.request(app)
-      .post('/api/user/signin')
+      .post('/api/tenant/user/signin') // to be fixed
+      .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
       .send(user)
       .then((res) => {
         res.should.have.status(200);

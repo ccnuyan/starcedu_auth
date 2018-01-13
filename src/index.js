@@ -3,20 +3,42 @@ import web from '../src/web/';
 import config from '../config';
 
 import session from './auth/sessionMiddleware';
-import tenant from './auth/byPassTenantAuth';
-import user from './auth/byPassUserAuth';
+import tenantAuth from './auth/byPassTenantAuth';
+import userAUth from './auth/byPassUserAuth';
 
 export default {
   api: (app) => {
-    app.use('/api/local/*', session);
+    app.use('/api/local/*',
+      session,
+      (req, res, next) => {
+        req.authConfig = { gen_token: false };
+        Object.keys(req.session).forEach((k) => {
+          req[k] = req.session[k];
+        });
+        next();
+      });
 
-    app.use('/api/tenant/*', tenant, user);
+    app.use('/api/tenant/*',
+      tenantAuth,
+      userAUth,
+      (req, res, next) => {
+        req.authConfig = {
+          gen_token: true,
+          target_tenant: req.tenant ? req.tenant.id : 'local',
+        };
+        next();
+      });
 
     api(app);
 
+    app.use('/api/status', (req, res) => {
+      res.status(200).send({
+        message: 'service ok',
+      });
+    });
     app.use('/api/*', (req, res) => {
       res.status(404).send({
-        message: 'No such business',
+        message: 'no such business',
       });
     });
   },

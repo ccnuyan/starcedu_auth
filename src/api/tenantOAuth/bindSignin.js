@@ -21,7 +21,10 @@ const bind_signin = async (req, res) => {
     }
   }
 
-  const ret = await userServices.authenticate(payload);
+  const ret = await userServices.authenticate(payload, {
+    gen_token: true,
+    target_tenant: req.tenant.id,
+  });
 
   if (ret.success) {
     res.json({

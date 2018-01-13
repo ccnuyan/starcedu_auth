@@ -67,7 +67,7 @@ class Signin extends Component {
   }
 
   render() {
-    const { user, submitInfo, oauthUser, tenant } = this.props;
+    const { user, submitInfo, oauthUser } = this.props;
 
     return (
       <div className="user-form-content">
@@ -96,7 +96,7 @@ class Signin extends Component {
           </div>
         </form> :
         <div>用户{user.username}已经成功登入</div>}
-        <div className="ui divider"></div>
+        {!user.success ? <div className="ui divider"></div> : ''}
         {!user.success ? <OAuthProviders /> : ''}
         <div className="ui divider"></div>
         {!user.success ? <div>

@@ -70,7 +70,6 @@ describe('user business', function () { // eslint-disable-line
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.code.should.equal(0);
-          res.body.data.should.have.property('token');
           return res;
         });
     });
@@ -78,33 +77,35 @@ describe('user business', function () { // eslint-disable-line
 
   it('should return error message when password illigal', () => {
     return chai.request(app)
-        .post('/api/local/user/signup')
-        .send({
-          username: 'naerns@nae.nbc',
-          password: '?*na_',
-        })
-        .then((res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.code.should.equal(112);
-          res.body.message.should.equal('provided password illigal');
-          return res;
-        });
+      .post('/api/local/user/signup')
+      .send({
+        username: 'naerns@nae.nbc',
+        password: '?*na_',
+      })
+      .then((res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.code.should.equal(112);
+        res.body.message.should.equal('provided password illigal');
+        return res;
+      });
   });
 
   describe('after signup', function () { // eslint-disable-line
-    beforeEach(() => {
+    beforeEach(async () => {
+      await pgPool.query('delete from starcedu_auth.users');
       this.user = {
         username: 'user@test.com',
         password: 'testpass',
       };
       this.new_pass = 'newpass';
-      return chai.request(app)
+      this.agent = chai.request.agent(app);
+      return this.agent
         .post('/api/local/user/signup')
         .send(this.user)
         .then((res) => {
           res.should.have.status(200);
-          this.signuptoken = res.body.data.token;
+          res.should.have.cookie('connect.sid');
           return res;
         });
     });
@@ -128,7 +129,6 @@ describe('user business', function () { // eslint-disable-line
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.code.should.equal(0);
-          res.body.data.should.have.property('token');
           return res;
         });
     });
@@ -144,15 +144,13 @@ describe('user business', function () { // eslint-disable-line
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.code.should.equal(0);
-          res.body.data.should.have.property('token');
           return res;
         });
     });
 
-    it.only('should be able to update password', () => {
-      return chai.request(app)
+    it('should be able to update password', () => {
+      return this.agent
         .put('/api/local/user/update_password')
-        .set(serverConfig.auth.userHeader, `bearer ${this.signuptoken}`)
         .send({
           old_password: this.user.password,
           new_password: this.new_pass,
@@ -161,7 +159,33 @@ describe('user business', function () { // eslint-disable-line
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.code.should.equal(0);
+          res.should.not.have.cookie('connect.sid');
           return res;
+        });
+    });
+
+    it('should be able to signin with auto signin', async () => {
+      const agent = chai.request.agent(app);
+      await agent
+        .post('/api/local/user/signin')
+        .send({
+          ...this.user,
+          autoSignin: true,
+        })
+        .then((res1) => {
+          res1.should.have.status(200);
+          res1.body.should.be.a('object');
+          res1.body.code.should.equal(0);
+          res1.should.have.cookie('connect.sid');
+          return res1;
+        });
+      return agent
+        .get('/api/local/user/me')
+        .then((res2) => {
+          res2.should.have.status(200);
+          res2.body.should.be.a('object');
+          res2.body.data.username.should.equal(this.user.username);
+          return res2;
         });
     });
   });

@@ -4,7 +4,7 @@ import paramsValidator from '../paramsValidator';
 
 const unlink = async (req, res) => {
   const payload = {
-    bind_user_id: req.user.id,
+    bind_user_id: req.session.user.id,
     oauth_user_id: req.body.oauth_user_id,
     password: req.body.password,
   };
@@ -18,6 +18,8 @@ const unlink = async (req, res) => {
   const ret = await userServices.authenticate({
     username: payload.bind_user_id,
     password: payload.password,
+  }, {
+    gen_token: false,
   });
 
   if (ret.success) {

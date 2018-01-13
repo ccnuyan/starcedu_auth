@@ -12,11 +12,11 @@ const signup = async (req, res) => {
     return res.json(valRet);
   }
 
-  if (req.session.oauthUser && req.session.oauthUser.id) {
-    payload.oauth_user_id = req.session.oauthUser.id;
+  if (req.oauthUser && req.oauthUser.id) {
+    payload.oauth_user_id = req.oauthUser.id;
   }
 
-  const ret = await userServices.register(payload);
+  const ret = await userServices.register(payload, req.authConfig);
 
   if (ret.success) {
     req.session.oauthUser = {};

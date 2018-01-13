@@ -13,9 +13,9 @@ const ssConfig = {
 
 if (serverConfig.mode !== 'test') {
   ssConfig.store = new RedisStore(serverConfig.redisSessionServer);
-  console.log(chalk.blue(`SESSION --> ${serverConfig.redisSessionServer.host}:${serverConfig.redisSessionServer.port}`)); // eslint-disable-line
+  console.log(chalk.green(`SESSION --> ${serverConfig.redisSessionServer.host}:${serverConfig.redisSessionServer.port}`)); // eslint-disable-line
 } else {
-  console.log(chalk.blue('SESSION --> server memory')); // eslint-disable-line
+  console.log(chalk.green('SESSION --> server memory')); // eslint-disable-line
 }
 
 const sessionMiddleware = session(ssConfig);

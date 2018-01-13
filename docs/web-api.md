@@ -4,7 +4,7 @@
 
 1. 登入
 
-Endpoint: `/api/user/signin`  
+Endpoint: `/api/:from/user/signin`  
 Method: `POST`  
 Params: `username(email), password`  
 ```
@@ -51,7 +51,7 @@ With valid `oauthUser` object in session
 
 2. 注册
 
-Endpoint: `/api/user/signup`  
+Endpoint: `/api/:from/user/signup`  
 Method: `POST`  
 Params: `username(email), password`  
 ```
@@ -98,7 +98,7 @@ With valid `oauthUser` object in session
 
 3. 更新密码
 
-Endpoint: `/api/user/update_password`  
+Endpoint: `/api/:from/user/update_password`  
 Method: `PUT`  
 Params: `old_password, new_password`
 ```
@@ -127,7 +127,7 @@ Params: `old_password, new_password`
 
 4. 登出
 
-Endpoint: `/api/user/signout`  
+Endpoint: `/api/:from/user/signout`  
 Method: `GET`  
 No Params
 ```
@@ -136,7 +136,7 @@ No Params
 
 5. 第三方登出
 
-Endpoint: `/api/oauth/signout`  
+Endpoint: `/api/from/oauth/signout`  
 Method: `GET`  
 No Params
 ```
@@ -145,7 +145,7 @@ No Params
 
 6. 第三方解绑
 
-Endpoint: `/api/oauth/unlink`  
+Endpoint: `/api/from/oauth/unlink`  
 Method: `PUT`  
 Params: `oauth_user_id, password`
 ```
@@ -158,7 +158,7 @@ Params: `oauth_user_id, password`
 
 __PS:__ API调用参数以JSON形式放在请求体中, 以API 1. 登入 为例，HTTP请求全文为
 ```
-POST $domain/api/user/signin HTTP/1.1
+POST $domain/api/:from/user/signin HTTP/1.1
 Host: www.syncollege.com
 Connection: keep-alive
 Content-Length: 68

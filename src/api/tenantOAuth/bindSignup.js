@@ -13,7 +13,10 @@ const bind_signup = async (req, res) => {
     return res.json(valRet);
   }
 
-  const ret = await userServices.register(payload);
+  const ret = await userServices.register(payload, {
+    gen_token: true,
+    target_tenant: req.tenant.id,
+  });
 
   if (ret.success) {
     res.json({

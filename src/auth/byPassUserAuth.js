@@ -5,22 +5,12 @@ import { verify } from '../../src/services/tokenServices';
 import pgPool from '../../database/connector';
 
 export default async (req, res, next) => {
-  if (req.session && req.session.user) {
-    req.user = req.session.user;
-    return next();
-  }
   // no authorization token: bypass
-  if (!req.headers[serverConfig.auth.userHeader]) {
-    return next();
-  }
+  if (!req.headers[serverConfig.auth.userHeader]) { return next(); }
   // authorization not in right format: bypass
   const breaks = req.headers[serverConfig.auth.userHeader].split(' ');
-  if (breaks.length !== 2) {
-    return next();
-  }
-  if (breaks[1] === 'null' || breaks[1] === 'undefined') {
-    return next();
-  }
+  if (breaks.length !== 2) { return next(); }
+  if (breaks[1] === 'null' || breaks[1] === 'undefined') { return next(); }
 
   try {
     // user token authentication
