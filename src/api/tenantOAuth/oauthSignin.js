@@ -19,13 +19,11 @@ const signin = async (req, res) => {
   const oauthUser = await oauthServices.get_oauth_user_by_provider_info(payload);
 
   if (!oauthUser) {
-    return res.json({
-      code: 400,
+    return res.status(400).json({
       message: 'oauth user not exist',
     });
   } else if (!oauthUser.user_id) {
-    return res.json({
-      code: 400,
+    return res.status(400).json({
       message: 'oauth user not bound',
       data: oauthUser,
     });
@@ -33,8 +31,7 @@ const signin = async (req, res) => {
 
   const loginInfo = await oauthServices.authenticate(payload);
 
-  res.json({
-    code: 0,
+  res.status(200).json({
     message: 'oauth signin successfully',
     data: loginInfo,
   });

@@ -17,16 +17,16 @@ const update_password = async (req, res) => {
   const ret = await userServices.update_password(payload);
 
   if (ret.success) {
-    req.session.oauthUser = {};
-    req.session.user = ret;
+    if (req.session) {
+      req.session.oauthUser = {};
+      req.session.user = {};
+    }
     res.status(200).json({
       data: ret,
-      code: 0,
       message: ret.message,
     });
   } else {
     res.status(400).json({
-      code: 400,
       message: ret.message,
     });
   }

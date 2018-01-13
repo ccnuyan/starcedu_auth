@@ -20,15 +20,13 @@ const signup = async (req, res) => {
   const oauthUser = await oauthServices.get_oauth_user_by_provider_info(payload);
   if (!oauthUser) {
     const ret = await oauthServices.add_oauth_user(payload);
-    res.json({
-      code: 0,
+    res.status(200).json({
       message: 'oauth user created',
       data: ret,
     });
   } else {
     const ret = await oauthServices.update_oauth_user(payload);
-    res.json({
-      code: 0,
+    res.status(200).json({
       message: 'oauth user updated',
       data: ret,
     });

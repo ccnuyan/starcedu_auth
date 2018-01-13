@@ -21,12 +21,10 @@ const bind_signup = async (req, res) => {
   if (ret.success) {
     res.json({
       data: ret,
-      code: 0,
       message: ret.message,
     });
   } else {
-    res.json({
-      code: 400,
+    res.status(400).json({
       message: ret.message,
     });
   }

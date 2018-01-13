@@ -44,12 +44,11 @@ describe('tenant oauth business', function () { // eslint-disable-line
         .send({
           ...oauthUser,
         })
-        .then((res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.code.should.equal(400);
-          res.body.message.should.equal('oauth user not exist');
-          return res;
+        .catch((err) => {
+          err.response.should.have.status(400);
+          err.response.body.should.be.a('object');
+          err.response.body.message.should.equal('oauth user not exist');
+          return err.response;
         });
     });
 
@@ -63,7 +62,6 @@ describe('tenant oauth business', function () { // eslint-disable-line
         .then((res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
-          res.body.code.should.equal(181);
           res.body.message.should.equal('profile empty');
           return res;
         });
@@ -80,7 +78,6 @@ describe('tenant oauth business', function () { // eslint-disable-line
         .then((res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
-          res.body.code.should.equal(0);
           res.body.message.should.equal('oauth user created');
           res.body.data.profile.nickname.should.equal('lala');
           return res;
@@ -105,7 +102,6 @@ describe('tenant oauth business', function () { // eslint-disable-line
         .then((res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
-          res.body.code.should.equal(0);
           res.body.message.should.equal('oauth user updated');
           res.body.data.profile.nickname.should.equal('bobo');
           return res;
@@ -119,12 +115,11 @@ describe('tenant oauth business', function () { // eslint-disable-line
         .send({
           ...oauthUser,
         })
-        .then((res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.code.should.equal(400);
-          res.body.message.should.equal('oauth user not bound');
-          return res;
+        .catch((err) => {
+          err.response.should.have.status(400);
+          err.response.body.should.be.a('object');
+          err.response.body.message.should.equal('oauth user not bound');
+          return err;
         });
     });
   });
@@ -145,7 +140,6 @@ describe('tenant oauth business', function () { // eslint-disable-line
         .then((res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
-          res.body.code.should.equal(0);
           res.body.message.should.equal('authenticate and bind successfully');
           res.body.data.should.have.property('token');
           return res;
@@ -162,7 +156,6 @@ describe('tenant oauth business', function () { // eslint-disable-line
         .then((res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
-          res.body.code.should.equal(0);
           res.body.message.should.equal('oauth signin successfully');
           return res;
         });
@@ -192,7 +185,6 @@ describe('tenant oauth business', function () { // eslint-disable-line
       .then((res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
-        res.body.code.should.equal(0);
         res.body.message.should.equal('authenticate successfully');
         res.body.data.should.have.property('token');
         this.userToken = res.body.data.token;
@@ -214,7 +206,6 @@ describe('tenant oauth business', function () { // eslint-disable-line
         .then((res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
-          res.body.code.should.equal(0);
           res.body.message.should.equal('authenticate and bind successfully');
           res.body.data.should.have.property('token');
           return res;
@@ -232,7 +223,6 @@ describe('tenant oauth business', function () { // eslint-disable-line
         .then((res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
-          res.body.code.should.equal(0);
           res.body.message.should.equal('authenticate and bind successfully');
           res.body.data.should.have.property('token');
           return res;
@@ -251,26 +241,24 @@ describe('tenant oauth business', function () { // eslint-disable-line
         .then((res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
-          res.body.code.should.equal(0);
           res.body.message.should.equal('register successfully');
           res.body.data.should.have.property('token');
           return res;
         });
     });
 
-    it('should not signin again', () => {
+    it('should not be able to signin again', () => {
       return chai.request(app)
         .post('/api/tenant/oauth/oauth_signin')
         .set(serverConfig.auth.tenantHeader, `basic ${basicAuth}`)
         .send({
           ...oauthUser,
         })
-        .then((res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.code.should.equal(400);
-          res.body.message.should.equal('oauth user not bound');
-          return res;
+        .catch((err) => {
+          err.response.should.have.status(400);
+          err.response.body.should.be.a('object');
+          err.response.body.message.should.equal('oauth user not bound');
+          return err;
         });
     });
   });

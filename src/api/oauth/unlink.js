@@ -30,12 +30,10 @@ const unlink = async (req, res) => {
     });
     res.status(400).json({
       data: ret,
-      code: 0,
       message: 'oauth user unlink successfully',
     });
   } else {
     res.status(400).json({
-      code: 400,
       message: 'password invalid',
     });
   }

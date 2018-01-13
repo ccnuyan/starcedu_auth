@@ -19,25 +19,22 @@ const signup = async (req, res) => {
   const ret = await userServices.register(payload, req.authConfig);
 
   if (ret.success) {
-    req.session.oauthUser = {};
-    req.session.user = ret;
+    if (req.session) {
+      req.session.oauthUser = {};
+      req.session.user = ret;
+    }
     res.json({
-      data: {
-        ...ret,
-        callback: req.session.callback || '/',
-      },
-      code: 0,
+      data: ret,
       message: ret.message,
     });
-    req.session.callback = '/';
   } else {
-    req.session.oauthUser = {};
-    req.session.user = {};
-    res.json({
-      code: 400,
+    if (req.session) {
+      req.session.oauthUser = {};
+      req.session.user = {};
+    }
+    res.status(400).json({
       message: ret.message,
     });
-    req.session.callback = '/';
   }
 };
 

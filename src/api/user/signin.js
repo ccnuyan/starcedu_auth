@@ -30,10 +30,7 @@ const signin = async (req, res) => {
       }
     }
     res.json({
-      data: {
-        ...ret,
-      },
-      code: 0,
+      data: ret,
       message: ret.message,
     });
   } else {
@@ -41,8 +38,7 @@ const signin = async (req, res) => {
       req.session.oauthUser = {};
       req.session.user = {};
     }
-    res.json({
-      code: 400,
+    res.status(400).json({
       message: ret.message,
     });
   }

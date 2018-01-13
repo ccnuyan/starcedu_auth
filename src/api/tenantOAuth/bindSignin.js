@@ -28,13 +28,11 @@ const bind_signin = async (req, res) => {
 
   if (ret.success) {
     res.json({
-      code: 0,
       message: ret.message,
       data: ret,
     });
   } else {
-    res.json({
-      code: 400,
+    res.status(400).json({
       message: ret.message,
     });
   }
