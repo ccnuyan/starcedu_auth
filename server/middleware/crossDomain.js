@@ -1,3 +1,6 @@
+
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+
 const allowCrossDomain = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', `http://${serverConfig.mode === 'test' ? '*' : serverConfig.domain}`);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');

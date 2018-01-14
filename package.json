@@ -148,7 +148,8 @@
       "expect": true,
       "should": true,
       "tenants": true,
-      "serverConfig": true
+      "serverConfig": true,
+      "_": true
     },
     "rules": {
       "class-methods-use-this": 0,

@@ -60,9 +60,11 @@ describe('tenant oauth business', function () { // eslint-disable-line
           ...oauthUser,
         })
         .then((res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.message.should.equal('profile empty');
+          res.should.not.have.status(200);
+        }, (err) => {
+          err.response.should.have.status(400);
+          err.response.body.should.be.a('object');
+          err.response.body.message.should.equal('profile empty');
         });
     });
 

@@ -18,7 +18,7 @@ class Decide extends Component {
 
   componentDidMount() {
     const { user } = this.props;
-    if (!user.success) {
+    if (!user.id) {
       this.props.history.push({
         pathname: '/user/signin',
         state: { cb: '/user/decide' },
@@ -28,7 +28,7 @@ class Decide extends Component {
 
   render() {
     const { user } = this.props;
-    if (!user.success) {
+    if (!user.id) {
       return <div/>;
     }
     return (

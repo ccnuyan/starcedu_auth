@@ -1,21 +1,14 @@
 /* eslint-disable no-param-reassign */
 const messageDict = {
-  USER_SIGNUP_ERROR: () => {
-    return {
-      status: 'error',
-      header: '注册失败',
-      details: '这可能是由于网络问题造成的',
-    };
-  },
-  USER_SIGNUP_END: (payload) => {
-    if (payload.code === 0) {
+  USER_SIGNUP_ERROR: (payload) => {
+    if (payload.message === 'network error') {
       return {
-        status: 'success',
-        header: '注册成功',
-        details: '还等什么，可以开始尽情玩耍了',
+        status: 'error',
+        header: '注册失败',
+        details: '这可能是由于网络问题造成的',
       };
     }
-    if (payload.code === 400) {
+    if (payload.message === 'user with this username already existed') {
       return {
         status: 'error',
         header: '注册失败',
@@ -25,25 +18,25 @@ const messageDict = {
     return {
       status: 'error',
       header: '注册失败',
-      details: '用户名/密码不符合要求',
+      details: '未知错误',
     };
   },
-  USER_SIGNIN_ERROR: () => {
+  USER_SIGNUP_END: () => {
     return {
-      status: 'error',
-      header: '登入失败',
-      details: '这可能是由于网络问题造成的',
+      status: 'success',
+      header: '注册成功',
+      details: '还等什么，可以开始尽情玩耍了',
     };
   },
-  USER_SIGNIN_END: (payload) => {
-    if (payload.code === 0) {
+  USER_SIGNIN_ERROR: (payload) => {
+    if (payload.message === 'network error') {
       return {
-        status: 'success',
-        header: '登入成功',
-        details: `欢迎，${payload.data.username}`,
+        status: 'error',
+        header: '登入失败',
+        details: '这可能是由于网络问题造成的',
       };
     }
-    if (payload.code === 400) {
+    if (payload.message === 'credentials invalid') {
       return {
         status: 'error',
         header: '登入失败',
@@ -53,45 +46,52 @@ const messageDict = {
     return {
       status: 'error',
       header: '登入失败',
-      details: '用户名/密码不符合要求',
+      details: '未知错误',
     };
   },
-  USER_SIGNOUT_ERROR: () => {
+  USER_SIGNIN_END: (payload) => {
     return {
-      status: 'error',
-      header: '登出失败',
-      details: '这可能是由于网络问题造成的',
+      status: 'success',
+      header: '登入成功',
+      details: `欢迎，${payload.data.username}`,
     };
   },
-  USER_SIGNOUT_END: (payload) => {
-    if (payload.code !== 0) {
+  USER_SIGNOUT_ERROR: (payload) => {
+    if (payload.messasge === 'network error') {
       return {
         status: 'error',
         header: '登出失败',
-        details: '这可能是由于服务器的错误造成的',
+        details: '这可能是由于网络问题造成的',
       };
     }
   },
-  USER_UPDATE_PASSWORD_ERROR: () => {
-    return {
-      status: 'error',
-      header: '更新密码失败',
-      details: '这可能是由于网络问题造成的',
-    };
-  },
-  USER_UPDATE_PASSWORD_END: (payload) => {
-    if (payload.code === 0) {
+  USER_UPDATE_PASSWORD_ERROR: (payload) => {
+    if (payload.message === 'network error') {
       return {
-        status: 'success',
-        header: '更新密码成功',
-        details: '请使用新密码重新登入',
+        status: 'error',
+        header: '更新密码失败',
+        details: '这可能是由于网络问题造成的',
       };
     }
-    if (payload.code === 400) {
+    if (payload.message === 'credentials invalid') {
       return {
         status: 'error',
         header: '更新密码失败',
         details: '请确保你的原始密码正确',
+      };
+    }
+    if (payload.message === 'old_password empty') {
+      return {
+        status: 'error',
+        header: '更新密码失败',
+        details: '请提供原始密码',
+      };
+    }
+    if (payload.message === 'provided new_password illigal') {
+      return {
+        status: 'error',
+        header: '更新密码失败',
+        details: '请输入有效的新密码',
       };
     }
     return {
@@ -100,19 +100,19 @@ const messageDict = {
       details: '新密码不符合要求',
     };
   },
-  USER_BIND_AUTHENTICATE_ERROR: () => {
+  USER_UPDATE_PASSWORD_END: () => {
     return {
-      status: 'error',
-      header: '绑定失败',
-      details: '这可能是由于网络问题造成的',
+      status: 'success',
+      header: '更新密码成功',
+      details: '请使用新密码重新登入',
     };
   },
-  USER_BIND_AUTHENTICATE_END: (payload) => {
-    if (payload.success) {
+  USER_BIND_AUTHENTICATE_ERROR: (payload) => {
+    if (payload.message === 'network error') {
       return {
-        status: 'success',
-        header: '绑定成功',
-        details: '还等什么，可以开始尽情玩耍了',
+        status: 'error',
+        header: '绑定失败',
+        details: '这可能是由于网络问题造成的',
       };
     }
     return {
@@ -124,30 +124,36 @@ const messageDict = {
       ],
     };
   },
+  USER_BIND_AUTHENTICATE_END: () => {
+    return {
+      status: 'success',
+      header: '绑定成功',
+      details: '还等什么，可以开始尽情玩耍了',
+    };
+  },
   USER_SIGNOUT: () => {
     return {
       status: 'success',
       header: '成功登出',
     };
   },
-  USER_USERNAME_CHECK_ERROR: () => {
-    return {
-      status: 'error',
-      inline: '用户名检查失败',
-      details: '这可能是网络原因造成的，你可以尝试继续注册',
-    };
-  },
-  USER_USERNAME_CHECK_END: (payload) => {
-    if (payload.valid) {
+  USER_USERNAME_CHECK_ERROR: (payload) => {
+    if (payload.message === 'network error') {
       return {
-        status: 'success',
-        inline: '你不能使用该用户名',
+        status: 'error',
+        inline: '用户名检查失败',
+        details: '这可能是网络原因造成的，你可以尝试继续注册',
       };
     }
     return {
-      status: 'error',
+      status: 'success',
       inline: '你不能使用该用户名',
-      details: '这可能是由于已经有人使用该用户名注册了',
+    };
+  },
+  USER_USERNAME_CHECK_END: () => {
+    return {
+      status: 'success',
+      inline: '你可以使用该用户名',
     };
   },
   USER_GET_OAUTH_INFO_END: () => {

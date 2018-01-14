@@ -2,11 +2,13 @@ import fs from 'fs';
 import path from 'path';
 import glob from 'glob';
 import Promise from 'bluebird';
-import _ from 'lodash';
 
 import { pg } from '../connector';
 
-const versionRoot = serverConfig.version.replace(/\./g, '-');
+import packageConfig from '../../package.json';
+
+const versionRoot = packageConfig.version.replace(/\./g, '-');
+
 const sourceDir = path.join(__dirname, '../sql/', versionRoot);
 
 const install = async (folder) => {

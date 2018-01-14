@@ -10,6 +10,7 @@ import Signup from './Signup';
 import Signout from './Signout';
 import Password from './Password';
 import Decide from './Decide';
+import NotFound from './NotFound';
 
 class Home extends Component {
   static propTypes = {
@@ -29,6 +30,7 @@ class Home extends Component {
         <Route location={ location } component={ Signout } path='/user/signout' exact={ true }></Route>
         <Route location={ location } component={ Decide } path='/user/decide' exact={ true }></Route>
         <Route location={ location } component={ Password } path='/user/password' exact={ true }></Route>
+        <Route component={ NotFound } path='/*'></Route>
       </AnimatedSwitch>
     );
   }

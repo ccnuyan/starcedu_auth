@@ -1,3 +1,4 @@
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import compression from 'compression';
@@ -9,6 +10,7 @@ import uuid from 'uuid';
 import fetch from 'cross-fetch';
 import jsonwebtoken from 'jsonwebtoken';
 
+import '../../config';
 import '../../globals';
 
 const rawIndexHTML = fs.readFileSync(path.join(__dirname, './testTenant.html'), 'utf-8');
@@ -63,19 +65,16 @@ app.get('/oauth/callback', async (req, res) => {
       token: jsonwebtoken.sign(req.query.code, 'test_3rdparty_tenant1_key'),
     }),
   }).then(ret => ret.json());
-  const files = await fetch(`http://${serverConfig.domain}/apps/disk/api/files/uploaded`, {
-    headers: {
-      authorization: `bearer ${tokenStruct.token}`,
-    },
-  }).then(ret => ret.json());
   res.send(rawIndexHTML
     .replace('__HOST__', serverConfig.domain)
     .replace('__HOST__', serverConfig.domain)
     .replace('__STATE_CODE__', state)
     .replace('__STATE_CODE__', state)
     .replace('__AUTHORIZATION_CODE__', req.query.code)
-    .replace('__FILES__', JSON.stringify(files, null, 2))
-    .replace('__AUTHORIZED_USER__', JSON.stringify(tokenStruct, null, 2)));
+    .replace('__AUTHORIZED_USER__', JSON.stringify({
+      ...tokenStruct,
+      tokenDecoded: jsonwebtoken.decode(tokenStruct.token),
+    }, null, 2)));
 });
 
 // run server

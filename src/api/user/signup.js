@@ -8,7 +8,7 @@ const signup = async (req, res) => {
   };
 
   const valRet = paramsValidator.validate(payload, ['username', 'password']);
-  if (valRet.code !== 0) {
+  if (!valRet.status) {
     return res.status(400).json(valRet);
   }
 
@@ -17,6 +17,7 @@ const signup = async (req, res) => {
   }
 
   const ret = await userServices.register(payload, req.authConfig);
+  const pickedUser = _.pick(ret, ['username', 'id', 'token']);
 
   if (ret.success) {
     if (req.session) {
@@ -24,7 +25,7 @@ const signup = async (req, res) => {
       req.session.user = ret;
     }
     res.json({
-      data: ret,
+      data: pickedUser,
       message: ret.message,
     });
   } else {

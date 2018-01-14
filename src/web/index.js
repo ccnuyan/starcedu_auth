@@ -26,7 +26,7 @@ export default (app) => {
       }
     } else {
       if (req.session) { // eslint-disable-line
-        req.session.callback = '';
+        req.session.callback = '/';
       }
     }
     next();
@@ -42,6 +42,7 @@ export default (app) => {
         user: req.user || {},
         oauthUser: req.session.oauthUser || {},
         tenant: req.session.tenant || {},
+        callback: req.session.callback,
       },
     };
     res.send(indexHtml.replace('_starc_server_state_', JSON.stringify(preloadedState, null, 2)));

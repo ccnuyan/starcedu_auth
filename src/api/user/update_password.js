@@ -10,8 +10,8 @@ const update_password = async (req, res) => {
   payload.username = req.user.username;
 
   const valRet = paramsValidator.validate(payload, ['old_password', 'new_password']);
-  if (valRet.code !== 0) {
-    return res.json(valRet);
+  if (!valRet.status) {
+    return res.status(400).json(valRet);
   }
 
   const ret = await userServices.update_password(payload);

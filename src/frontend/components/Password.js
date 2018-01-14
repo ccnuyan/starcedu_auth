@@ -22,7 +22,7 @@ class Signup extends Component {
 
   componentDidMount() {
     init();
-    if (!this.props.user.success) {
+    if (!this.props.user.id) {
       setTimeout(() => this.props.history.push('/'), 2000);
     }
   }
@@ -35,14 +35,14 @@ class Signup extends Component {
   }
 
   componentDidUpdate() {
-    if (!this.props.user.success) {
+    if (!this.props.user.id) {
       setTimeout(() => this.props.history.push('/user/signin'), 2000);
     }
   }
 
   render() {
     const { user } = this.props;
-    if (!user.success) {
+    if (!user.id) {
       return (
         <div className="user-form-content">
           <h2 className={ `ui ${config.theme} image header` }>

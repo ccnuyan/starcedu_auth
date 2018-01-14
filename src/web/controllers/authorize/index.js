@@ -1,11 +1,10 @@
-import _ from 'lodash';
 import querystring from 'querystring';
 
 import authorizeServices from '../../../services/authorizeServices';
 
 const authorize = async (req, res, next) => {
-  if (req.query.client && req.query.state) {
-    const cl = req.query.client;
+  if (req.query.tenant && req.query.state) {
+    const cl = req.query.tenant;
     if (tenants[cl]) {
       const tenant = _.pick(tenants[cl], ['id', 'title', 'description', 'redirect_url', 'home_url']);
       req.session.tenant = {
@@ -19,20 +18,23 @@ const authorize = async (req, res, next) => {
 };
 
 const decide = async (req, res) => {
-  if (!req.session.tenant) { return res.redirect('/'); }
+  if (!req.session.tenant) {
+    return res.redirect('/error');
+  }
   const payload = {
-    client: req.session.tenant.id,
-    state: req.session.tenant.state,
+    tenant: req.tenant.id,
+    state: req.tenant.state,
     user_id: req.user.id,
   };
+  req.session.tanant = {};
+
   const codeStruct = await authorizeServices.generateCode(payload);
   if (codeStruct.success) {
-    const tenant = tenants[codeStruct.client];
+    const tenant = tenants[codeStruct.tenant];
     const query = querystring.stringify({
       code: codeStruct.code,
       state: codeStruct.state,
     });
-    req.session.tenant = {};
     return res.redirect(`${tenant.redirect_url}?${query}`);
   }
   return res.redirect('/error');

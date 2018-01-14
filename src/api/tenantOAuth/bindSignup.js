@@ -9,8 +9,8 @@ const bind_signup = async (req, res) => {
   };
 
   const valRet = paramsValidator.validate(payload, ['username', 'password', 'oauth_user_id']);
-  if (valRet.code !== 0) {
-    return res.json(valRet);
+  if (!valRet.status) {
+    return res.status(400).json(valRet);
   }
 
   const ret = await userServices.register(payload, {

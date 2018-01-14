@@ -41,7 +41,7 @@ class FixedMenu extends Component {
             </div>
           </a>
           <div className="right menu">
-            {user.success ?
+            {user.id ?
               <Link className="icon item" to='/user/password'>
                 <div className="ui content">
                   <i className="icon user outline"></i>
@@ -49,21 +49,21 @@ class FixedMenu extends Component {
                 </div>
               </Link>
               : ''}
-            {user.success ?
+            {user.id ?
               <Link className="icon item" to='/user/signout'>
                 <div className="ui content">
                   <i className="icon sign out"></i>
                   登出
                 </div>
               </Link> : ''}
-            {user.success ? '' :
+            {user.id ? '' :
             <Link className="icon item" to='/user/signin'>
               <div className="ui content">
                 <i className="icon sign in"></i>
                 登入
               </div>
             </Link>}
-            {user.success ? '' :
+            {user.id ? '' :
             <Link className="icon item" to='/user/signup'>
               <div className="ui content">
                 <i className="icon smile"></i>

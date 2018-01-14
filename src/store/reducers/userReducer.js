@@ -14,9 +14,7 @@ export default (state = userinit, action) => {
       return state;
     }
     case actionTypes.USER_SIGNIN_END: {
-      if (action.payload.code === 0) {
-        state = state.set('user', fromJS(action.payload.data));
-      }
+      state = state.set('user', fromJS(action.payload.data));
       return state;
     }
     case actionTypes.USER_SIGNIN_ERROR: {
@@ -65,9 +63,7 @@ export default (state = userinit, action) => {
       return state;
     }
     case actionTypes.USER_UPDATE_PASSWORD_END: {
-      if (action.payload.code === 0) {
-        state = state.set('user', fromJS({}));
-      }
+      state = state.set('user', fromJS({}));
       return state;
     }
     case actionTypes.USER_UPDATE_PASSWORD_ERROR: {

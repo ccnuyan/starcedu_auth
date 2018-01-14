@@ -1,11 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import _ from 'lodash';
 import glob from 'glob';
-import pacakgeJson from '../../package.json';
 import { pg } from '../connector';
 
-const versionRoot = pacakgeJson.version.replace(/\./g, '-');
+import packageConfig from '../../package.json';
+
+const versionRoot = packageConfig.version.replace(/\./g, '-');
+
 const sourceDir = path.join(__dirname, '../sql/', versionRoot);
 
 const loadFiles = (dir) => {

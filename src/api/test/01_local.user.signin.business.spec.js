@@ -26,16 +26,26 @@ describe('local user signin business', function () { // eslint-disable-line
     return Promise.resolve();
   });
 
-  it('can update password', async () => {
-    return this.agent.put('/api/local/user/update_password')
-      .send({
-        old_password: this.user.password,
-        new_password: this.new_pass,
-      })
+  it('can get me', async () => {
+    return this.agent.get('/api/local/user/me')
       .then((res) => {
         res.should.have.status(200);
-        res.should.not.have.cookie('connect.sid');
       });
+  });
+
+  it('can signout -> can not get me', async () => {
+    await this.agent.get('/api/local/user/signout')
+      .then((res) => {
+        res.should.have.status(200);
+        res.body.message.should.equal('user cookie cleared');
+      });
+    await this.agent.get('/api/local/user/me')
+      .then((res) => {
+        res.should.not.have.status(200);
+      }, (err) => {
+        err.should.have.status(401);
+      });
+    return Promise.resolve();
   });
 
   it('can signin with correct credentials', () => {
@@ -44,6 +54,19 @@ describe('local user signin business', function () { // eslint-disable-line
       .then((res) => {
         res.should.have.status(200);
         res.body.message.should.equal('authenticate successfully');
+        res.body.data.should.not.have.property('token');
+      });
+  });
+
+  it('can not signin with invalid credentials', () => {
+    return chai.request(app).post('/api/local/user/signin')
+      .send({
+        ...this.user,
+        password: 'wrongpassword',
+      })
+      .then(null, (err) => {
+        err.should.have.status(400);
+        err.response.body.message.should.equal('credentials invalid');
       });
   });
 

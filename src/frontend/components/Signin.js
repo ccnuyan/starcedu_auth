@@ -31,10 +31,12 @@ class Signin extends Component {
   componentDidMount() {
     init();
     const { user, location } = this.props;
-    if (user.success) {
+    if (user.id) {
       setTimeout(() => {
         if (location.state && location.state.cb) {
           this.props.history.push(location.state.cb);
+        } else if (user.callback) {
+          this.props.history.push(user.callback);
         } else {
           this.props.history.push('/');
         }
@@ -55,10 +57,12 @@ class Signin extends Component {
 
   componentDidUpdate(prevProps) {
     const { user, location } = this.props;
-    if (user.success && !prevProps.user.success) {
+    if (user.id && !prevProps.user.id) {
       setTimeout(() => {
         if (location.state && location.state.cb) {
           this.props.history.push(location.state.cb);
+        } else if (user.callback) {
+          this.props.history.push(user.callback);
         } else {
           this.props.history.push('/');
         }
@@ -68,7 +72,6 @@ class Signin extends Component {
 
   render() {
     const { user, submitInfo, oauthUser } = this.props;
-
     return (
       <div className="user-form-content">
         <h2 className={ `ui ${config.theme} image header` }>
@@ -77,16 +80,16 @@ class Signin extends Component {
             {'登入'}
           </div>
         </h2>
-        <Tenant/>
+        <Tenant />
         <div className="ui divider"></div>
         {oauthUser.id ? <QQInfo /> : ''}
-        {!user.success ? <form ref={ e => this.form = e } className={ `ui form ${this.props.busy ? 'loading' : ''}` } onSubmit={ this.onFormSubmit }>
+        {!user.id ? <form ref={ e => this.form = e } className={ `ui form ${this.props.busy ? 'loading' : ''}` } onSubmit={ this.onFormSubmit }>
           <div className="ui segment">
             <EmailField />
             <PasswordField name='password' placeholder="密码" />
             <div className="field">
               <div className="ui checkbox">
-                <input type="checkbox" id="auto_signin_checkbox" checked={ submitInfo.autoSignin } onChange={ this.onAutoSiginChange }/>
+                <input type="checkbox" id="auto_signin_checkbox" checked={ submitInfo.autoSignin } onChange={ this.onAutoSiginChange } />
                 <label id="auto_signin_checkbox_label" htmlFor="auto_signin_checkbox">两周内自动登入</label>
               </div>
             </div>
@@ -96,15 +99,15 @@ class Signin extends Component {
           </div>
         </form> :
         <div>用户{user.username}已经成功登入</div>}
-        {!user.success ? <div className="ui divider"></div> : ''}
-        {!user.success ? <OAuthProviders /> : ''}
+        {!user.id ? <div className="ui divider"></div> : ''}
+        {!user.id ? <OAuthProviders /> : ''}
         <div className="ui divider"></div>
-        {!user.success ? <div>
+        {!user.id ? <div>
           <i className="pointing right grey icon"></i>
           尚未注册？
           <Link to='/user/signup' >去注册!</Link>
         </div> : ''}
-        {!user.success ? <div>
+        {!user.id ? <div>
           <i className="pointing right grey icon"></i>
           忘记密码？
           <span to='/user/signup' >去找回!(未实现)</span>

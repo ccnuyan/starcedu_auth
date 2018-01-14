@@ -38,7 +38,7 @@ class Signup extends Component {
 
   render() {
     const { user, oauthUser } = this.props;
-    if (user.success) {
+    if (user.id) {
       if (!user.callback || user.callback === '/') {
         return (<Redirect to={ { pathname: '/' } }/>);
       }

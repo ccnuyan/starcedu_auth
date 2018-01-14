@@ -18,7 +18,7 @@ const authenticate = async ({ username, password, oauth_user_id }, { gen_token, 
       .then(res => res.rows[0]);
   }
 
-  if (user.success) {
+  if (user.id) {
     if (gen_token) {
       user.token = sign('local', {
         to: target_tenant || 'local',
@@ -52,7 +52,7 @@ const register = async ({ username, password, oauth_user_id }, { gen_token, targ
         return registerInfo;
       });
   }
-  if (user.success) {
+  if (user.id) {
     if (gen_token) {
       user.token = sign('local', {
         to: target_tenant || 'local',

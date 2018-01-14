@@ -6,15 +6,20 @@ import session from './auth/sessionMiddleware';
 import tenantAuth from './auth/byPassTenantAuth';
 import userAUth from './auth/byPassUserAuth';
 
+const session2Req = (req, res, next) => {
+  Object.keys(req.session).forEach((k) => {
+    if (k !== 'cookie')req[k] = req.session[k];
+  });
+  next();
+};
+
 export default {
   api: (app) => {
     app.use('/api/local/*',
       session,
+      session2Req,
       (req, res, next) => {
         req.authConfig = { gen_token: false };
-        Object.keys(req.session).forEach((k) => {
-          req[k] = req.session[k];
-        });
         next();
       });
 
@@ -44,7 +49,7 @@ export default {
   },
   web: (app) => {
     if (config.mode !== 'test') {
-      app.use('/*', session);
+      app.use('/*', session, session2Req);
       web(app);
     }
   },

@@ -12,7 +12,7 @@ const authenticate = async ({ unique_provider_id, provider, client }) => {
       return { success: false };
     });
 
-  if (user.success) {
+  if (user.id) {
     const token = sign('local', {
       to: client || 'local',
       user,

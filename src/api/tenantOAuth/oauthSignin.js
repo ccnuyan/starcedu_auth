@@ -12,8 +12,8 @@ const signin = async (req, res) => {
   };
 
   const valRet = paramsValidator.validate(payload, ['provider', 'unique_provider_id']);
-  if (valRet.code !== 0) {
-    return res.json(valRet);
+  if (!valRet.status) {
+    return res.status(400).json(valRet);
   }
 
   const oauthUser = await oauthServices.get_oauth_user_by_provider_info(payload);

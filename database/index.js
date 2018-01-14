@@ -1,3 +1,5 @@
+import '../config';
+
 import program from 'commander';
 import builder from './lib/builder';
 import developer from './lib/developer';
