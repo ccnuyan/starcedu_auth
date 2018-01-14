@@ -28,12 +28,14 @@ const signin = async (req, res) => {
       } else {
         req.session.cookie.expires = false;
       }
-      req.session.callback = '/';
+      // if there is a tenant, save the callback for the case callback from 3rd party provider.
+      req.session.callback = req.tenant && req.tenant.id ? '/user/decide' : '/';
     }
     res.json({
       data: {
         ...pickedUser,
-        callback: req.callback,
+        // if there is a tenant, to decide it the first priority.
+        callback: req.tenant && req.tenant.id ? '/user/decide' : req.callback,
       },
       message: ret.message,
     });

@@ -130,7 +130,7 @@ No Params
 
 5. 第三方登出
 
-Endpoint: `/api/from/oauth/signout`  
+Endpoint: `/api/:from/oauth/3rd_party_signout`  
 Method: `GET`  
 No Params
 ```
@@ -138,7 +138,7 @@ No Params
 
 6. 第三方解绑
 
-Endpoint: `/api/from/oauth/unlink`  
+Endpoint: `/api/:from/oauth/unlink`  
 Method: `PUT`  
 Params: `oauth_user_id, password`
 ```

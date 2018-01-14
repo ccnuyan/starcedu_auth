@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import {
-  Link,
-} from 'react-router-dom';
 import userActions from '../../store/actions/userActions';
 import config from '../config';
 import Busy from './Busy';
@@ -45,12 +42,7 @@ class Signout extends Component {
           登出
         </div>
         </h2>
-        <Busy isBusy={ busy } header={ busy ? '正在登出...' : '已登出' } content={ busy ? '登出后会跳转至主页' : '正在跳转至主页' }/>
-        {/* <div className="ui divider"></div> */}
-        {/* <div>
-          <i className="pointing right grey icon"></i>
-          <Link className='ui right floated' to='/'>立刻返回主页</Link>
-        </div> */}
+        <Busy isBusy={ busy } header={ busy ? '正在登出...' : '已登出' } content={ busy ? '登出后会跳转至主页' : '正在跳转...' }/>
       </div>);
   };
 }

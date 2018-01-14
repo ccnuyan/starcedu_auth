@@ -1,156 +1,85 @@
 import actionTypes from '../actionTypes';
-import utils from '../../utils';
 import config from '../../frontend/config';
-import fill from './messageMiddleware';
-import fetchMiddleware from './fetchMiddlware';
+import getAction from './getAction';
 
 const base = config.serviceBase;
 
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-useless-return */
 
-const signin = (info) => {
-  return (dispatch) => {
-    const payload = {
-      method: 'POST',
-      credentials: 'include',
-      headers: utils.getHeaders(),
-      body: JSON.stringify(info),
-    };
+const signin = info => getAction({
+  method: 'POST',
+  url: `${base}api/local/user/signin`,
+  body: info,
+  actionTypes: {
+    start: actionTypes.USER_SIGNIN_START,
+    end: actionTypes.USER_SIGNIN_END,
+    error: actionTypes.USER_SIGNIN_ERROR,
+  },
+});
 
-    dispatch(fill({ type: actionTypes.USER_SIGNIN_START }));
+const signup = info => getAction({
+  method: 'POST',
+  url: `${base}api/local/user/signup`,
+  body: info,
+  actionTypes: {
+    start: actionTypes.USER_SIGNUP_START,
+    end: actionTypes.USER_SIGNUP_END,
+    error: actionTypes.USER_SIGNUP_ERROR,
+  },
+});
 
-    fetch(`${base}api/local/user/signin`, payload)
-      .then(fetchMiddleware)
-      .then((ret) => {
-        dispatch(fill({ type: actionTypes.USER_SIGNIN_END, payload: ret }));
-        return;
-      }).catch((err) => {
-        dispatch(fill({ type: actionTypes.USER_SIGNIN_ERROR, payload: err }));
-        return;
-      });
-  };
-};
+const signout = () => getAction({
+  method: 'GET',
+  url: `${base}api/local/user/signout`,
+  actionTypes: {
+    start: actionTypes.USER_SIGNOUT_START,
+    end: actionTypes.USER_SIGNOUT_END,
+    error: actionTypes.USER_SIGNOUT_ERROR,
+  },
+});
 
-const signup = (info) => {
-  return (dispatch) => {
-    const payload = {
-      method: 'POST',
-      credentials: 'include',
-      headers: utils.getHeaders(),
-      body: JSON.stringify(info),
-    };
+const update_password = info => getAction({
+  method: 'PUT',
+  url: `${base}api/local/user/update_password`,
+  body: info,
+  actionTypes: {
+    start: actionTypes.USER_UPDATE_PASSWORD_START,
+    end: actionTypes.USER_UPDATE_PASSWORD_END,
+    error: actionTypes.USER_UPDATE_PASSWORD_ERROR,
+  },
+});
 
-    dispatch(fill({ type: actionTypes.USER_SIGNUP_START }));
+const oauth_signout = () => getAction({
+  method: 'GET',
+  url: `${base}api/local/oauth/3rd_party_signout`,
+  actionTypes: {
+    start: actionTypes.USER_OAUTH_SIGNOUT_START,
+    end: actionTypes.USER_OAUTH_SIGNOUT_END,
+    error: actionTypes.USER_OAUTH_SIGNOUT_ERROR,
+  },
+});
 
-    fetch(`${base}api/local/user/signup`, payload).then(fetchMiddleware)
-      .then((ret) => {
-        dispatch(fill({ type: actionTypes.USER_SIGNUP_END, payload: ret }));
-        return;
-      })
-      .catch((err) => {
-        dispatch(fill({ type: actionTypes.USER_SIGNUP_ERROR, payload: err }));
-        return;
-      });
-  };
-};
+const tenant_signout = () => getAction({
+  method: 'GET',
+  url: `${base}api/local/oauth/tenant_signout`,
+  actionTypes: {
+    start: actionTypes.USER_TENANT_SIGNOUT_START,
+    end: actionTypes.USER_TENANT_SIGNOUT_END,
+    error: actionTypes.USER_TENANT_SIGNOUT_ERROR,
+  },
+});
 
-const signout = () => {
-  return (dispatch) => {
-    const payload = {
-      method: 'GET',
-      credentials: 'include',
-      headers: utils.getHeaders(),
-    };
-
-    dispatch(fill({ type: actionTypes.USER_SIGNOUT_START }));
-
-    fetch(`${base}api/local/user/signout`, payload)
-      .then(fetchMiddleware)
-      .then((ret) => {
-        dispatch(fill({ type: actionTypes.USER_SIGNOUT_END, payload: ret }));
-        return;
-      }).catch((err) => {
-        dispatch(fill({ type: actionTypes.USER_SIGNOUT_ERROR, payload: err }));
-        return;
-      });
-  };
-};
-
-const update_password = (info) => {
-  return (dispatch) => {
-    const payload = {
-      method: 'PUT',
-      credentials: 'include',
-      headers: utils.getHeaders(),
-      body: JSON.stringify(info),
-    };
-
-    dispatch(fill({ type: actionTypes.USER_UPDATE_PASSWORD_START }));
-
-    fetch(`${base}api/local/user/update_password`, payload)
-      .then(fetchMiddleware)
-      .then((ret) => {
-        dispatch(fill({ type: actionTypes.USER_UPDATE_PASSWORD_END, payload: ret }));
-        return;
-      }).catch((err) => {
-        dispatch(fill({ type: actionTypes.USER_UPDATE_PASSWORD_ERROR, payload: err }));
-        return;
-      });
-  };
-};
-
-const oauth_signout = () => {
-  return (dispatch) => {
-    const payload = {
-      method: 'GET',
-      credentials: 'include',
-      headers: utils.getHeaders(),
-    };
-
-    dispatch(fill({ type: actionTypes.USER_OAUTH_SIGNOUT_START }));
-
-    fetch(`${base}api/local/oauth/signout`, payload)
-      .then(fetchMiddleware)
-      .then((ret) => {
-        if (ret.success) {
-          dispatch(fill({ type: actionTypes.USER_OAUTH_SIGNOUT_END, payload: ret }));
-        } else {
-          dispatch(fill({ type: actionTypes.USER_OAUTH_SIGNOUT_ERROR, payload: err }));
-        }
-        return;
-      }).catch((err) => {
-        dispatch(fill({ type: actionTypes.USER_OAUTH_SIGNOUT_ERROR, payload: err }));
-        return;
-      });
-  };
-};
-
-const oauth_unlink = () => {
-  return (dispatch) => {
-    const payload = {
-      method: 'POST',
-      credentials: 'include',
-      headers: utils.getHeaders(),
-    };
-
-    dispatch(fill({ type: actionTypes.USER_OAUTH_UNLINK_START }));
-
-    fetch(`${base}api/local/oauth/unlink`, payload)
-      .then(fetchMiddleware)
-      .then((ret) => {
-        if (ret.success) {
-          dispatch(fill({ type: actionTypes.USER_OAUTH_UNLINK_END, payload: ret }));
-        } else {
-          dispatch(fill({ type: actionTypes.USER_OAUTH_UNLINK_ERROR, payload: err }));
-        }
-        return;
-      }).catch((err) => {
-        dispatch(fill({ type: actionTypes.USER_OAUTH_UNLINK_ERROR, payload: err }));
-        return;
-      });
-  };
-};
+const oauth_unlink = info => getAction({
+  method: 'POST',
+  url: `${base}api/local/oauth/unlink`,
+  actionTypes: {
+    start: actionTypes.USER_OAUTH_UNLINK_START,
+    end: actionTypes.USER_OAUTH_UNLINK_END,
+    error: actionTypes.USER_OAUTH_UNLINK_ERROR,
+  },
+  body: info,
+});
 
 const setAutoSignin = (dispatch, value) => {
   dispatch({
@@ -175,6 +104,7 @@ export default {
   update_password,
   oauth_unlink,
   oauth_signout,
+  tenant_signout,
   setAutoSignin,
   setSubmitInfo,
 };

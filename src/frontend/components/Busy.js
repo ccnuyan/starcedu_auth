@@ -17,7 +17,7 @@ class Busy extends Component {
             {this.props.header}
           </div>
           <p>
-            {this.props.header}
+            {this.props.content}
           </p>
         </div>
       </div>);
@@ -30,7 +30,7 @@ class Busy extends Component {
           {this.props.header}
         </div>
         <p>
-          {this.props.header}
+          {this.props.content}
         </p>
       </div>
     </div>);

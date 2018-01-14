@@ -4,6 +4,10 @@ body *{
     border-radius: 0 !important;
 }
 
+body a{
+    cursor: pointer;
+}
+
 .main-route-content{
     position: fixed;
     left:0;

@@ -37,7 +37,7 @@ describe('local user signin business', function () { // eslint-disable-line
     await this.agent.get('/api/local/user/signout')
       .then((res) => {
         res.should.have.status(200);
-        res.body.message.should.equal('user cookie cleared');
+        res.body.message.should.equal('user session reset');
       });
     await this.agent.get('/api/local/user/me')
       .then((res) => {

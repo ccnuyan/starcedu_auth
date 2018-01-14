@@ -1,8 +1,9 @@
 const signout = (req, res) => {
-  req.session.oauthUser = {};
+  req.session.tenant = {};
   res.json({
-    message: 'oauth session cleared',
+    message: 'tenant session reset',
   });
 };
 
 export default signout;
+

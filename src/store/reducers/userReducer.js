@@ -48,6 +48,17 @@ export default (state = userinit, action) => {
       state = state.set('oauthUser', fromJS({}));
       return state;
     }
+    case actionTypes.USER_TENANT_SIGNOUT_START: {
+      return state;
+    }
+    case actionTypes.USER_TENANT_SIGNOUT_END: {
+      state = state.set('tenant', fromJS({}));
+      return state;
+    }
+    case actionTypes.USER_TENANT_SIGNOUT_ERROR: {
+      state = state.set('tenant', fromJS({}));
+      return state;
+    }
     case actionTypes.USER_OAUTH_SIGNOUT_START: {
       return state;
     }

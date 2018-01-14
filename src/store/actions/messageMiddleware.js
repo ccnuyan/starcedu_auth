@@ -52,7 +52,7 @@ const messageDict = {
   USER_SIGNIN_END: (payload) => {
     return {
       status: 'success',
-      header: '登入成功',
+      // header: '登入成功',
       details: `欢迎，${payload.data.username}`,
     };
   },

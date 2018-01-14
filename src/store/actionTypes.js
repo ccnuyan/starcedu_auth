@@ -12,6 +12,7 @@ export const asyncTypes = [
   'USER_OAUTH_SIGNOUT',
   'USER_OAUTH_UNLINK',
   'USER_UPDATE_PASSWORD',
+  'USER_TENANT_SIGNOUT',
 ];
 
 syncTypes.forEach((tp) => {

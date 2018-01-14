@@ -45,6 +45,14 @@ export default (app) => {
         callback: req.session.callback,
       },
     };
+
+    if (!req.path.startsWith('/oauth/callback' ||
+    !req.path.startsWith(''))) {
+      req.session.tenant = {};
+      req.session.oauthUser = {};
+      req.session.callback = '/';
+    }
+
     res.send(indexHtml.replace('_starc_server_state_', JSON.stringify(preloadedState, null, 2)));
   });
 };

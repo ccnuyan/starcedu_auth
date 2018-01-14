@@ -9,6 +9,7 @@ import Message from './common/Message';
 import Home from './Home';
 import User from './User';
 import NotFound from './NotFound';
+import OAuthCallback from './OAuthCallback';
 
 
 class Routes extends Component {
@@ -27,6 +28,7 @@ class Routes extends Component {
           >
             <Route component={ Home } path='/' exact={ true }></Route>
             <Route component={ User } path='/user'></Route>
+            <Route component={ OAuthCallback } path='/oauth/callback/*'></Route>
             <Route component={ NotFound } path='/*'></Route>
           </AnimatedSwitch>
           <Message />

@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/qq', qqMiddleware);
 
-router.get('/:vender', async (req, res) => {
+router.get('/:vender', async (req, res, next) => {
   /*
     req.oauth:{
       provider,
@@ -32,7 +32,7 @@ router.get('/:vender', async (req, res) => {
   if (!oauthUser.user_id) {
     // oauth未绑定
     req.session.oauthUser = oauthUser;
-    res.redirect(301, '/user/signup'); // redirect to signup to bind
+    next();
   } else {
     // oauth登录过且已绑定
     req.session.oauthUser = {};
@@ -42,7 +42,7 @@ router.get('/:vender', async (req, res) => {
     });
     const loginInfo = await oauthServices.authenticate(payload);
     req.session.user = loginInfo;
-    res.redirect(301, req.session.callback || '/');
+    next();
   }
 });
 

@@ -11,7 +11,7 @@ import PasswordField from './common/user/PasswordField';
 import OAuthProviders from './common/user/OAuthProviders';
 import userActions from '../../store/actions/userActions';
 import QQInfo from './common/user/oauth/QQInfo';
-import Tenant from './Tenant';
+import Busy from './Busy';
 
 import init from '../initFormValidation';
 
@@ -71,7 +71,7 @@ class Signin extends Component {
   }
 
   render() {
-    const { user, submitInfo, oauthUser } = this.props;
+    const { user, submitInfo, oauthUser, busy } = this.props;
     return (
       <div className="user-form-content">
         <h2 className={ `ui ${config.theme} image header` }>
@@ -80,9 +80,10 @@ class Signin extends Component {
             {'登入'}
           </div>
         </h2>
-        <Tenant />
-        <div className="ui divider"></div>
-        {oauthUser.id ? <QQInfo /> : ''}
+        {/* oauthe user */}
+        {oauthUser.id && !busy ? <div className="ui divider"></div> : ''}
+        {oauthUser.id && !busy ? <QQInfo /> : ''}
+
         {!user.id ? <form ref={ e => this.form = e } className={ `ui form ${this.props.busy ? 'loading' : ''}` } onSubmit={ this.onFormSubmit }>
           <div className="ui segment">
             <EmailField />
@@ -98,24 +99,30 @@ class Signin extends Component {
           <div className="ui error message">
           </div>
         </form> :
-        <div>用户{user.username}已经成功登入</div>}
-        {!user.id ? <div className="ui divider"></div> : ''}
-        {!user.id ? <OAuthProviders /> : ''}
-        <div className="ui divider"></div>
-        {!user.id ? <div>
-          <i className="pointing right grey icon"></i>
-          尚未注册？
-          <Link to='/user/signup' >去注册!</Link>
-        </div> : ''}
-        {!user.id ? <div>
-          <i className="pointing right grey icon"></i>
-          忘记密码？
-          <span to='/user/signup' >去找回!(未实现)</span>
-        </div> : ''}
-        <div>
-          <i className="pointing right grey icon"></i>
-          <Link className='ui right floated' to='/'>返回主页</Link>
-        </div>
+        <Busy isBusy={ false }
+          header={ busy ? '' : `Hi, ${user.username}` }
+          content={ busy ? '' : '正在跳转...' }
+        />}
+
+        {/* 3rd party authentication providers */}
+        {!user.id && !busy ? <OAuthProviders /> : ''}
+
+        {/* links */}
+        {!user.id && !busy ?
+          <div>
+            <div className="ui divider"></div>
+            <div>
+              <i className="pointing right grey icon"></i>
+              尚未注册？
+              <Link to='/user/signup' >去注册!</Link>
+            </div>
+            <div>
+              <i className="pointing right grey icon"></i>
+              忘记密码？
+              <span to='/user/signup' >去找回!(未实现)</span>
+            </div>
+          </div> : ''
+        }
       </div>);
   }
 }

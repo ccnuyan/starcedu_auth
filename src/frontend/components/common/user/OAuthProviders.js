@@ -3,6 +3,7 @@ import React from 'react';
 const OAuthProviders = () => {
   return (
     <div>
+      <div className="ui divider"></div>
       <a href="/oauth/luanch/qq">
         <i className="qq yellow icon"></i>
           QQ
