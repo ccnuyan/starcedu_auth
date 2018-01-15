@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
+import config from '../config';
+
 class CallbackRedirect extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
@@ -27,10 +29,13 @@ class CallbackRedirect extends Component {
 
     if (user && user.id) {
       if (callback) {
-        if (callback.startsWith('/')) {
+        if (callback.startsWith('/') && !callback.startsWith('/apps')) {
           return <Redirect to={ callback }/>;
         }
-        return window.replace(callback);
+        if (callback.startsWith('/apps/')) {
+          return window.location.replace(`http://${config.domain}${callback}`);
+        }
+        return window.location.replace(callback);
       }
     }
 

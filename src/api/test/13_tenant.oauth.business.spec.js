@@ -26,7 +26,7 @@ const profile2 = {
   },
 };
 
-const basicAuth = new Buffer(`${tenants.local_test_tanant.id}:${tenants.local_test_tanant.pass}`).toString('base64');
+const basicAuth = new Buffer(`${tenants.local_test_tenant.id}:${tenants.local_test_tenant.pass}`).toString('base64');
 
 describe('tenant oauth business', function () { // eslint-disable-line
   this.timeout(10000);

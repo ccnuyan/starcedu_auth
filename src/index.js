@@ -1,6 +1,5 @@
 import api from '../src/api/';
 import web from '../src/web/';
-import config from '../config';
 
 import session from './auth/sessionMiddleware';
 import tenantAuth from './auth/byPassTenantAuth';
@@ -48,7 +47,7 @@ export default {
     });
   },
   web: (app) => {
-    if (config.mode !== 'test') {
+    if (serverConfig.mode !== 'test') {
       app.use('/*', session, session2Req);
       web(app);
     }

@@ -5,7 +5,7 @@ import app from '../../../server';
 describe('tenant user signin business', function () { // eslint-disable-line
   this.timeout(10000);
   beforeEach(async () => {
-    this.basicAuth = new Buffer(`${tenants.local_test_tanant.id}:${tenants.local_test_tanant.pass}`).toString('base64');
+    this.basicAuth = new Buffer(`${tenants.local_test_tenant.id}:${tenants.local_test_tenant.pass}`).toString('base64');
     this.user = {
       username: 'user@test.com',
       password: 'testpass',

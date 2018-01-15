@@ -42,10 +42,10 @@ export default (app) => {
       '/oauth/callback',
       '/user/authorize',
     ];
+
     if (_.every(ignoreArray, entry => !req.path.startsWith(entry))) {
       req.session.tenant = {};
       req.session.oauthUser = {};
-      req.session.callback = '/';
     }
 
     // preloaded store object

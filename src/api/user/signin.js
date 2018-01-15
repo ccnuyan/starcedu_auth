@@ -24,7 +24,7 @@ const signin = async (req, res) => {
     if (req.session) {
       req.session.user = pickedUser;
       if (payload.autoSignin === true) {
-        req.session.cookie.maxAge = serverConfig.auth.cookie.maxage;
+        req.session.cookie.maxAge = serverConfig.auth.cookie.maxAge;
       } else {
         req.session.cookie.expires = false;
       }

@@ -25,7 +25,7 @@ const decide = async (req, res, next) => {
     state: req.tenant.state,
     user_id: req.user.id,
   };
-  req.session.tanant = {};
+  req.session.tenant = {};
 
   const codeStruct = await authorizeServices.generateCode(payload);
   if (codeStruct.success) {
