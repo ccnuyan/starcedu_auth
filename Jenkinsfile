@@ -25,7 +25,7 @@ pipeline {
     }
     stage('run test') {
       steps {
-        sh 'docker run --rm --name authtest -i --link database:database starcedu/auth:test'
+        sh 'docker run --rm --name authtest -i --link database:database -e DBHOST=database starcedu/auth:test'
       }
     }
     stage('build prod') {
@@ -44,6 +44,5 @@ pipeline {
   environment {
     DOCKER_USERNAME = 'ccnuyan@live.com'
     DOCKER_PASSWORD = '12345abcde'
-    DBHOST = 'database'
   }
 }

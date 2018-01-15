@@ -22,28 +22,14 @@ http {
         # server entry
         listen  80;
         
-        location /apps/disk/ { # by yan zhonghua
+        location /apps/yourapp/ { # by you
             # frontend
-            proxy_pass http://yan-7700:19000/; # 本地应用服务器
+            proxy_pass http://{localhost}:dev_port/; # 本地应用服务器
         }
-
-###### 应用配置开始
-
-        location /apps/notebook/ {
-            # frontend
-            proxy_pass http://localhost:9000/; # 本地应用服务器
-        }
-
-        location /apps/lrs/ {
-            # frontend
-            proxy_pass http://localhost:9000/; # 本地应用服务器
-        }
-
-###### 应用配置结束
 
         location / {  # by yan zhonghua
             # frontend
-            proxy_pass http://yan-7700:9000/; # 认证服务器
+            proxy_pass http://{dev-server}/; # 开发服务器
         }
     }
 }
