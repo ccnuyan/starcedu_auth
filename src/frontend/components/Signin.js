@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import {
   Link,
 } from 'react-router-dom';
+import {
+  Redirect,
+} from 'react-router';
 
 import EmailField from './common/user/EmailField';
 import config from '../config';
@@ -30,18 +33,6 @@ class Signin extends Component {
 
   componentDidMount() {
     init();
-    const { user, location } = this.props;
-    if (user.id) {
-      setTimeout(() => {
-        if (location.state && location.state.cb) {
-          this.props.history.push(location.state.cb);
-        } else if (user.callback) {
-          this.props.history.push(user.callback);
-        } else {
-          this.props.history.push('/');
-        }
-      }, 2000);
-    }
   }
 
   onFormSubmit = (event) => {
@@ -55,23 +46,11 @@ class Signin extends Component {
     this.props.setAutoSignin(event.target.checked);
   }
 
-  componentDidUpdate(prevProps) {
-    const { user, location } = this.props;
-    if (user.id && !prevProps.user.id) {
-      setTimeout(() => {
-        if (location.state && location.state.cb) {
-          this.props.history.push(location.state.cb);
-        } else if (user.callback) {
-          this.props.history.push(user.callback);
-        } else {
-          this.props.history.push('/');
-        }
-      }, 2000);
-    }
-  }
-
   render() {
     const { user, submitInfo, oauthUser, busy } = this.props;
+    if (user.id) {
+      return (<Redirect to={ { pathname: '/callback_redirect' } }/>);
+    }
     return (
       <div className="user-form-content">
         <h2 className={ `ui ${config.theme} image header` }>

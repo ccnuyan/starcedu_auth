@@ -39,10 +39,7 @@ class Signup extends Component {
   render() {
     const { user, oauthUser } = this.props;
     if (user.id) {
-      if (!user.callback || user.callback === '/') {
-        return (<Redirect to={ { pathname: '/' } }/>);
-      }
-      return window.location.replace(user.callback);
+      return (<Redirect to={ { pathname: '/callback_redirect' } }/>);
     }
     return (
       <div className="user-form-content">

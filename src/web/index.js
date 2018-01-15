@@ -37,6 +37,18 @@ export default (app) => {
   app.post('/user/token_by_code', authorize.get_token);
 
   app.get('/*', async (req, res) => {
+    // clear short-term session
+    const ignoreArray = [
+      '/oauth/callback',
+      '/user/authorize',
+    ];
+    if (_.every(ignoreArray, entry => !req.path.startsWith(entry))) {
+      req.session.tenant = {};
+      req.session.oauthUser = {};
+      req.session.callback = '/';
+    }
+
+    // preloaded store object
     const preloadedState = {
       user: {
         user: req.user || {},
@@ -45,13 +57,6 @@ export default (app) => {
         callback: req.session.callback,
       },
     };
-
-    if (!req.path.startsWith('/oauth/callback' ||
-    !req.path.startsWith(''))) {
-      req.session.tenant = {};
-      req.session.oauthUser = {};
-      req.session.callback = '/';
-    }
 
     res.send(indexHtml.replace('_starc_server_state_', JSON.stringify(preloadedState, null, 2)));
   });

@@ -18,7 +18,6 @@ const update_password = async (req, res) => {
 
   if (ret.success) {
     if (req.session) {
-      req.session.oauthUser = {};
       req.session.user = {};
     }
     res.status(200).json({

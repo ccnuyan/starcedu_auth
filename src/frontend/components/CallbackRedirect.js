@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
-class OAuthCallback extends Component {
+class CallbackRedirect extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     tenant: PropTypes.object.isRequired,
     oauthUser: PropTypes.object.isRequired,
-    callback: PropTypes.string.isRequired,
+    callback: PropTypes.string,
   }
 
   render() {
@@ -28,7 +28,7 @@ class OAuthCallback extends Component {
     if (user && user.id) {
       if (callback) {
         if (callback.startsWith('/')) {
-          return this.props.history.push(callback);
+          return <Redirect to={ callback }/>;
         }
         return window.replace(callback);
       }
@@ -45,4 +45,4 @@ const mapStateToProps = state => ({
   callback: state.user.toJSON().callback,
 });
 
-export default withRouter(connect(mapStateToProps)(OAuthCallback));
+export default withRouter(connect(mapStateToProps)(CallbackRedirect));

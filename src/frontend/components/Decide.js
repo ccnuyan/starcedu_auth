@@ -26,7 +26,6 @@ class Decide extends Component {
     if (!user.id) {
       this.props.history.push({
         pathname: '/user/signin',
-        state: { cb: '/user/decide' },
       });
     }
   }
@@ -74,7 +73,6 @@ class Decide extends Component {
           <form className="ui form three buttons" method="post" action="/user/decide">
             <Link className={ 'ui gray fluid button' } to={ {
               pathname: '/user/signout',
-              state: { cb: '/user/decide' },
             } }
             >切换用户</Link>
             <input className={ 'ui blue fluid submit button' } type="submit" value="确定" />

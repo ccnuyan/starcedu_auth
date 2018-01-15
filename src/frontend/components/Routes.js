@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
+  Switch,
   Route,
 } from 'react-router-dom';
-import { AnimatedSwitch } from 'react-router-transition';
 import Message from './common/Message';
 
 import Home from './Home';
 import User from './User';
 import NotFound from './NotFound';
-import OAuthCallback from './OAuthCallback';
+import CallbackRedirect from './CallbackRedirect';
 
 
 class Routes extends Component {
@@ -20,17 +20,14 @@ class Routes extends Component {
     return (
       <Router>
         <div>
-          <AnimatedSwitch
-            atEnter={ { opacity: 0 } }
-            atLeave={ { opacity: 0 } }
-            atActive={ { opacity: 1 } }
-            runOnMount={ true }
-          >
+          <Switch>
             <Route component={ Home } path='/' exact={ true }></Route>
+            <Route component={ CallbackRedirect } path='/callback_redirect'></Route>
+            <Route component={ CallbackRedirect } path='/oauth/callback/*'></Route>
+            <Route component={ CallbackRedirect } path='/user/authorize'></Route>
             <Route component={ User } path='/user'></Route>
-            <Route component={ OAuthCallback } path='/oauth/callback/*'></Route>
             <Route component={ NotFound } path='/*'></Route>
-          </AnimatedSwitch>
+          </Switch>
           <Message />
         </div>
       </Router>

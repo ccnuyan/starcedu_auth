@@ -11,13 +11,12 @@ const authorize = async (req, res, next) => {
         state: req.query.state,
         ...tenant,
       };
-      return res.redirect('/user/decide');
     }
   }
   next();
 };
 
-const decide = async (req, res) => {
+const decide = async (req, res, next) => {
   if (!req.session.tenant) {
     return res.redirect('/error');
   }
@@ -37,7 +36,7 @@ const decide = async (req, res) => {
     });
     return res.redirect(`${tenant.redirect_url}?${query}`);
   }
-  return res.redirect('/error');
+  next();
 };
 
 const get_token = async (req, res) => {
