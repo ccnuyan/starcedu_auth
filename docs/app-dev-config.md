@@ -1,4 +1,5 @@
 # 应用开发服务器的配置（Windows系统）
+
 ## 添加一条域名指向信息至 C:\Windows\System32\drivers\etc\hosts
 ```
 127.0.0.1	www.syncollege.com
@@ -29,7 +30,7 @@ http {
 
         location / {  # by yan zhonghua
             # frontend
-            proxy_pass http://{dev-server}/; # 开发服务器
+            proxy_pass http://{dev_server_ip}/; # 开发服务器
         }
     }
 }
@@ -41,3 +42,12 @@ http {
 http://www.syncollege.com  
 应用  
 http://www.syncollege.com/apps/notebook
+
+# 直接访问开发服务器（Windows系统）
+
+## 添加一条域名指向信息至 C:\Windows\System32\drivers\etc\hosts
+```
+{dev_server_ip}	www.syncollege.com
+```
+之后通过以下地址访问  
+http://www.syncollege.com  

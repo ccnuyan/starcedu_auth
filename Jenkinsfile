@@ -10,8 +10,8 @@ pipeline {
         }
         stage('run test db') {
           steps {
-            sh 'docker ps -a | grep -o "database" | awk \'{print $1 }\' | xargs -I {} docker rm -f {}'
-            sh 'docker run -d --name database postgres:latest'
+            sh 'docker ps -a | grep -o "database-test" | awk \'{print $1 }\' | xargs -I {} docker rm -f {}'
+            sh 'docker run -d --name database-test postgres:latest'
             sh 'docker ps'
           }
         }
@@ -25,7 +25,8 @@ pipeline {
     }
     stage('run test') {
       steps {
-        sh 'docker run --rm --name authtest -i --link database:database -e DBHOST=database starcedu/auth:test'
+        sh 'docker run --rm --name authtest -i --link database-test:database-test -e DBHOST=database-test DBDATABASE=postgres starcedu/auth:test'
+        sh 'docker rm -f database-test'
       }
     }
     stage('build prod') {
