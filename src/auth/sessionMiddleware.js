@@ -6,9 +6,12 @@ const RedisStore = connectRedis(session);
 
 const ssConfig = {
   secret: serverConfig.auth.session.secret,
-  resave: true,
+  resave: false,
   saveUninitialized: true,
-  cookie: { httpOnly: true },
+  cookie: {
+    domain: 'www.anotherdomain.com',
+    httpOnly: true,
+  },
 };
 
 if (serverConfig.mode !== 'test') {

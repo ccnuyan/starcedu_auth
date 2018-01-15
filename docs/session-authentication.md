@@ -1,17 +1,21 @@
 # Session 认证
 
-##Session
+>FOR  
+`local_tenant_web_app` [frontend]  
 
-secret的开发配置是'12345678'.  
-secret生产环境的配置再定.
+Session 认证用于 `local_tenant_web_app`，前端调用用户相关API请携带以下cookie访问
 
-key: 'connect.sid'  
-HTTPonly
+key: `connect.sid`  
 
-# How to construct session's id in redis:
+# Session 解析
 
-## Session ID Format
+>FOR  
+`local_tenant_web_app` [backend as server]  
 
+## How to get session's id in redis:
+
+Session ID Format in cookie  
+key: `connect.sid`  
 value: 
 ```
   s:${crypto.createHmac('sha256', secret)
@@ -20,11 +24,11 @@ value:
       .replace(/\=+$/, '')}
 ```
 
-Redis id prefix: 'sess:'
+Redis sessionid prefix: 'sess:'
 
 ### Example:
 
-* connect.sid:
+* value of connect.sid:
 `s%3AzlV2novTfZbZb2ocU7f383zY9yESBgQG.pDyFCoZoVKNLa%2FpIAE%2FaDx2ueXwWAYHm1%2Bra0cqo5fU`
 
 * url decoded:
@@ -41,33 +45,26 @@ crypto.createHmac('sha256', '12345678')
 `pDyFCoZoVKNLa/pIAE/aDx2ueXwWAYHm1+ra0cqo5fU`
 
 * session id in redis:  
-`sess:zlV2novTfZbZb2ocU7f383zY9yESBgQG`
-#
-RETURNING:
+`sess:zlV2novTfZbZb2ocU7f383zY9yESBgQG`  
+
+* query result:  
 ```
 {
-  "cookie": {
+  "user": {
+    "id": "267207801858688392",
+    "username": "ccnuyan@gmail.com",
+  }
+  "cookie": { // cookie 字段只供参考，非认证主站请勿使用, 
     "originalMaxAge": 1209600000,
     "expires": "2018-01-19T01:18:56.535Z",
     "httpOnly": true,
     "path": "/"
-  }, // cookie 字段只供参考
-  "oauthUser": // 无用, 
-  "user": {
-    "id": "267207801858688392",
-    "username": "ccnuyan@gmail.com",
-    "gender": // 暂无,
-    "nickname": // 暂无,
-    "role": -1 // 暂无意义,
-    "success": true,
-    "message": "authenticate successfully",
-    "token": // 无用，计划取消此字段
-  }
+  },
+  "oauthUser": // 非认证主站请勿使用, 
+  "tenant": // 非认证主站请勿使用, 
+  "callback": // 非认证主站请勿使用, 
 }
 ```
 
-## Endpoints:
-
-注册：/user/signup?cb={$callbackurl}  
-登入：/user/signin?cb={$callbackurl}  
-登出：/user/signout  
+secret的开发配置是'12345678'.  
+secret生产环境的配置再定.

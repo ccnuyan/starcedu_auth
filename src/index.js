@@ -23,8 +23,8 @@ export default {
       });
 
     app.use('/api/tenant/*',
-      tenantAuth,
       userAUth,
+      tenantAuth,
       (req, res, next) => {
         req.authConfig = {
           gen_token: true,

@@ -14,5 +14,4 @@ router.put('/3rd_party_unlink', auth, unlink);
 // these are for tennants
 router.get('/tenant_signout', tenant_signout);
 
-
 export default router;
