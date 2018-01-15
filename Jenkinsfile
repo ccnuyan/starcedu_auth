@@ -10,8 +10,8 @@ pipeline {
         }
         stage('run test db') {
           steps {
-            sh 'docker ps -a | grep -o "database-test" | awk \'{print $1 }\' | xargs -I {} docker rm -f {}'
-            sh 'docker run -d --name database-test postgres:latest'
+            sh 'docker ps -a | grep -o "database" | awk \'{print $1 }\' | xargs -I {} docker rm -f {}'
+            sh 'docker run -d --name database postgres:latest'
             sh 'docker ps'
           }
         }
@@ -25,7 +25,7 @@ pipeline {
     }
     stage('run test') {
       steps {
-        sh 'docker run --rm --name authtest -i --link database-test:database-test starcedu/auth:test'
+        sh 'docker run --rm --name authtest -i --link database:database starcedu/auth:test'
       }
     }
     stage('build prod') {
@@ -36,8 +36,7 @@ pipeline {
     stage('push prod') {
       steps {
         sh 'docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" registry.cn-hangzhou.aliyuncs.com'
-        sh '''docker tag startcedu/auth:latest registry.cn-hangzhou.aliyuncs.com/ccnuyan/starcedu_auth:latest
-'''
+        sh 'docker tag startcedu/auth:latest registry.cn-hangzhou.aliyuncs.com/ccnuyan/starcedu_auth:latest'
         sh 'docker push registry.cn-hangzhou.aliyuncs.com/ccnuyan/starcedu_auth:latest'
       }
     }
@@ -45,5 +44,6 @@ pipeline {
   environment {
     DOCKER_USERNAME = 'ccnuyan@live.com'
     DOCKER_PASSWORD = '12345abcde'
+    DBHOST = 'database'
   }
 }
