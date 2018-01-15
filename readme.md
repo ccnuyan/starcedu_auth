@@ -10,7 +10,7 @@
 
 1. [认证服务器部署](/docs/deployment.md)
 
-1. [移动端认证接入](/docs/mobile-auth-interface.md)
+1. [客户端认证接入](/docs/client-auth-interface.md)
 
 ---
 其他项目：

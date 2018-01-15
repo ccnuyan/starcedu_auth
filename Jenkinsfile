@@ -25,7 +25,7 @@ pipeline {
     }
     stage('run test') {
       steps {
-        sh 'docker run --rm --name authtest -i --link database-test:database-test -e DBHOST=database-test DBDATABASE=postgres starcedu/auth:test'
+        sh 'docker run --rm --name authtest -i --link database-test:database-test -e DBHOST=database-test -e DBDATABASE=postgres starcedu/auth:test'
         sh 'docker rm -f database-test'
       }
     }
