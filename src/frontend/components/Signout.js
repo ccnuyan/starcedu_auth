@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter, Redirect } from 'react-router';
 import userActions from '../../store/actions/userActions';
 import config from '../config';
 import Busy from './Busy';
@@ -19,21 +19,11 @@ class Signout extends Component {
     this.props.signout();
   };
 
-  componentDidUpdate(prevProps) {
-    const { busy, location } = this.props;
-    if (!busy && prevProps.busy) {
-      setTimeout(() => {
-        if (location.state && location.state.cb) {
-          this.props.history.push(location.state.cb);
-        } else {
-          this.props.history.push('/');
-        }
-      }, 2000);
-    }
-  }
-
   render = () => {
-    const { busy } = this.props;
+    const { busy, user } = this.props;
+    if (!user.id) {
+      return (<Redirect to={ { pathname: '/callback_redirect' } }/>);
+    }
     return (
       <div className="user-form-content">
         <h2 className={ `ui ${config.theme} image header` }>
@@ -42,7 +32,7 @@ class Signout extends Component {
           登出
         </div>
         </h2>
-        <Busy isBusy={ busy } header={ busy ? '正在登出...' : '已登出' } content={ busy ? '登出后会跳转至主页' : '正在跳转...' }/>
+        <Busy isBusy={ true } header={ busy ? '正在登出' : '正在登出' } content={ busy ? '登出后将自动跳转' : '登出后将自动跳转' }/>
       </div>);
   };
 }

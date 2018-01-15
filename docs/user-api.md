@@ -6,7 +6,7 @@ FOR:
 local-tenant-web-app: [session](./session-authentication.md)  
 local-tenant-client-app: [tenant](./tenant-authentication.md)  
 
-Endpoint: `/api/user/signin`  
+Endpoint: `/api/local/user/signin`  
 Method: `POST`  
 Request:
 ```
@@ -66,7 +66,7 @@ FOR:
 local-tenant-web-app: [session](./session-authentication.md)  
 local-tenant-client-app: [tenant](./tenant-authentication.md)  
 
-Endpoint: `/api//user/signup`  
+Endpoint: `/api/local//user/signup`  
 Method: `POST`  
 Request:
 ```
@@ -125,7 +125,7 @@ FOR:
 local-tenant-web-app: [session](./session-authentication.md)  
 local-tenant-client-app: [tenant](./tenant-authentication.md) & [user-token](./usertoken-authentication.md)  
 
-Endpoint: `/api/user/update_password`  
+Endpoint: `/api/local/user/update_password`  
 Method: `PUT`  
 Params: 
 ```
@@ -154,7 +154,7 @@ status[200]:{
 ```
 __PS:__ API调用参数以JSON形式放在请求体中, 以API 1. 登入 为例，HTTP请求全文为
 ```
-POST $domain/api/user/signin HTTP/1.1
+POST $domain/api/local/user/signin HTTP/1.1
 Host: www.syncollege.com
 Connection: keep-alive
 Content-Length: 68

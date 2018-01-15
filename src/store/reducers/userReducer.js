@@ -34,8 +34,6 @@ export default (state = userinit, action) => {
       return state;
     }
     case actionTypes.USER_SIGNOUT_START: {
-      state = state.set('user', fromJS({}));
-      state = state.set('oauthUser', fromJS({}));
       return state;
     }
     case actionTypes.USER_SIGNOUT_END: {

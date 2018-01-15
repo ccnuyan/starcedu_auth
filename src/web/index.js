@@ -1,3 +1,5 @@
+import chalk from 'chalk';
+
 import indexHtml from './indexFabricator';
 import callback from './controllers/oauth/callback';
 import qq from './controllers/oauth/qq';
@@ -48,13 +50,17 @@ export default (app) => {
       req.session.oauthUser = {};
     }
 
+    Object.keys(req.session).forEach((k) => {
+      if (k !== 'cookie')req[k] = req.session[k];
+    });
+
     // preloaded store object
     const preloadedState = {
       user: {
         user: req.user || {},
-        oauthUser: req.session.oauthUser || {},
-        tenant: req.session.tenant || {},
-        callback: req.session.callback,
+        oauthUser: req.oauthUser || {},
+        tenant: req.tenant || {},
+        callback: req.callback,
       },
     };
 

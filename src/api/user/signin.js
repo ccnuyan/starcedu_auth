@@ -34,7 +34,7 @@ const signin = async (req, res) => {
     res.json({
       data: {
         ...pickedUser,
-        // if there is a tenant, to decide it the first priority.
+        // if there is a tenant, to decide is the first priority.
         callback: req.callback,
       },
       message: ret.message,

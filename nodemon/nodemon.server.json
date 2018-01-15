@@ -9,10 +9,7 @@
     "watch": [
       "config/",
       "server/",
-      "src/store",
-      "src/web",
-      "src/api",
-      "src/services"
+      "src/"
     ],
     "env": {
       "NODE_ENV": "development"

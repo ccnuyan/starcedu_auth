@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Motion, spring } from 'react-motion';
 import {
   Link,
 } from 'react-router-dom';
@@ -49,7 +50,7 @@ class Signin extends Component {
   render() {
     const { user, submitInfo, oauthUser, busy } = this.props;
     if (user.id) {
-      return (<Redirect to={ { pathname: '/callback_redirect' } }/>);
+      return <Redirect to={ { pathname: '/callback_redirect' } }/>;
     }
     return (
       <div className="user-form-content">
@@ -63,7 +64,7 @@ class Signin extends Component {
         {oauthUser.id && !busy ? <div className="ui divider"></div> : ''}
         {oauthUser.id && !busy ? <QQInfo /> : ''}
 
-        {!user.id ? <form ref={ e => this.form = e } className={ `ui form ${this.props.busy ? 'loading' : ''}` } onSubmit={ this.onFormSubmit }>
+        <form ref={ e => this.form = e } className={ `ui form ${this.props.busy ? 'loading' : ''}` } onSubmit={ this.onFormSubmit }>
           <div className="ui segment">
             <EmailField />
             <PasswordField name='password' placeholder="密码" />
@@ -77,17 +78,13 @@ class Signin extends Component {
           </div>
           <div className="ui error message">
           </div>
-        </form> :
-        <Busy isBusy={ false }
-          header={ busy ? '' : `Hi, ${user.username}` }
-          content={ busy ? '' : '正在跳转...' }
-        />}
+        </form>
 
         {/* 3rd party authentication providers */}
-        {!user.id && !busy ? <OAuthProviders /> : ''}
+        {!busy ? <OAuthProviders /> : ''}
 
         {/* links */}
-        {!user.id && !busy ?
+        {!busy ?
           <div>
             <div className="ui divider"></div>
             <div>
@@ -100,8 +97,7 @@ class Signin extends Component {
               忘记密码？
               <span to='/user/signup' >去找回!(未实现)</span>
             </div>
-          </div> : ''
-        }
+          </div> : ''}
       </div>);
   }
 }
