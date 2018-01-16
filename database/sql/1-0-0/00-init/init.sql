@@ -1,3 +1,4 @@
+DROP SCHEMA IF EXISTS public CASCADE;
 DROP SCHEMA IF EXISTS starcedu_auth CASCADE;
 
 CREATE SCHEMA starcedu_auth;
