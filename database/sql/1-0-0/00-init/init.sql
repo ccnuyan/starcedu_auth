@@ -1,11 +1,7 @@
 CREATE SCHEMA IF NOT EXISTS public;
-GRANT ALL ON SCHEMA public TO PUBLIC;
-DROP SCHEMA IF EXISTS public CASCADE;
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 
 DROP SCHEMA IF EXISTS starcedu_auth CASCADE;
 
 CREATE SCHEMA starcedu_auth;
 SET search_path = starcedu_auth;
-
-CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA starcedu_auth;
-ALTER EXTENSION pgcrypto SET SCHEMA starcedu_auth;
