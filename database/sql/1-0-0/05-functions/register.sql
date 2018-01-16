@@ -26,7 +26,7 @@ BEGIN
     -- add login for local
     -- username as provider_key
     INSERT INTO logins(user_id, provider_key, provider_token)
-    VALUES(new_user.id, new_user.username, crypt(password::text, gen_salt('bf', 10)::text));
+    VALUES(new_user.id, new_user.username, public.crypt(password::text, gen_salt('bf', 10)::text));
 
     -- binding check
     IF oauth_user_id IS NOT NULL THEN
