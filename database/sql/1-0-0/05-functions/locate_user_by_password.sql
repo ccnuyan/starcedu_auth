@@ -7,6 +7,6 @@ as $$
 
   select user_id from logins where
   provider_key = username and
-  provider_token = public.crypt(pass::text, provider_token::text);
+  provider_token = crypt(pass::text, provider_token::text);
 $$
 language sql;
