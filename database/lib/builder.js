@@ -53,6 +53,9 @@ const install = () => {
   return pg.query(sql).then((res) => {
     console.log(res.rows[0].result); // eslint-disable-line
     return process.exit(0);
+  }).catch((err) => {
+    console.log(err); // eslint-disable-line
+    return process.exit(1);
   });
 };
 
