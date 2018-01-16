@@ -15,7 +15,7 @@ BEGIN
   select locate_user_by_password(input_username, old_pass) into found_id;
   IF (found_id IS not NULL) THEN
     --update the password if all is OK
-    update logins set provider_token = crypt(new_pass::text, gen_salt('bf',10)::text)
+    update logins set provider_token = public.crypt(new_pass::text, gen_salt('bf',10)::text)
     where user_id=found_id and provider='local';
   ELSE
     success := FALSE;
