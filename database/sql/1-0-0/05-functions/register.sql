@@ -1,6 +1,5 @@
 SET search_path = starcedu_auth;
 
-
 CREATE OR REPLACE FUNCTION register(
   un VARCHAR, 
   password VARCHAR, 

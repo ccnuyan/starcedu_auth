@@ -1,3 +1,5 @@
+set search_path = starcedu_auth;
+
 create table oauth2Users(
   id bigint primary key not null default id_generator(),
 

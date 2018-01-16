@@ -32,6 +32,7 @@ DECLARE
   data_result json;
 BEGIN
   SET search_path=starcedu_auth;
+  
   if input_user_id is not null then
   
     -- replace the provider for this user completely
