@@ -1,6 +1,6 @@
-drop schema if exists starcedu_auth CASCADE;
+DROP SCHEMA IF EXISTS starcedu_auth CASCADE;
 
-create schema starcedu_auth;
-set search_path = starcedu_auth;
+CREATE SCHEMA starcedu_auth;
+SET search_path = starcedu_auth;
 
-create extension if not exists pgcrypto with schema starcedu_auth;
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA starcedu_auth;
