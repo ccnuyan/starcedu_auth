@@ -1,5 +1,14 @@
 [![Build Status](https://www.travis-ci.org/ccnuyan/starcedu_auth.svg?branch=master)](https://www.travis-ci.org/ccnuyan/starcedu_auth)
 
+系统支持三种租户应用情景
+
+1. local-tenant-client-app  
+    代表本地租户客户端应用 (如android笔记应用)
+1. local-tenant-web-app  
+    代表本地租户WEB应用 (如web笔记应用)
+1. oauth-tenant-web-app  
+    代表OAuth租户WEB应用
+
 # Goto:
 
 1. [应用程序开发配置](/docs/app-dev-config.md)
