@@ -3,7 +3,8 @@
 BaseUrl:`/`  
 Endpoint: `api/:from/*`  
 Authentications:  
-[session](https://github.com/ccnuyan/starcedu_auth/blob/master/docs/session-authentication.md)   
+[session](https://github.com/ccnuyan/starcedu_auth/blob/master/docs/session-authentication.md)     
+[tenant](https://github.com/ccnuyan/starcedu_auth/blob/master/docs/tenant-authentication.md)  
 [usertoken](https://github.com/ccnuyan/starcedu_auth/blob/master/docs/usertoken-authentication.md)  
 
 from有两个值:
@@ -73,7 +74,7 @@ status[200]:{
 
 >FOR:  
 local-tenant-web-app: session  
-local-tenant-client-app: [tenant](./tenant-authentication.md)  
+local-tenant-client-app: tenant
 
 Endpoint: `api/:from/user/signup`  
 Method: `POST`  
@@ -132,7 +133,7 @@ status[200]:{
 
 >FOR:  
 local-tenant-web-app: session  
-local-tenant-client-app: [tenant](./tenant-authentication.md) & [usertoken](./usertoken-authentication.md)  
+local-tenant-client-app: tenant & usertoken  
 
 Endpoint: `api/:from/user/update_password`  
 Method: `PUT`  
