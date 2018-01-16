@@ -13,7 +13,7 @@ DECLARE
   success BOOLEAN DEFAULT FALSE;
   return_message VARCHAR(64);
 BEGIN
-  SET search_path=starcedu_auth;
+  SET search_path=starcedu_auth, public;
     
   IF NOT EXISTS (SELECT username FROM users WHERE username = un)
   THEN

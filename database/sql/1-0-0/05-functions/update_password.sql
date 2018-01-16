@@ -9,7 +9,8 @@ DECLARE
   return_message VARCHAR;
   return_login_info starcedu_auth.login_info;
 BEGIN
-  set search_path=starcedu_auth;
+  set search_path=starcedu_auth, public;
+  
   --find the user based on username/password
   select locate_user_by_password(input_username, old_pass) into found_id;
   IF (found_id IS not NULL) THEN
