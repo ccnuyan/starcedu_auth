@@ -62,7 +62,7 @@ app.get('/oauth/callback', async (req, res) => {
     },
     body: JSON.stringify({
       code: req.query.code,
-      token: jsonwebtoken.sign(req.query.code, 'test_3rdparty_tenant1_key'),
+      token: jsonwebtoken.sign(req.query.code, 'oauth_test_tenant1_key'),
     }),
   }).then(ret => ret.json());
   res.send(rawIndexHTML

@@ -1,9 +1,9 @@
 ## tenant authentication
 
 >FOR  
-`local_tenant_client_app`  
-`local_tenant_web_app` [backend as client]  
-`oauth_tenant_web_app` [backend as client]  
+local-tenant-client-app  
+local-tenant-web-app [backend as client]  
+oauth-tenant-web-app [backend as client]  
 
 tenant authentication 使用 Http Baisc Authentication：需要添加 Header   
 key: `starcedu-tenant-authorization`  

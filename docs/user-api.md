@@ -2,7 +2,7 @@
 
 ## 1. 登入  
 
-FOR:  
+>FOR:  
 local-tenant-web-app: [session](./session-authentication.md)  
 local-tenant-client-app: [tenant](./tenant-authentication.md)  
 
@@ -62,7 +62,7 @@ status[200]:{
 ```
 ## 2. 注册
 
-FOR:  
+>FOR:  
 local-tenant-web-app: [session](./session-authentication.md)  
 local-tenant-client-app: [tenant](./tenant-authentication.md)  
 
@@ -121,9 +121,9 @@ status[200]:{
 ```
 ## 3. 更新密码
 
-FOR:  
+>FOR:  
 local-tenant-web-app: [session](./session-authentication.md)  
-local-tenant-client-app: [tenant](./tenant-authentication.md) & [user-token](./usertoken-authentication.md)  
+local-tenant-client-app: [tenant](./tenant-authentication.md) & [usertoken](./usertoken-authentication.md)  
 
 Endpoint: `/api/local/user/update_password`  
 Method: `PUT`  

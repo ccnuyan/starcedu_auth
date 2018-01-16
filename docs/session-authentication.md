@@ -1,9 +1,9 @@
 # Session 认证
 
 >FOR  
-`local_tenant_web_app` [frontend]  
+local-tenant-web-app [frontend]  
 
-Session 认证用于 `local_tenant_web_app`，前端调用用户相关API请携带以下cookie访问
+Session 认证用于 `local-tenant-web-app`，前端调用用户相关API请携带以下cookie访问
 
 key: `connect.sid`  
 
