@@ -5,3 +5,4 @@ CREATE SCHEMA starcedu_auth;
 SET search_path = starcedu_auth;
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA starcedu_auth;
+ALTER EXTENSION pgcrypto SET SCHEMA starcedu_auth;
