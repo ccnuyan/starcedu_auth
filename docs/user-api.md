@@ -1,12 +1,21 @@
-# user api
+# 用户业务API
 
+BaseUrl:`/`  
+Endpoint: `api/:from/*`  
+Authentications:  
+[session](https://github.com/ccnuyan/starcedu_auth/blob/master/docs/session-authentication.md)   
+[usertoken](https://github.com/ccnuyan/starcedu_auth/blob/master/docs/usertoken-authentication.md)  
+
+from有两个值:
+1. `local` for local-tenant-web-app  
+2. `tenant` for local-tenant-client-app & oauth-tenant-client-app
 ## 1. 登入  
 
 >FOR:  
-local-tenant-web-app: [session](./session-authentication.md)  
-local-tenant-client-app: [tenant](./tenant-authentication.md)  
+local-tenant-web-app: session   
+local-tenant-client-app: tenant
 
-Endpoint: `/api/local/user/signin`  
+Endpoint: `api/:from/user/signin`  
 Method: `POST`  
 Request:
 ```
@@ -63,10 +72,10 @@ status[200]:{
 ## 2. 注册
 
 >FOR:  
-local-tenant-web-app: [session](./session-authentication.md)  
+local-tenant-web-app: session  
 local-tenant-client-app: [tenant](./tenant-authentication.md)  
 
-Endpoint: `/api/local//user/signup`  
+Endpoint: `api/:from/user/signup`  
 Method: `POST`  
 Request:
 ```
@@ -122,10 +131,10 @@ status[200]:{
 ## 3. 更新密码
 
 >FOR:  
-local-tenant-web-app: [session](./session-authentication.md)  
+local-tenant-web-app: session  
 local-tenant-client-app: [tenant](./tenant-authentication.md) & [usertoken](./usertoken-authentication.md)  
 
-Endpoint: `/api/local/user/update_password`  
+Endpoint: `api/:from/user/update_password`  
 Method: `PUT`  
 Params: 
 ```
@@ -151,21 +160,4 @@ status[200]:{
    },
    "message":"authenticate successfully"
 }
-```
-__PS:__ API调用参数以JSON形式放在请求体中, 以API 1. 登入 为例，HTTP请求全文为
-```
-POST $domain/api/local/user/signin HTTP/1.1
-Host: www.syncollege.com
-Connection: keep-alive
-Content-Length: 68
-accept: application/json
-Origin: $domain
-User-Agent: User-Agent
-content-type: application/json
-Referer: $domain/user/signin
-Accept-Encoding: gzip, deflate
-Accept-Language: zh-CN,zh;q=0.9
-Cookie: $cookie
-
-{"username":$string,"password":$string}
 ```
