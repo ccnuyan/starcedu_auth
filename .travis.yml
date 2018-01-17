@@ -1,7 +1,7 @@
 branches:
   only:
   # - develop
-  - feature/fix_the_db_extension_bug
+  - develop
   
 sudo: required
 services:
