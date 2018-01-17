@@ -22,6 +22,17 @@ __PS__： `local-tenant-web-app` 调用任何服务时都不需要此认证
 
 使用json web token标准
 
+解码后
+```
+{
+     "id": "275699011862660097",
+     "username": "ccnuyan@gmail.com",
+     "to": "oauth_test_tenant1",
+     "iat": 1516160064,
+     "exp": 1517369664,
+     "iss": "local" 
+}
+```
 secret的开发配置是'12345678'.  
 secret生产环境的配置再定.
 

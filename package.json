@@ -18,7 +18,7 @@
     "db-test": "mocha --opts ./mocha.opts ./database/test/**/*.spec.js",
     "api-test": "mocha --opts ./mocha.opts ./src/api/test/**/*.spec.js",
     "test": "mocha --opts ./mocha.opts ./database/test/**/*.spec.js ./src/api/test/**/*.spec.js",
-    "build-install-test": "npm run db-build && npm run db-install && npm test",
+    "build-install-test": "cross-env NODE_ENV=test && npm run db-build && npm run db-install && npm test",
     "start-tenant": "babel-node ./server/tenants/testTenant.js",
     "precommit": "lint-staged"
   },
