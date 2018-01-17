@@ -10,12 +10,12 @@ DECLARE
   return_login_info starcedu_auth.login_info;
 BEGIN
   set search_path=starcedu_auth, public;
-  
+
   --find the user based on username/password
   select locate_user_by_password(input_username, old_pass) into found_id;
   IF (found_id IS not NULL) THEN
     --update the password if all is OK
-    update logins set provider_token = crypt(new_pass::text, gen_salt('bf',10)::text)
+    update logins set provider_token = public.crypt(new_pass::text, public.gen_salt('bf',10)::text)
     where user_id=found_id and provider='local';
   ELSE
     success := FALSE;
